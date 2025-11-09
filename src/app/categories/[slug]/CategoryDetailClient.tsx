@@ -63,9 +63,14 @@ export default function CategoryDetailClient({ categoryData }: { categoryData: C
                       <span>•</span>
                       <div className="flex gap-2">
                         {stat.tags.filter((tag: string) => tag !== categoryData.name).slice(0, 2).map((tag: string, i: number) => (
-                          <span key={i} className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
+                          <Link
+                            key={i}
+                            href={`/categories/${tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}
+                            className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs hover:bg-gray-200 transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                          >
                             {tag}
-                          </span>
+                          </Link>
                         ))}
                       </div>
                     </>

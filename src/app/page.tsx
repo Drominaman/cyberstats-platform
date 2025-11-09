@@ -206,9 +206,14 @@ export default async function Home() {
                       <span>•</span>
                       <div className="flex gap-2">
                         {stat.tags.slice(0, 3).map((tag: string, i: number) => (
-                          <span key={i} className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">
+                          <Link
+                            key={i}
+                            href={`/categories/${tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}
+                            className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs hover:bg-blue-200 transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                          >
                             {tag}
-                          </span>
+                          </Link>
                         ))}
                       </div>
                     </>

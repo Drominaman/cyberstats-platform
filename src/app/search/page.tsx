@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { Search, Filter, Calendar, Tag, Building2, Download, Bookmark } from 'lucide-react'
 import Navigation from '@/components/Navigation'
 
@@ -230,12 +231,13 @@ export default function SearchPage() {
                     {stat.tags && stat.tags.length > 0 && (
                       <div className="flex flex-wrap gap-2">
                         {stat.tags.map((tag, i) => (
-                          <span
+                          <Link
                             key={i}
-                            className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm"
+                            href={`/categories/${tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}
+                            className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm hover:bg-blue-100 transition-colors"
                           >
                             {tag}
-                          </span>
+                          </Link>
                         ))}
                       </div>
                     )}

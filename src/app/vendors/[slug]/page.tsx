@@ -375,9 +375,14 @@ export default function VendorDetailPage() {
                               <span>•</span>
                               <div className="flex gap-2">
                                 {stat.tags.slice(0, 3).map((tag: string, j: number) => (
-                                  <span key={j} className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">
+                                  <Link
+                                    key={j}
+                                    href={`/categories/${tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}
+                                    className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs hover:bg-green-200 transition-colors"
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
                                     {tag}
-                                  </span>
+                                  </Link>
                                 ))}
                               </div>
                             </>

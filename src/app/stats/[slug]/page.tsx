@@ -232,7 +232,7 @@ export default async function StatPage({ params }: { params: { slug: string } })
                   {stat.tags.map((tag: string, i: number) => (
                     <Link
                       key={i}
-                      href={`/search?q=${encodeURIComponent(tag)}`}
+                      href={`/categories/${tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}
                       className="inline-flex items-center px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm hover:bg-blue-100 transition-colors"
                     >
                       <Tag className="w-3 h-3 mr-1" />
