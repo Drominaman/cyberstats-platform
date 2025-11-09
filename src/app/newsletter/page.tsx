@@ -20,7 +20,7 @@ export default function NewsletterPage() {
             Get 100 recent cybersecurity statistics in your inbox each month for free
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
-            A weekly digest of fresh data direct from vendor reports that search engines don't show.
+            A weekly digest of fresh data direct from vendor reports that search engines don&rsquo;t show.
           </p>
 
           {/* Newsletter Signup */}
@@ -40,7 +40,7 @@ export default function NewsletterPage() {
                 <div>
                   <h3 className="font-bold text-gray-900 mb-2">Spot cyber market trends</h3>
                   <p className="text-gray-600 text-sm">
-                    Recent data that you won't find on Google.
+                    Recent data that you won&rsquo;t find on Google.
                   </p>
                 </div>
               </div>
