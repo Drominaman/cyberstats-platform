@@ -29,33 +29,9 @@ export default function CategoryDetailClient({ categoryData }: { categoryData: C
   const currentStats = categoryData.stats.slice(startIndex, endIndex)
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-      {/* Sidebar - Top Vendors */}
-      <div className="lg:col-span-1">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-            <Building2 className="w-5 h-5 mr-2 text-purple-600" />
-            Top Vendors
-          </h2>
-          <div className="space-y-2">
-            {categoryData.topVendors.map((vendor, i) => (
-              <Link
-                key={i}
-                href={`/vendors/${vendor.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}
-                className="flex items-center justify-between p-3 rounded-lg hover:bg-purple-50 transition-colors group"
-              >
-                <span className="font-medium text-gray-900 group-hover:text-purple-600 text-sm">
-                  {vendor.name}
-                </span>
-                <span className="text-xs text-gray-500">{vendor.count}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
-
+    <div>
       {/* Main Content - Stats List */}
-      <div className="lg:col-span-3">
+      <div>
         {/* Stats Count */}
         <div className="mb-6 flex items-center justify-between">
           <p className="text-gray-600">

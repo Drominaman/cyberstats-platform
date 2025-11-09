@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import Navigation from '@/components/Navigation'
-import { Building2, TrendingUp, TrendingDown, FileText, ChevronRight, Loader, Target, Calendar, Tag, Globe, MapPin } from 'lucide-react'
+import { Building2, FileText, ChevronRight, Loader, Target, Calendar, Tag, Globe, MapPin } from 'lucide-react'
 import vendorOverrides from '@/data/vendor-overrides.json'
 
 interface VendorOverride {
@@ -24,7 +24,6 @@ export default function VendorDetailPage() {
   const [categories, setCategories] = useState<any[]>([])
   const [relatedVendors, setRelatedVendors] = useState<any[]>([])
   const [reports, setReports] = useState<any[]>([])
-  const [trendData, setTrendData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [timePeriod, setTimePeriod] = useState<'7d' | '30d' | '90d' | 'all'>('all')
 
@@ -164,48 +163,6 @@ export default function VendorDetailPage() {
         .slice(0, 10)
 
       setReports(uniqueReports)
-
-      // Fetch search trend for vendor name
-      try {
-        // Clean up vendor name for better Google Trends matching
-        // Remove common business suffixes and extra words
-        let searchName = allVendorStats[0].publisher
-          .replace(/\s+(Inc\.|Inc|Corp\.|Corp|Ltd\.|Ltd|LLC|Limited|PLC|SA|GmbH|AG)\s*$/i, '')
-          .replace(/\s+(PR Newswire|Press Release|News|Media|Communications?)\s*/gi, '')
-          .replace(/\s+(Security|Cybersecurity|Cyber Security)\s*$/i, '')
-          .trim()
-
-        // Map time period to Google Trends timeframe
-        const timeframeMap: { [key: string]: string } = { '7d': '1m', '30d': '1m', '90d': '3m', 'all': '3m' }
-        const timeframe = timeframeMap[timePeriod] || '3m'
-
-        console.log(`Searching trends for "${allVendorStats[0].publisher}" as "${searchName}" (${timeframe})`)
-
-        const trendsResponse = await fetch(
-          'https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/dataforseo-trends',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
-            },
-            body: JSON.stringify({ keywords: [searchName], timeframe })
-          }
-        )
-        const trendsData = await trendsResponse.json()
-
-        console.log('Trends API response:', trendsData)
-
-        if (trendsData.success && trendsData.results && trendsData.results.length > 0) {
-          setTrendData(trendsData.results[0].data)
-        } else {
-          // Set a placeholder to indicate we tried but no data was available
-          setTrendData({ no_data: true })
-        }
-      } catch (trendsError) {
-        console.error('Failed to fetch trends data:', trendsError)
-        setTrendData({ no_data: true })
-      }
 
       setLoading(false)
     } catch (error) {
@@ -357,87 +314,6 @@ export default function VendorDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Column */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Search Trend */}
-            {trendData && !trendData.no_data && (
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <h2 className="text-xl font-bold text-gray-900 mb-1">Search Interest Trend</h2>
-                    <p className="text-sm text-gray-500">Google Trends data for &ldquo;{vendorName}&rdquo;</p>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-3xl font-bold text-gray-900">{trendData.current_value}/100</div>
-                    <div className={`flex items-center justify-end mt-1 ${trendData.change_percent > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                      {trendData.change_percent > 0 ? <TrendingUp className="w-4 h-4 mr-1" /> : <TrendingDown className="w-4 h-4 mr-1" />}
-                      <span className="font-semibold">{Math.abs(trendData.change_percent)}%</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Sparkline */}
-                <div className="flex items-end h-24 gap-1">
-                  {trendData.timeline.slice(-30).map((point: any, i: number) => {
-                    const maxValue = Math.max(...trendData.timeline.map((p: any) => p.value))
-                    const height = (point.value / maxValue) * 100
-                    return (
-                      <div
-                        key={i}
-                        className="flex-1 bg-gradient-to-t from-green-500 to-green-400 rounded-t"
-                        style={{ height: `${height}%` }}
-                        title={`${point.date}: ${point.value}`}
-                      />
-                    )
-                  })}
-                </div>
-
-                {trendData.top_query && trendData.top_query !== 'N/A' && (
-                  <p className="text-sm text-gray-500 mt-4">
-                    Top related search: <span className="text-green-600 font-medium">&ldquo;{trendData.top_query}&rdquo;</span>
-                  </p>
-                )}
-              </div>
-            )}
-
-            {/* No Trends Data Message */}
-            {trendData && trendData.no_data && (
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-2">Search Interest Trend</h2>
-                <p className="text-sm text-gray-500 mb-4">Google Trends data for &ldquo;{vendorName}&rdquo;</p>
-                <div className="bg-gray-50 rounded-lg p-6 text-center">
-                  <TrendingUp className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                  <p className="text-gray-600 mb-2">No search trend data available for this vendor</p>
-                  <p className="text-sm text-gray-500">This vendor may not have sufficient search volume or may be known by a different name in Google Trends.</p>
-                </div>
-              </div>
-            )}
-
-            {/* Related Searches */}
-            {trendData && trendData.related_queries && trendData.related_queries.length > 0 && (
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">Related Searches</h2>
-                <p className="text-sm text-gray-500 mb-6">Top searches related to {vendorName}</p>
-                <div className="space-y-3">
-                  {trendData.related_queries.map((query: any, i: number) => (
-                    <div key={i} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                      <div className="flex items-center space-x-3">
-                        <span className="text-sm font-medium text-gray-500 w-6">#{i + 1}</span>
-                        <span className="text-gray-900 font-medium">{query.query}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <div className="w-24 bg-gray-200 rounded-full h-2">
-                          <div
-                            className="bg-green-500 h-2 rounded-full"
-                            style={{ width: `${query.value}%` }}
-                          />
-                        </div>
-                        <span className="text-sm text-gray-600 w-12 text-right">{query.value}%</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
             {/* Reports */}
             {reports.length > 0 && (
               <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
