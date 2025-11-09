@@ -1,8 +1,5 @@
 import { MetadataRoute } from 'next'
 
-// Revalidate sitemap every hour
-export const revalidate = 3600
-
 // Helper to create URL-safe slug from title
 function createSlug(title: string): string {
   return title
