@@ -402,15 +402,19 @@ export default function VendorDetailPage() {
             {/* Top Categories */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
               <h3 className="text-lg font-bold text-gray-900 mb-4">Top Categories</h3>
-              <div className="space-y-3">
+              <div className="space-y-1">
                 {categories.map((category, i) => (
-                  <div key={i} className="flex items-center justify-between">
+                  <Link
+                    key={i}
+                    href={`/categories/${category.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}
+                    className="flex items-center justify-between p-2 -mx-2 rounded-lg hover:bg-purple-50 transition-colors group cursor-pointer"
+                  >
                     <div className="flex items-center space-x-2">
-                      <Tag className="w-4 h-4 text-purple-500" />
-                      <span className="text-sm text-gray-700">{category.name}</span>
+                      <Tag className="w-4 h-4 text-purple-500 group-hover:text-purple-600 transition-colors" />
+                      <span className="text-sm text-gray-700 group-hover:text-purple-900 group-hover:font-medium transition-all">{category.name}</span>
                     </div>
-                    <span className="text-sm font-medium text-gray-900">{category.count}</span>
-                  </div>
+                    <span className="text-sm font-medium text-gray-900 group-hover:text-purple-600">{category.count}</span>
+                  </Link>
                 ))}
               </div>
             </div>
