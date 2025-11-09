@@ -230,7 +230,7 @@ export default function VendorDetailPage() {
                 {vendorOverride?.customDescription ? (
                   <p className="text-gray-600 mb-3">{vendorOverride.customDescription}</p>
                 ) : (
-                  <p className="text-gray-600 mb-3">Cybersecurity vendor market intelligence</p>
+                  <p className="text-gray-600 mb-3">Cybersecurity reports and statistics published by {vendorName}</p>
                 )}
 
                 {/* Vendor Details */}
