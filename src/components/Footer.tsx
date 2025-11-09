@@ -10,7 +10,7 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300 mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Brand */}
           <div className="col-span-1">
             <div className="flex items-center space-x-2 mb-4">
@@ -33,17 +33,6 @@ export default function Footer() {
                 <Mail className="w-5 h-5" />
               </a>
             </div>
-          </div>
-
-          {/* Newsletter */}
-          <div>
-            <h3 className="text-white font-semibold mb-4">Newsletter</h3>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/newsletter" className="hover:text-white transition-colors">Subscribe</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Past Issues</Link></li>
-              <li><Link href="/" className="hover:text-white transition-colors">Free Dashboard</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Get Pro</Link></li>
-            </ul>
           </div>
 
           {/* Sign Up */}
