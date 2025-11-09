@@ -210,7 +210,6 @@ export default async function Home() {
                             key={i}
                             href={`/categories/${tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}
                             className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs hover:bg-blue-200 transition-colors"
-                            onClick={(e) => e.stopPropagation()}
                           >
                             {tag}
                           </Link>
