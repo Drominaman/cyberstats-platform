@@ -1,0 +1,10 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Disallow admin/auth pages (when you add them later)
+Disallow: /api/
+Disallow: /admin/
+
+# Sitemap
+Sitemap: https://cyberstats.io/sitemap.xml

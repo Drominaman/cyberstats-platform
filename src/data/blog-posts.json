@@ -1,0 +1,13 @@
+[
+  {
+    "id": "1",
+    "slug": "welcome-to-cyberstats",
+    "title": "Welcome to Cyberstats: Your Source for Cybersecurity Intelligence",
+    "excerpt": "Discover how Cyberstats provides fresh, data-driven insights for cybersecurity professionals.",
+    "content": "We're excited to launch Cyberstats, a platform dedicated to providing cybersecurity professionals with fresh, actionable market intelligence.\n\nOur mission is simple: deliver the latest cybersecurity statistics, trends, and vendor intelligence directly from primary sources - no SEO fluff, no broken links, just pure data.\n\n## What We Offer\n\n- **Weekly Newsletter**: Get 100 recent cybersecurity statistics delivered to your inbox monthly\n- **Vendor Intelligence**: Track market leaders and emerging vendors\n- **Category Analysis**: Explore trends across solution categories from XDR to Zero Trust\n- **Primary Sources**: All data sourced directly from reports, blogs, and white papers\n\nJoin 1,000+ security professionals who trust Cyberstats for their market research.",
+    "author": "Cyberstats Team",
+    "publishedAt": "2025-01-15",
+    "tags": ["announcement", "platform"],
+    "featured": true
+  }
+]
