@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Navigation from '@/components/Navigation'
 import ShareButton from '@/components/ShareButton'
+import CopyStatButton from '@/components/CopyStatButton'
 import MinimalGhostEmbed from '@/components/MinimalGhostEmbed'
 import Footer from '@/components/Footer'
 import { Calendar, Building2, Tag, ExternalLink, ArrowLeft } from 'lucide-react'
@@ -261,10 +262,11 @@ export default async function StatPage({ params }: { params: { slug: string } })
               </div>
             )}
 
-            {/* Share Section */}
+            {/* Share & Copy Section */}
             <div className="p-8 border-t border-gray-200">
-              <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-gray-900">Share this stat</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Share or Copy this stat</h2>
+              <div className="flex flex-wrap items-center gap-3">
+                <CopyStatButton text={stat.title} />
                 <ShareButton title={stat.title} />
               </div>
             </div>

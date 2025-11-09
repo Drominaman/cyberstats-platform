@@ -53,6 +53,48 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7
     }))
 
+    // Extract unique vendors
+    const vendorsMap = new Map<string, Date>()
+    data.items.forEach((item: any) => {
+      if (item.publisher) {
+        const slug = item.publisher.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+        const existingDate = vendorsMap.get(slug)
+        const itemDate = new Date(item.created_at)
+        if (!existingDate || itemDate > existingDate) {
+          vendorsMap.set(slug, itemDate)
+        }
+      }
+    })
+
+    const vendorEntries: MetadataRoute.Sitemap = Array.from(vendorsMap.entries()).map(([slug, date]) => ({
+      url: `${baseUrl}/vendors/${slug}`,
+      lastModified: date,
+      changeFrequency: 'weekly' as const,
+      priority: 0.8
+    }))
+
+    // Extract unique categories
+    const categoriesMap = new Map<string, Date>()
+    data.items.forEach((item: any) => {
+      if (item.tags && Array.isArray(item.tags)) {
+        item.tags.forEach((tag: string) => {
+          const slug = tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+          const existingDate = categoriesMap.get(slug)
+          const itemDate = new Date(item.created_at)
+          if (!existingDate || itemDate > existingDate) {
+            categoriesMap.set(slug, itemDate)
+          }
+        })
+      }
+    })
+
+    const categoryEntries: MetadataRoute.Sitemap = Array.from(categoriesMap.entries()).map(([slug, date]) => ({
+      url: `${baseUrl}/categories/${slug}`,
+      lastModified: date,
+      changeFrequency: 'weekly' as const,
+      priority: 0.8
+    }))
+
     // Static pages
     const staticPages: MetadataRoute.Sitemap = [
       {
@@ -84,11 +126,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: new Date(),
         changeFrequency: 'monthly' as const,
         priority: 0.7
+      },
+      {
+        url: `${baseUrl}/privacy`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly' as const,
+        priority: 0.5
+      },
+      {
+        url: `${baseUrl}/terms`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly' as const,
+        priority: 0.5
       }
     ]
 
     // Combine all entries
-    return [...staticPages, ...statEntries]
+    return [...staticPages, ...vendorEntries, ...categoryEntries, ...statEntries]
   } catch (error) {
     console.error('Error generating sitemap:', error)
     // Return just static pages if stats fetch fails
