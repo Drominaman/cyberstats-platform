@@ -90,7 +90,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 
   const categoryOverride = categoryOverrides.find((c: CategoryOverride) => c.slug === params.slug)
-  const description = categoryOverride?.customDescription || `Cybersecurity statistics for ${categoryData.name.toLowerCase()}`
+  const description = categoryOverride?.customDescription || `Cybersecurity statistics about ${categoryData.name.toLowerCase()}`
 
   return {
     title: `${categoryData.name} | Cyberstats`,
@@ -127,7 +127,7 @@ export default async function CategoryDetailPage({ params }: { params: { slug: s
             {categoryData.name}
           </h1>
           <p className="text-xl text-gray-600">
-            {categoryOverride?.customDescription || `Cybersecurity statistics for ${categoryData.name.toLowerCase()}`}
+            {categoryOverride?.customDescription || `Cybersecurity statistics about ${categoryData.name.toLowerCase()}`}
           </p>
         </div>
 
