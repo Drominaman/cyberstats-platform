@@ -64,7 +64,7 @@ async function fetchCategories(): Promise<Category[]> {
         name,
         slug: name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
         icon: getCategoryIconName(name),
-        description: `Market intelligence and statistics for ${name}`,
+        description: `Cybersecurity statistics about ${name.toLowerCase()}`,
         statsCount: count,
         trend: 'stable' as const,
         keywords: [name]
