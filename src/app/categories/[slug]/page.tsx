@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { Metadata } from 'next'
 import Navigation from '@/components/Navigation'
 import CategoryDetailClient from './CategoryDetailClient'
 import Footer from '@/components/Footer'
@@ -78,6 +79,30 @@ async function fetchCategoryData(slug: string): Promise<CategoryData | null> {
   }
 }
 
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const categoryData = await fetchCategoryData(params.slug)
+
+  if (!categoryData) {
+    return {
+      title: 'Category Not Found',
+      description: 'The requested category could not be found.'
+    }
+  }
+
+  const categoryOverride = categoryOverrides.find((c: CategoryOverride) => c.slug === params.slug)
+  const description = categoryOverride?.customDescription || `Cybersecurity statistics for ${categoryData.name.toLowerCase()}`
+
+  return {
+    title: `${categoryData.name} | Cyberstats`,
+    description: description,
+    openGraph: {
+      title: categoryData.name,
+      description: description,
+      type: 'website',
+    }
+  }
+}
+
 export default async function CategoryDetailPage({ params }: { params: { slug: string } }) {
   const categoryData = await fetchCategoryData(params.slug)
 
@@ -102,7 +127,7 @@ export default async function CategoryDetailPage({ params }: { params: { slug: s
             {categoryData.name}
           </h1>
           <p className="text-xl text-gray-600">
-            {categoryOverride?.customDescription || `Market intelligence and statistics for ${categoryData.name}`}
+            {categoryOverride?.customDescription || `Cybersecurity statistics for ${categoryData.name.toLowerCase()}`}
           </p>
         </div>
 
