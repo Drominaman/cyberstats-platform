@@ -113,7 +113,7 @@ export default function NewsletterPage() {
               <XCircle className="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="text-gray-700">
-                  <strong>No broken links</strong> or misquoted "SEO'd" information.
+                  <strong>No broken links</strong> or misquoted &ldquo;SEO&rsquo;d&rdquo; information.
                 </p>
               </div>
             </div>
@@ -149,7 +149,7 @@ export default function NewsletterPage() {
           <div className="space-y-6">
             <div>
               <h3 className="font-semibold text-gray-900 mb-2">How often will I receive emails?</h3>
-              <p className="text-gray-600">Weekly. Every Monday you'll get around 25 fresh statistics from the past week.</p>
+              <p className="text-gray-600">Weekly. Every Monday you&rsquo;ll get around 25 fresh statistics from the past week.</p>
             </div>
             <div>
               <h3 className="font-semibold text-gray-900 mb-2">Is it really free?</h3>
@@ -157,7 +157,7 @@ export default function NewsletterPage() {
             </div>
             <div>
               <h3 className="font-semibold text-gray-900 mb-2">Can I unsubscribe anytime?</h3>
-              <p className="text-gray-600">Absolutely. Every email includes an unsubscribe link. One click and you're out - no questions asked.</p>
+              <p className="text-gray-600">Absolutely. Every email includes an unsubscribe link. One click and you&rsquo;re out - no questions asked.</p>
             </div>
             <div>
               <h3 className="font-semibold text-gray-900 mb-2">What kind of statistics do you share?</h3>
