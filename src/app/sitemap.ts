@@ -16,11 +16,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'
   const apiKey = process.env.NEXT_PUBLIC_API_KEY
 
+  // If no API key, return just static pages
+  if (!apiKey) {
+    console.warn('No API key available for sitemap generation')
+    return [
+      {
+        url: baseUrl,
+        lastModified: new Date(),
+        changeFrequency: 'daily' as const,
+        priority: 1.0
+      }
+    ]
+  }
+
   try {
     // Fetch all stats
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=5000&days=365`
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=5000&days=365`,
+      { cache: 'no-store' }
     )
+
+    if (!response.ok) {
+      console.error('API request failed:', response.status, response.statusText)
+      throw new Error(`API returned ${response.status}`)
+    }
+
     const data = await response.json()
 
     // Check for API errors (rate limits, etc.)
