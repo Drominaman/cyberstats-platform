@@ -5,11 +5,10 @@ import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import Navigation from '@/components/Navigation'
 import { Building2, FileText, ChevronRight, Loader, Target, Calendar, Tag, Globe, MapPin } from 'lucide-react'
-import vendorOverrides from '@/data/vendor-overrides.json'
 
 interface VendorOverride {
   slug: string
-  customDescription?: string
+  custom_description?: string
   website?: string
   founded?: string
   headquarters?: string
@@ -26,9 +25,7 @@ export default function VendorDetailPage() {
   const [reports, setReports] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [timePeriod, setTimePeriod] = useState<'7d' | '30d' | '90d' | 'all'>('all')
-
-  // Find vendor override data
-  const vendorOverride = vendorOverrides.find((v: VendorOverride) => v.slug === slug)
+  const [vendorOverride, setVendorOverride] = useState<VendorOverride | null>(null)
 
   useEffect(() => {
     fetchVendorData()
@@ -37,6 +34,13 @@ export default function VendorDetailPage() {
   async function fetchVendorData() {
     try {
       const apiKey = process.env.NEXT_PUBLIC_API_KEY
+
+      // Fetch vendor override data from API
+      const vendorRes = await fetch(`/api/vendors?slug=${slug}`)
+      const vendorData = await vendorRes.json()
+      if (vendorData.data) {
+        setVendorOverride(vendorData.data)
+      }
 
       // Always fetch all available data to ensure vendor exists
       const response = await fetch(
@@ -227,8 +231,8 @@ export default function VendorDetailPage() {
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">{vendorName}</h1>
 
                 {/* Custom Description */}
-                {vendorOverride?.customDescription ? (
-                  <p className="text-gray-600 mb-3">{vendorOverride.customDescription}</p>
+                {vendorOverride?.custom_description ? (
+                  <p className="text-gray-600 mb-3">{vendorOverride.custom_description}</p>
                 ) : (
                   <p className="text-gray-600 mb-3">Cybersecurity reports and statistics published by {vendorName}</p>
                 )}
