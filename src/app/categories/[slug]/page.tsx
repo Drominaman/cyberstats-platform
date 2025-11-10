@@ -30,6 +30,9 @@ export default function CategoryDetailPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
+  // Find category override data
+  const categoryOverride = categoryOverrides.find((c: CategoryOverride) => c.slug === slug)
+
   useEffect(() => {
     fetchCategoryData()
   }, [slug])
@@ -171,9 +174,6 @@ export default function CategoryDetailPage() {
       setLoading(false)
     }
   }
-
-  // Find category override data
-  const categoryOverride = categoryOverrides.find((c: CategoryOverride) => c.slug === slug)
 
   if (loading) {
     return (
