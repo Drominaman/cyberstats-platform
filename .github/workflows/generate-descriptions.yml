@@ -1,0 +1,64 @@
+name: Generate AI Descriptions
+
+on:
+  # Run manually from GitHub Actions UI
+  workflow_dispatch:
+
+  # Run automatically every Monday at 9am UTC
+  schedule:
+    - cron: '0 9 * * 1'
+
+  # Optionally run when new vendors/categories might be added
+  # Uncomment if you want to run on every push to main
+  # push:
+  #   branches:
+  #     - main
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate descriptions
+        env:
+          NEXT_PUBLIC_API_KEY: ${{ secrets.NEXT_PUBLIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node scripts/generate-descriptions.js
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          git diff --quiet src/data/vendor-overrides.json src/data/category-overrides.json || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push if changed
+        if: steps.git-check.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data/vendor-overrides.json src/data/category-overrides.json
+          git commit -m "chore: Auto-generate descriptions for new vendors/categories
+
+          🤖 Generated automatically via GitHub Actions"
+          git push
+
+      - name: Summary
+        run: |
+          if [ "${{ steps.git-check.outputs.changed }}" == "true" ]; then
+            echo "✅ New descriptions generated and committed"
+          else
+            echo "✅ No new vendors or categories found"
+          fi
