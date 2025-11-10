@@ -17,6 +17,15 @@ interface Stat {
   stat_type?: string
 }
 
+// Helper to create URL-safe slug from title
+function createSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .substring(0, 100)
+}
+
 export default function SearchPage() {
   const [stats, setStats] = useState<Stat[]>([])
   const [loading, setLoading] = useState(false)
@@ -201,14 +210,12 @@ export default function SearchPage() {
               >
                 <div className="flex flex-col sm:flex-row items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
-                    <a
-                      href={stat.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <Link
+                      href={`/stats/${createSlug(stat.title)}`}
                       className="text-lg font-semibold text-gray-900 hover:text-blue-600 mb-2 block break-words"
                     >
                       {stat.title}
-                    </a>
+                    </Link>
 
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500 mb-3">
                       <span className="flex items-center">
