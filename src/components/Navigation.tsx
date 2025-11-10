@@ -62,7 +62,7 @@ export default function Navigation() {
               className="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center space-x-2"
             >
               <Mail className="w-4 h-4" />
-              <span>Get Digest</span>
+              <span>Get fresh stats weekly</span>
             </Link>
           </nav>
 
@@ -122,7 +122,7 @@ export default function Navigation() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <Mail className="w-4 h-4 mr-2" />
-                Get Digest
+                Get fresh stats weekly
               </Link>
             </div>
           </div>
