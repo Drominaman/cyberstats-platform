@@ -5,7 +5,8 @@ import { useParams } from 'next/navigation'
 import Navigation from '@/components/Navigation'
 import CategoryDetailClient from './CategoryDetailClient'
 import Footer from '@/components/Footer'
-import { Target, Loader } from 'lucide-react'
+import { Target, Loader, Tag } from 'lucide-react'
+import Link from 'next/link'
 import categoryOverrides from '@/data/category-overrides.json'
 
 interface CategoryData {
@@ -13,6 +14,7 @@ interface CategoryData {
   slug: string
   stats: any[]
   topVendors: { name: string; count: number }[]
+  relatedCategories: { name: string; slug: string; count: number }[]
 }
 
 interface CategoryOverride {
@@ -83,11 +85,45 @@ export default function CategoryDetailPage() {
         .slice(0, 10)
         .map(([name, count]) => ({ name, count }))
 
+      // Find related categories (tags that contain the current category name or are frequently used together)
+      const tagCounts: { [key: string]: number } = {}
+      const currentCategoryLower = categoryName.toLowerCase()
+
+      data.items.forEach((item: any) => {
+        if (item.tags && Array.isArray(item.tags)) {
+          item.tags.forEach((tag: string) => {
+            const tagLower = tag.toLowerCase()
+            const tagSlug = tagLower.replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+
+            // Include tags that:
+            // 1. Contain the current category name (e.g., "AI Security" for "AI")
+            // 2. Or are frequently used in stats with this category
+            if (tagSlug !== slug && (
+              tagLower.includes(currentCategoryLower) ||
+              (item.tags.some((t: string) => t.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === slug))
+            )) {
+              tagCounts[tag] = (tagCounts[tag] || 0) + 1
+            }
+          })
+        }
+      })
+
+      // Get top 8 related categories
+      const relatedCategories = Object.entries(tagCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 8)
+        .map(([name, count]) => ({
+          name,
+          slug: name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
+          count
+        }))
+
       setCategoryData({
         name: categoryName,
         slug,
         stats: categoryStats,
-        topVendors
+        topVendors,
+        relatedCategories
       })
       setLoading(false)
     } catch (error) {
@@ -150,6 +186,32 @@ export default function CategoryDetailPage() {
             {categoryOverride?.customDescription || `Cybersecurity statistics about ${categoryData.name.toLowerCase()}`}
           </p>
         </div>
+
+        {/* Related Categories */}
+        {categoryData.relatedCategories && categoryData.relatedCategories.length > 0 && (
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+            <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+              <Tag className="w-5 h-5 mr-2 text-purple-600" />
+              Related Categories
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              {categoryData.relatedCategories.map((category) => (
+                <Link
+                  key={category.slug}
+                  href={`/categories/${category.slug}`}
+                  className="flex items-center justify-between p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors group"
+                >
+                  <span className="text-sm font-medium text-gray-900 group-hover:text-purple-700">
+                    {category.name}
+                  </span>
+                  <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded">
+                    {category.count}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Client-side component handles pagination and display */}
         <CategoryDetailClient
