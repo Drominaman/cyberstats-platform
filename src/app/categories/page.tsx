@@ -91,10 +91,10 @@ export default async function CategoriesPage() {
             <Target className="w-12 h-12 text-purple-600" />
           </div>
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Cybersecurity Solution Categories
+            Cybersecurity Topics
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Explore market intelligence for major cybersecurity solution categories. Track trends, vendors, and statistics.
+            Discover trends, market intelligence, and benchmarking data across cybersecurity topics. Track vendor landscape and industry evolution.
           </p>
         </div>
 
@@ -106,11 +106,11 @@ export default async function CategoriesPage() {
           <div className="text-center max-w-2xl mx-auto">
             <Target className="w-12 h-12 text-purple-600 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-900 mb-3">
-              Data-Driven Market Intelligence
+              Market Intelligence & Benchmarking
             </h3>
             <p className="text-gray-600">
-              Each category includes search interest trends, top vendors, curated statistics,
-              and industry reports. Track market evolution and make informed decisions.
+              Each topic includes trend analysis, vendor landscape, curated statistics,
+              and industry benchmarks. Make data-driven security decisions with confidence.
             </p>
           </div>
         </div>

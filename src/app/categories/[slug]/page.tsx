@@ -144,7 +144,7 @@ export default function CategoryDetailPage() {
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 flex items-center justify-center">
             <div className="text-center">
               <Loader className="w-10 h-10 text-purple-600 animate-spin mx-auto mb-3" />
-              <p className="text-gray-600">Loading category data...</p>
+              <p className="text-gray-600">Loading topic data...</p>
             </div>
           </div>
         </div>
@@ -158,10 +158,10 @@ export default function CategoryDetailPage() {
         <Navigation />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Category Not Found</h1>
-            <p className="text-gray-600 mb-4">The requested category could not be found.</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">Topic Not Found</h1>
+            <p className="text-gray-600 mb-4">The requested topic could not be found.</p>
             <a href="/categories" className="text-purple-600 hover:text-purple-700">
-              ← Back to Categories
+              ← Back to Topics
             </a>
           </div>
         </div>
@@ -192,7 +192,7 @@ export default function CategoryDetailPage() {
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
             <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
               <Tag className="w-5 h-5 mr-2 text-purple-600" />
-              Related Categories
+              Related Topics
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {categoryData.relatedCategories.map((category) => (
