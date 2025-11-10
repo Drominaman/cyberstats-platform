@@ -82,7 +82,7 @@ export default function SearchPage() {
               />
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <button
                 type="button"
                 onClick={() => setShowFilters(!showFilters)}
@@ -92,7 +92,7 @@ export default function SearchPage() {
                 <span>Filters</span>
               </button>
 
-              <div className="flex items-center space-x-4">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
@@ -114,7 +114,7 @@ export default function SearchPage() {
 
             {/* Filters Panel */}
             {showFilters && (
-              <div className="pt-4 border-t border-gray-200 grid grid-cols-3 gap-4">
+              <div className="pt-4 border-t border-gray-200 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     <Calendar className="w-4 h-4 inline mr-1" />
@@ -163,11 +163,11 @@ export default function SearchPage() {
 
         {/* Results */}
         {query && (
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <p className="text-gray-600">
               {loading ? 'Searching...' : `Found ${count.toLocaleString()} results for "${query}"`}
             </p>
-            <button className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-white hover:shadow-sm rounded-lg border border-gray-200">
+            <button className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-white hover:shadow-sm rounded-lg border border-gray-200 whitespace-nowrap">
               <Download className="w-4 h-4" />
               <span>Export Results</span>
             </button>
@@ -199,18 +199,18 @@ export default function SearchPage() {
                 key={stat.id}
                 className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow"
               >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
+                <div className="flex flex-col sm:flex-row items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
                     <a
                       href={stat.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-lg font-semibold text-gray-900 hover:text-blue-600 mb-2 block"
+                      className="text-lg font-semibold text-gray-900 hover:text-blue-600 mb-2 block break-words"
                     >
                       {stat.title}
                     </a>
 
-                    <div className="flex items-center space-x-4 text-sm text-gray-500 mb-3">
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500 mb-3">
                       <span className="flex items-center">
                         <Building2 className="w-4 h-4 mr-1" />
                         {stat.publisher}
@@ -243,7 +243,7 @@ export default function SearchPage() {
                     )}
                   </div>
 
-                  <button className="ml-4 p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
+                  <button className="sm:ml-4 p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg flex-shrink-0">
                     <Bookmark className="w-5 h-5" />
                   </button>
                 </div>
