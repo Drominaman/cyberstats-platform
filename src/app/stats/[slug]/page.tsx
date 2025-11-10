@@ -266,7 +266,11 @@ export default async function StatPage({ params }: { params: { slug: string } })
             <div className="p-8 border-t border-gray-200">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Share or Copy this stat</h2>
               <div className="flex flex-wrap items-center gap-3">
-                <CopyStatButton text={stat.title} />
+                <CopyStatButton
+                  text={stat.title}
+                  source={stat.link}
+                  publisher={stat.publisher}
+                />
                 <ShareButton title={stat.title} />
               </div>
             </div>

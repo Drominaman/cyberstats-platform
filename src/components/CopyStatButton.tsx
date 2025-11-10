@@ -5,14 +5,29 @@ import { Copy, Check } from 'lucide-react'
 
 interface CopyStatButtonProps {
   text: string
+  source?: string
+  publisher?: string
 }
 
-export default function CopyStatButton({ text }: CopyStatButtonProps) {
+export default function CopyStatButton({ text, source, publisher }: CopyStatButtonProps) {
   const [copied, setCopied] = useState(false)
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(text)
+      // Format the text with source attribution
+      let copyText = text
+
+      if (publisher) {
+        copyText += `\n\nSource: ${publisher}`
+      }
+
+      if (source) {
+        copyText += `\n${source}`
+      }
+
+      copyText += `\n\nvia Cybersecstatistics.com`
+
+      await navigator.clipboard.writeText(copyText)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
