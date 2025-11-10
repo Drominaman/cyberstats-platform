@@ -23,7 +23,7 @@ export default function PrivacyPage() {
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 prose prose-lg max-w-none">
           <p className="lead">
-            This Privacy Notice for Contentvisit Ltd (doing business as cybersecstatistics) (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;), describes how and why we might access, collect, store, use, and/or share (&quot;process&quot;) your personal information when you use our services (&quot;Services&quot;), including when you:
+            This Privacy Notice for Cyberstats Ltd (doing business as Cyberstats) (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;), describes how and why we might access, collect, store, use, and/or share (&quot;process&quot;) your personal information when you use our services (&quot;Services&quot;), including when you:
           </p>
           <ul>
             <li>Visit our website at https://cybersecstatistics.com, or any website of ours that links to this Privacy Notice</li>
@@ -163,7 +163,7 @@ export default function PrivacyPage() {
           <h2>14. HOW CAN YOU CONTACT US ABOUT THIS NOTICE?</h2>
           <p>If you have questions or comments about this notice, you may email us at contact@cybersecstatistics.com or contact us by post at:</p>
           <p>
-            Contentvisit Ltd<br />
+            Cyberstats Ltd<br />
             Ireland
           </p>
 
