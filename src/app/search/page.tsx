@@ -59,7 +59,8 @@ export default function SearchPage() {
       const data = await response.json()
 
       setStats(data.items || [])
-      setCount(data.count || 0)
+      // Use total_count if available, otherwise fall back to items length
+      setCount(data.total_count || data.count || data.items?.length || 0)
       setLoading(false)
     } catch (error) {
       console.error('Search failed:', error)
@@ -172,14 +173,10 @@ export default function SearchPage() {
 
         {/* Results */}
         {query && (
-          <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div className="mb-4">
             <p className="text-gray-600">
               {loading ? 'Searching...' : `Found ${count.toLocaleString()} results for "${query}"`}
             </p>
-            <button className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-white hover:shadow-sm rounded-lg border border-gray-200 whitespace-nowrap">
-              <Download className="w-4 h-4" />
-              <span>Export Results</span>
-            </button>
           </div>
         )}
 

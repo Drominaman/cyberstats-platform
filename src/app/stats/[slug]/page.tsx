@@ -112,36 +112,50 @@ async function fetchRelatedStats(publisher: string, tags: string[] = [], current
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
 
-    // Try to find stats from same publisher first
+    // Fetch more stats to increase chances of finding related ones
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=50`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=100`,
       { next: { revalidate: 3600 } }
     )
     const data = await response.json()
 
     if (!data || !data.items) return []
 
-    // Filter by same publisher, exclude current stat
-    let related = data.items
+    // Prioritize stats that share the same category/tag (excluding current stat)
+    if (tags.length > 0) {
+      const tagMatches = data.items
+        .filter((item: any) =>
+          createSlug(item.title) !== currentSlug &&
+          item.tags?.some((tag: string) => tags.includes(tag))
+        )
+        .slice(0, 3)
+
+      if (tagMatches.length >= 3) {
+        return tagMatches
+      }
+
+      // If we have some tag matches but not 3, supplement with same publisher
+      if (tagMatches.length > 0) {
+        const publisherMatches = data.items
+          .filter((item: any) =>
+            createSlug(item.title) !== currentSlug &&
+            item.publisher === publisher &&
+            !tagMatches.includes(item)
+          )
+          .slice(0, 3 - tagMatches.length)
+
+        return [...tagMatches, ...publisherMatches].slice(0, 3)
+      }
+    }
+
+    // Fallback: same publisher if no tag matches
+    return data.items
       .filter((item: any) =>
         item.publisher === publisher &&
         createSlug(item.title) !== currentSlug
       )
       .slice(0, 3)
 
-    // If we don't have 3, try finding by tags
-    if (related.length < 3 && tags.length > 0) {
-      const tagMatches = data.items
-        .filter((item: any) =>
-          createSlug(item.title) !== currentSlug &&
-          item.tags?.some((tag: string) => tags.includes(tag))
-        )
-        .slice(0, 3 - related.length)
-
-      related = [...related, ...tagMatches]
-    }
-
-    return related.slice(0, 3)
   } catch (error) {
     console.error('Error fetching related stats:', error)
     return []
