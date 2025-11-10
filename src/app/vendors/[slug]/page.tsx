@@ -209,6 +209,8 @@ export default function VendorDetailPage() {
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'
+  const pageUrl = `${baseUrl}/vendors/${slug}`
+  const pageDescription = vendorOverride?.custom_description || `Cybersecurity reports and statistics published by ${vendorName}`
 
   // Organization structured data for the vendor
   const organizationSchema = {
@@ -254,6 +256,27 @@ export default function VendorDetailPage() {
 
   return (
     <>
+      {/* Meta Tags for SEO and Social Sharing */}
+      <head>
+        <title>{vendorName} Statistics | Cyberstats</title>
+        <meta name="description" content={pageDescription} />
+
+        {/* Open Graph */}
+        <meta property="og:title" content={`${vendorName} Statistics | Cyberstats`} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Cyberstats" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${vendorName} Statistics | Cyberstats`} />
+        <meta name="twitter:description" content={pageDescription} />
+
+        {/* Keywords */}
+        <meta name="keywords" content={`${vendorName}, cybersecurity vendor, security statistics, ${categories.slice(0, 3).map(c => c.name).join(', ')}`} />
+      </head>
+
       {/* Structured Data */}
       <script
         type="application/ld+json"

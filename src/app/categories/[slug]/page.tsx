@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation'
 import Navigation from '@/components/Navigation'
 import CategoryDetailClient from './CategoryDetailClient'
 import Footer from '@/components/Footer'
-import { Target, Loader, Tag } from 'lucide-react'
+import { Target, Loader, Tag, Building2 } from 'lucide-react'
 import Link from 'next/link'
 import categoryOverrides from '@/data/category-overrides.json'
 
@@ -171,25 +171,29 @@ export default function CategoryDetailPage() {
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'
+  const pageUrl = `${baseUrl}/categories/${slug}`
+  const pageDescription = categoryOverride?.customDescription || `Cybersecurity statistics about ${categoryData.name.toLowerCase()}`
 
-  // ItemList structured data for the stats in this category
-  const itemListSchema = {
+  // Dataset structured data (better for statistics than ItemList)
+  const datasetSchema = {
     '@context': 'https://schema.org',
-    '@type': 'ItemList',
+    '@type': 'Dataset',
     name: `${categoryData.name} Statistics`,
-    numberOfItems: categoryData.stats.length,
-    itemListElement: categoryData.stats.slice(0, 10).map((stat, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      item: {
-        '@type': 'Article',
-        name: stat.title,
-        datePublished: stat.created_at,
-        author: {
-          '@type': 'Organization',
-          name: stat.publisher
-        }
-      }
+    description: pageDescription,
+    url: pageUrl,
+    keywords: [categoryData.name, 'cybersecurity', 'statistics', 'security'],
+    creator: {
+      '@type': 'Organization',
+      name: 'Cyberstats',
+      url: baseUrl
+    },
+    temporalCoverage: new Date().getFullYear().toString(),
+    distribution: categoryData.stats.slice(0, 10).map((stat) => ({
+      '@type': 'DataDownload',
+      encodingFormat: 'text/html',
+      contentUrl: stat.link,
+      name: stat.title,
+      datePublished: stat.created_at
     }))
   }
 
@@ -214,17 +218,38 @@ export default function CategoryDetailPage() {
         '@type': 'ListItem',
         position: 3,
         name: categoryData.name,
-        item: `${baseUrl}/categories/${slug}`
+        item: pageUrl
       }
     ]
   }
 
   return (
     <>
+      {/* Meta Tags for SEO and Social Sharing */}
+      <head>
+        <title>{categoryData.name} Statistics | Cyberstats</title>
+        <meta name="description" content={pageDescription} />
+
+        {/* Open Graph */}
+        <meta property="og:title" content={`${categoryData.name} Statistics | Cyberstats`} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Cyberstats" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${categoryData.name} Statistics | Cyberstats`} />
+        <meta name="twitter:description" content={pageDescription} />
+
+        {/* Keywords */}
+        <meta name="keywords" content={`${categoryData.name}, cybersecurity statistics, ${categoryData.topVendors.slice(0, 3).map(v => v.name).join(', ')}`} />
+      </head>
+
       {/* Structured Data */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }}
       />
       <script
         type="application/ld+json"
@@ -257,31 +282,63 @@ export default function CategoryDetailPage() {
           </p>
         </div>
 
-        {/* Related Categories */}
-        {categoryData.relatedCategories && categoryData.relatedCategories.length > 0 && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-              <Tag className="w-5 h-5 mr-2 text-purple-600" />
-              Related Topics
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              {categoryData.relatedCategories.map((category) => (
-                <Link
-                  key={category.slug}
-                  href={`/categories/${category.slug}`}
-                  className="flex items-center justify-between p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors group"
-                >
-                  <span className="text-sm font-medium text-gray-900 group-hover:text-purple-700">
-                    {category.name}
-                  </span>
-                  <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded">
-                    {category.count}
-                  </span>
-                </Link>
-              ))}
+        {/* Related Topics and Vendors Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          {/* Related Categories */}
+          {categoryData.relatedCategories && categoryData.relatedCategories.length > 0 && (
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                <Tag className="w-5 h-5 mr-2 text-purple-600" />
+                Related Topics
+              </h2>
+              <div className="space-y-2">
+                {categoryData.relatedCategories.slice(0, 6).map((category) => (
+                  <Link
+                    key={category.slug}
+                    href={`/categories/${category.slug}`}
+                    className="flex items-center justify-between p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors group"
+                  >
+                    <span className="text-sm font-medium text-gray-900 group-hover:text-purple-700">
+                      {category.name}
+                    </span>
+                    <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded">
+                      {category.count}
+                    </span>
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+
+          {/* Top Vendors */}
+          {categoryData.topVendors && categoryData.topVendors.length > 0 && (
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                <Building2 className="w-5 h-5 mr-2 text-green-600" />
+                Top Vendors
+              </h2>
+              <div className="space-y-2">
+                {categoryData.topVendors.slice(0, 6).map((vendor) => {
+                  const vendorSlug = vendor.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+                  return (
+                    <Link
+                      key={vendorSlug}
+                      href={`/vendors/${vendorSlug}`}
+                      className="flex items-center justify-between p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors group"
+                    >
+                      <span className="text-sm font-medium text-gray-900 group-hover:text-green-700">
+                        {vendor.name}
+                      </span>
+                      <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded">
+                        {vendor.count}
+                      </span>
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* Client-side component handles pagination and display */}
         <CategoryDetailClient
