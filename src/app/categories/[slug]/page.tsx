@@ -34,6 +34,44 @@ export default function CategoryDetailPage() {
     fetchCategoryData()
   }, [slug])
 
+  // Update meta tags dynamically when data loads
+  useEffect(() => {
+    if (!categoryData) return
+
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'
+    const pageUrl = `${baseUrl}/categories/${slug}`
+    const pageDescription = categoryOverride?.customDescription || `Cybersecurity statistics about ${categoryData.name.toLowerCase()}`
+    const pageTitle = `${categoryData.name} Statistics | Cyberstats`
+
+    // Update document title
+    document.title = pageTitle
+
+    // Helper to update or create meta tag
+    const updateMetaTag = (selector: string, content: string) => {
+      let tag = document.querySelector(selector)
+      if (!tag) {
+        tag = document.createElement('meta')
+        const attr = selector.includes('property') ? 'property' : 'name'
+        const value = selector.match(/["']([^"']+)["']/)?.[1]
+        if (value) tag.setAttribute(attr, value)
+        document.head.appendChild(tag)
+      }
+      tag.setAttribute('content', content)
+    }
+
+    // Update all meta tags
+    updateMetaTag('meta[name="description"]', pageDescription)
+    updateMetaTag('meta[property="og:title"]', pageTitle)
+    updateMetaTag('meta[property="og:description"]', pageDescription)
+    updateMetaTag('meta[property="og:url"]', pageUrl)
+    updateMetaTag('meta[property="og:type"]', 'website')
+    updateMetaTag('meta[property="og:site_name"]', 'Cyberstats')
+    updateMetaTag('meta[name="twitter:card"]', 'summary_large_image')
+    updateMetaTag('meta[name="twitter:title"]', pageTitle)
+    updateMetaTag('meta[name="twitter:description"]', pageDescription)
+    updateMetaTag('meta[name="keywords"]', `${categoryData.name}, cybersecurity statistics, ${categoryData.topVendors.slice(0, 3).map(v => v.name).join(', ')}`)
+  }, [categoryData, slug, categoryOverride])
+
   async function fetchCategoryData() {
     try {
       const apiKey = process.env.NEXT_PUBLIC_API_KEY
@@ -225,27 +263,6 @@ export default function CategoryDetailPage() {
 
   return (
     <>
-      {/* Meta Tags for SEO and Social Sharing */}
-      <head>
-        <title>{categoryData.name} Statistics | Cyberstats</title>
-        <meta name="description" content={pageDescription} />
-
-        {/* Open Graph */}
-        <meta property="og:title" content={`${categoryData.name} Statistics | Cyberstats`} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:url" content={pageUrl} />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Cyberstats" />
-
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${categoryData.name} Statistics | Cyberstats`} />
-        <meta name="twitter:description" content={pageDescription} />
-
-        {/* Keywords */}
-        <meta name="keywords" content={`${categoryData.name}, cybersecurity statistics, ${categoryData.topVendors.slice(0, 3).map(v => v.name).join(', ')}`} />
-      </head>
-
       {/* Structured Data */}
       <script
         type="application/ld+json"

@@ -31,6 +31,44 @@ export default function VendorDetailPage() {
     fetchVendorData()
   }, [slug, timePeriod])
 
+  // Update meta tags dynamically when data loads
+  useEffect(() => {
+    if (!vendorName) return
+
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'
+    const pageUrl = `${baseUrl}/vendors/${slug}`
+    const pageDescription = vendorOverride?.custom_description || `Cybersecurity reports and statistics published by ${vendorName}`
+    const pageTitle = `${vendorName} Statistics | Cyberstats`
+
+    // Update document title
+    document.title = pageTitle
+
+    // Helper to update or create meta tag
+    const updateMetaTag = (selector: string, content: string) => {
+      let tag = document.querySelector(selector)
+      if (!tag) {
+        tag = document.createElement('meta')
+        const attr = selector.includes('property') ? 'property' : 'name'
+        const value = selector.match(/["']([^"']+)["']/)?.[1]
+        if (value) tag.setAttribute(attr, value)
+        document.head.appendChild(tag)
+      }
+      tag.setAttribute('content', content)
+    }
+
+    // Update all meta tags
+    updateMetaTag('meta[name="description"]', pageDescription)
+    updateMetaTag('meta[property="og:title"]', pageTitle)
+    updateMetaTag('meta[property="og:description"]', pageDescription)
+    updateMetaTag('meta[property="og:url"]', pageUrl)
+    updateMetaTag('meta[property="og:type"]', 'website')
+    updateMetaTag('meta[property="og:site_name"]', 'Cyberstats')
+    updateMetaTag('meta[name="twitter:card"]', 'summary_large_image')
+    updateMetaTag('meta[name="twitter:title"]', pageTitle)
+    updateMetaTag('meta[name="twitter:description"]', pageDescription)
+    updateMetaTag('meta[name="keywords"]', `${vendorName}, cybersecurity vendor, security statistics, ${categories.slice(0, 3).map(c => c.name).join(', ')}`)
+  }, [vendorName, slug, vendorOverride, categories])
+
   async function fetchVendorData() {
     try {
       const apiKey = process.env.NEXT_PUBLIC_API_KEY
@@ -256,27 +294,6 @@ export default function VendorDetailPage() {
 
   return (
     <>
-      {/* Meta Tags for SEO and Social Sharing */}
-      <head>
-        <title>{vendorName} Statistics | Cyberstats</title>
-        <meta name="description" content={pageDescription} />
-
-        {/* Open Graph */}
-        <meta property="og:title" content={`${vendorName} Statistics | Cyberstats`} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:url" content={pageUrl} />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Cyberstats" />
-
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${vendorName} Statistics | Cyberstats`} />
-        <meta name="twitter:description" content={pageDescription} />
-
-        {/* Keywords */}
-        <meta name="keywords" content={`${vendorName}, cybersecurity vendor, security statistics, ${categories.slice(0, 3).map(c => c.name).join(', ')}`} />
-      </head>
-
       {/* Structured Data */}
       <script
         type="application/ld+json"
