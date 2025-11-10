@@ -1,9 +1,107 @@
 [
   {
     "slug": "crowdstrike",
-    "customDescription": "Leading endpoint protection and cybersecurity technology company known for their Falcon platform.",
+    "custom_description": "Leading endpoint protection and threat intelligence provider. CrowdStrike's Falcon platform delivers cloud-native EDR, XDR, and managed security services to thousands of organizations globally.",
     "website": "https://www.crowdstrike.com",
     "founded": "2011",
     "headquarters": "Austin, Texas"
+  },
+  {
+    "slug": "microsoft",
+    "custom_description": "Enterprise security leader providing comprehensive solutions including Microsoft Defender, Sentinel SIEM, Entra ID, and cloud security across Azure, Microsoft 365, and hybrid environments.",
+    "website": "https://www.microsoft.com/security",
+    "founded": "1975",
+    "headquarters": "Redmond, Washington"
+  },
+  {
+    "slug": "palo-alto-networks",
+    "custom_description": "Network security innovator delivering next-generation firewalls, cloud security (Prisma), and extended detection and response (Cortex XDR) to protect enterprise networks and applications.",
+    "website": "https://www.paloaltonetworks.com",
+    "founded": "2005",
+    "headquarters": "Santa Clara, California"
+  },
+  {
+    "slug": "fortinet",
+    "custom_description": "Cybersecurity infrastructure provider specializing in unified threat management, SD-WAN, and network security through their FortiGate firewall and Security Fabric architecture.",
+    "website": "https://www.fortinet.com",
+    "founded": "2000",
+    "headquarters": "Sunnyvale, California"
+  },
+  {
+    "slug": "cisco",
+    "custom_description": "Global network and security leader offering comprehensive solutions including SecureX, Duo Security, Umbrella DNS protection, and integrated threat defense across enterprise infrastructure.",
+    "website": "https://www.cisco.com/c/en/us/products/security",
+    "founded": "1984",
+    "headquarters": "San Jose, California"
+  },
+  {
+    "slug": "zscaler",
+    "custom_description": "Cloud security pioneer delivering Zero Trust Exchange platform for secure access, internet gateway, and cloud protection. Leader in SASE and cloud-native security architecture.",
+    "website": "https://www.zscaler.com",
+    "founded": "2007",
+    "headquarters": "San Jose, California"
+  },
+  {
+    "slug": "sentinelone",
+    "custom_description": "Autonomous cybersecurity platform providing AI-powered endpoint protection, detection and response (EDR), and threat hunting across workloads, devices, and cloud environments.",
+    "website": "https://www.sentinelone.com",
+    "founded": "2013",
+    "headquarters": "Mountain View, California"
+  },
+  {
+    "slug": "okta",
+    "custom_description": "Identity and access management leader providing cloud-based authentication, single sign-on, and workforce/customer identity solutions for zero trust security implementations.",
+    "website": "https://www.okta.com",
+    "founded": "2009",
+    "headquarters": "San Francisco, California"
+  },
+  {
+    "slug": "splunk",
+    "custom_description": "Security analytics and SIEM platform processing machine data for threat detection, investigation, and response. Provides observability and security operations intelligence at scale.",
+    "website": "https://www.splunk.com",
+    "founded": "2003",
+    "headquarters": "San Francisco, California"
+  },
+  {
+    "slug": "proofpoint",
+    "custom_description": "Email security and threat protection specialist defending against phishing, malware, and data loss. Provides comprehensive solutions for email, cloud apps, and information protection.",
+    "website": "https://www.proofpoint.com",
+    "founded": "2002",
+    "headquarters": "Sunnyvale, California"
+  },
+  {
+    "slug": "wiz",
+    "custom_description": "Cloud security platform securing multi-cloud environments with vulnerability management, compliance monitoring, and real-time threat detection across AWS, Azure, and Google Cloud.",
+    "website": "https://www.wiz.io",
+    "founded": "2020",
+    "headquarters": "New York, New York"
+  },
+  {
+    "slug": "tenable",
+    "custom_description": "Vulnerability management and exposure analytics leader. Tenable provides continuous assessment, prioritization, and remediation guidance through Nessus and Tenable.io platforms.",
+    "website": "https://www.tenable.com",
+    "founded": "2002",
+    "headquarters": "Columbia, Maryland"
+  },
+  {
+    "slug": "rapid7",
+    "custom_description": "Security analytics and automation provider delivering vulnerability management, incident detection and response, and application security through InsightVM and InsightIDR platforms.",
+    "website": "https://www.rapid7.com",
+    "founded": "2000",
+    "headquarters": "Boston, Massachusetts"
+  },
+  {
+    "slug": "checkpoint",
+    "custom_description": "Network security pioneer providing firewall, threat prevention, and cloud security solutions. Check Point protects enterprise networks with unified security management and CloudGuard.",
+    "website": "https://www.checkpoint.com",
+    "founded": "1993",
+    "headquarters": "Tel Aviv, Israel"
+  },
+  {
+    "slug": "veeam",
+    "custom_description": "Data protection and ransomware recovery leader. Veeam provides backup, disaster recovery, and business continuity solutions for virtual, physical, and cloud workloads.",
+    "website": "https://www.veeam.com",
+    "founded": "2006",
+    "headquarters": "Baar, Switzerland"
   }
 ]

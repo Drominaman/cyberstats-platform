@@ -2,5 +2,49 @@
   {
     "slug": "ransomware",
     "customDescription": "Statistics and intelligence on ransomware attacks, trends, and prevention strategies across global organizations."
+  },
+  {
+    "slug": "zero-trust",
+    "customDescription": "Market data and adoption trends for zero trust security architecture, network access, and identity verification solutions."
+  },
+  {
+    "slug": "xdr",
+    "customDescription": "Extended Detection and Response (XDR) market intelligence, vendor comparison data, and deployment statistics."
+  },
+  {
+    "slug": "edr",
+    "customDescription": "Endpoint Detection and Response market trends, threat detection rates, and vendor performance benchmarks."
+  },
+  {
+    "slug": "siem",
+    "customDescription": "Security Information and Event Management statistics, log analysis trends, and enterprise deployment data."
+  },
+  {
+    "slug": "cloud-security",
+    "customDescription": "Cloud security posture management, misconfigurations, and multi-cloud protection statistics from leading providers."
+  },
+  {
+    "slug": "data-breach",
+    "customDescription": "Global data breach statistics, cost analysis, industry impact reports, and incident response trends."
+  },
+  {
+    "slug": "phishing",
+    "customDescription": "Email security statistics, phishing attack trends, user awareness metrics, and defense effectiveness data."
+  },
+  {
+    "slug": "vulnerability-management",
+    "customDescription": "CVE trends, patch management statistics, vulnerability disclosure timelines, and remediation benchmarks."
+  },
+  {
+    "slug": "threat-intelligence",
+    "customDescription": "Threat actor analysis, emerging attack patterns, malware trends, and security intelligence sharing statistics."
+  },
+  {
+    "slug": "identity-and-access-management",
+    "customDescription": "IAM deployment trends, multi-factor authentication adoption, privileged access management statistics, and identity governance data."
+  },
+  {
+    "slug": "devsecops",
+    "customDescription": "Application security statistics, shift-left adoption rates, security testing in CI/CD, and developer security training metrics."
   }
 ]
