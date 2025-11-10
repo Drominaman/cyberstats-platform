@@ -1,0 +1,590 @@
+[
+  {
+    "slug": "1111-systems",
+    "custom_description": "11:11 Systems offers advanced cybersecurity solutions, including EDR and SIEM services, designed to enhance threat detection and incident response. Their innovative approach leverages cloud-native technology, making them a notable player in the evolving security landscape.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "1password",
+    "custom_description": "1Password offers a robust password management solution that enhances security through encrypted vaults and secure sharing. Notable for its enterprise features, it integrates seamlessly with SIEM tools, streamlining access control and identity management for organizations.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "abnormal-ai",
+    "custom_description": "Abnormal AI leverages advanced machine learning to enhance email security, offering solutions such as automated phishing detection and response. Their notable products include Abnormal Security Cloud, providing robust protection against sophisticated attacks in enterprise environments.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "acuvity-ai",
+    "custom_description": "Acuvity AI specializes in advanced cybersecurity solutions, offering robust EDR and XDR systems along with powerful SIEM capabilities. Their innovative use of AI-driven analytics enhances threat detection and response, making them a notable player in the security intelligence market.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "akamai",
+    "custom_description": "Akamai delivers advanced cloud security solutions, including Web Application Firewalls (WAF) and Kona Site Defender, ensuring robust protection against DDoS attacks and application threats. Their Global Security Operations Center (GSOC) enhances threat intelligence through real-time monitoring and analytics.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "alloy",
+    "custom_description": "Alloy offers advanced cybersecurity solutions, including EDR and XDR, designed for real-time threat detection and response. Their innovative approach integrates seamlessly with SIEM systems, empowering organizations to enhance their security posture and mitigate risks effectively.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "arkose-labs",
+    "custom_description": "Arkose Labs specializes in fraud prevention and account security, offering innovative solutions like Arkose Verify and Arkose Enforce. Their dynamic risk assessment technology effectively combats automated attacks, making them a notable player in the cybersecurity landscape.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "astrix-security",
+    "custom_description": "Astrix Security specializes in advanced threat detection and response with products like their EDR and SIEM solutions. Their innovative XDR capabilities enhance security posture, making them a notable player in the cybersecurity landscape for proactive threat management.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "asus",
+    "custom_description": "ASUS offers advanced cybersecurity solutions, including its robust ASUS Security Suite, featuring EDR and XDR capabilities. Renowned for integrating security into hardware, ASUS enhances endpoint protection, ensuring comprehensive defense against evolving cyber threats for enterprises.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "auditboard",
+    "custom_description": "AuditBoard offers a comprehensive suite of governance, risk, and compliance solutions, enhancing security posture through advanced risk management and audit automation. Their notable products streamline audit processes, ensuring organizations effectively manage vulnerabilities and comply with industry standards.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "barracuda",
+    "custom_description": "Barracuda offers advanced cybersecurity solutions, including EDR, XDR, and cloud security services, with notable products like Barracuda CloudGen Firewall and Barracuda PhishLine, empowering organizations to effectively protect against evolving threats and enhance their security posture.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "bitwarden",
+    "custom_description": "Bitwarden is a leading open-source password management solution, offering secure vaults, enterprise-grade password sharing, and advanced encryption. Its robust features support compliance and enhance security posture, making it a trusted choice for organizations focusing on identity and access management.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "black-kite",
+    "custom_description": "Black Kite empowers organizations with risk assessment solutions, leveraging advanced analytics and threat intelligence. Their platform excels in third-party risk management and security posture assessment, making it a notable player in the cybersecurity landscape for effective EDR and SIEM integration.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "blackfog",
+    "custom_description": "BlackFog specializes in advanced data privacy and breach prevention solutions, offering products like BlackFog Endpoint and BlackFog Privacy. Their innovative approach integrates EDR and DLP capabilities, making them a notable player in proactive cybersecurity and data protection.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "checkpoint",
+    "custom_description": "Network security pioneer providing firewall, threat prevention, and cloud security solutions. Check Point protects enterprise networks with unified security management and CloudGuard.",
+    "website": "https://www.checkpoint.com",
+    "founded": "1993",
+    "headquarters": "Tel Aviv, Israel"
+  },
+  {
+    "slug": "cisco",
+    "custom_description": "Global network and security leader offering comprehensive solutions including SecureX, Duo Security, Umbrella DNS protection, and integrated threat defense across enterprise infrastructure.",
+    "website": "https://www.cisco.com/c/en/us/products/security",
+    "founded": "1984",
+    "headquarters": "San Jose, California"
+  },
+  {
+    "slug": "cisco-talos-blog",
+    "custom_description": "Cisco Talos Blog offers expert insights into threat intelligence, leveraging advanced EDR, XDR, and SIEM technologies. Renowned for its comprehensive research and real-time analysis, Talos plays a pivotal role in enhancing global cybersecurity defenses.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "cision-pr-newswire",
+    "custom_description": "Cision PR Newswire delivers critical cybersecurity insights and reporting solutions, enhancing threat intelligence and risk management. Their robust analytics tools support proactive decision-making, making them a key player for security professionals seeking to optimize EDR and SIEM strategies.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "comptia",
+    "custom_description": "CompTIA is a leading cybersecurity vendor, renowned for its industry certifications and training solutions, including Security+, Cybersecurity Analyst (CySA+), and Advanced Security Practitioner (CASP+). Their focus on education empowers professionals to enhance skills in EDR, SIEM, and XDR technologies.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "corpay",
+    "custom_description": "Corpay specializes in cybersecurity solutions, offering advanced fraud detection and transaction monitoring services. Their robust platform integrates EDR and SIEM capabilities, ensuring comprehensive threat detection and response, making them a notable player in the financial security landscape.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "crowdstrike",
+    "custom_description": "Leading endpoint protection and threat intelligence provider. CrowdStrike's Falcon platform delivers cloud-native EDR, XDR, and managed security services to thousands of organizations globally.",
+    "website": "https://www.crowdstrike.com",
+    "founded": "2011",
+    "headquarters": "Austin, Texas"
+  },
+  {
+    "slug": "csc",
+    "custom_description": "CSC offers comprehensive cybersecurity solutions, including managed security services, EDR, and SIEM. Notably recognized for their Threat Intelligence and Incident Response capabilities, CSC empowers organizations to enhance their security posture and effectively mitigate risks in today’s evolving threat landscape.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "cycode",
+    "custom_description": "Cycode delivers comprehensive security solutions, specializing in DevSecOps and code integrity. Their platform enhances security posture with advanced features like CI/CD pipeline security, automated compliance, and vulnerability management, making them a notable player in the cybersecurity landscape.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "dashlane",
+    "custom_description": "Dashlane is a leading cybersecurity vendor specializing in password management and identity protection solutions. With features like secure password sharing and dark web monitoring, Dashlane enhances organizational security against breaches, making it essential for modern enterprises.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "dynatrace",
+    "custom_description": "Dynatrace offers advanced application performance monitoring and security solutions through its AI-driven platform, featuring capabilities in cloud-native security, observability, and application security. Their notable products include Dynatrace Security, integrating seamlessly with SIEM and XDR frameworks for comprehensive threat detection.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "endor-labs",
+    "custom_description": "Endor Labs specializes in advanced security solutions, offering robust EDR and XDR capabilities that enhance threat detection and response. Their innovative approach to security intelligence empowers organizations to effectively manage vulnerabilities and strengthen overall cybersecurity posture.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "enisa",
+    "custom_description": "ENISA, the European Union Agency for Cybersecurity, enhances Europe’s cybersecurity posture through comprehensive risk assessments, incident response frameworks, and policy development. Their reports provide critical insights, supporting organizations in implementing effective EDR, XDR, and SIEM solutions.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "extrahop",
+    "custom_description": "ExtraHop offers advanced network detection and response (NDR) solutions, leveraging real-time analytics and AI-driven insights. Their flagship product, Reveal(x), enhances threat visibility and response, making it a leading choice for organizations seeking robust cybersecurity solutions.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "ey",
+    "custom_description": "EY offers comprehensive cybersecurity solutions, including managed security services, risk management, and incident response. Their expertise in SIEM and XDR, combined with innovative frameworks, positions them as a leader in safeguarding enterprises against evolving threats.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "f-secure--omdia",
+    "custom_description": "F-Secure & Omdia deliver advanced cybersecurity solutions, including F-Secure's Rapid Detection & Response (EDR) and Omdia's comprehensive threat intelligence reports, empowering organizations with actionable insights and robust defenses against evolving cyber threats.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "fingerprint",
+    "custom_description": "Fingerprint delivers advanced cybersecurity solutions, specializing in EDR and XDR technologies. Their comprehensive platform enhances threat detection and response, making them a notable player in the SIEM space with robust analytics and real-time visibility for security professionals.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "forescout",
+    "custom_description": "Forescout provides advanced visibility and control for connected devices, specializing in IoT security and threat detection. Their flagship products, including Forescout Platform and Forescout EyeControl, enhance security operations with real-time device classification and integration with SIEM and XDR solutions.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "fortinet",
+    "custom_description": "Cybersecurity infrastructure provider specializing in unified threat management, SD-WAN, and network security through their FortiGate firewall and Security Fabric architecture.",
+    "website": "https://www.fortinet.com",
+    "founded": "2000",
+    "headquarters": "Sunnyvale, California"
+  },
+  {
+    "slug": "girls-who-code",
+    "custom_description": "Girls Who Code empowers the next generation of female cybersecurity leaders through education and mentorship, enhancing diversity in tech. Their initiatives foster skills in coding, cybersecurity fundamentals, and digital safety, building a stronger workforce for the evolving cybersecurity landscape.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "google-cloud-security",
+    "custom_description": "Google Cloud Security offers comprehensive cybersecurity solutions, including Chronicle SIEM, BeyondCorp for zero-trust access, and Security Command Center for threat management. Their innovative approach integrates EDR and XDR capabilities, making them a leader in cloud security.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "guidepoint-security",
+    "custom_description": "GuidePoint Security specializes in advanced cybersecurity solutions, offering services such as EDR, XDR, and SIEM. Renowned for their expertise in threat intelligence and incident response, they empower organizations to enhance security posture and mitigate risks effectively.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "ians-research--artico-search",
+    "custom_description": "IANS Research & Artico Search delivers expert cybersecurity insights and solutions, specializing in EDR and SIEM technologies. Their extensive library of 22 statistics and reports empowers security professionals to enhance threat detection and response strategies effectively.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "identity-theft-resource-center",
+    "custom_description": "Identity Theft Resource Center offers vital resources for identity theft prevention and recovery, featuring comprehensive support services and educational materials. Their insights and statistics empower organizations to enhance their cybersecurity posture and understand emerging threats effectively.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "incognia",
+    "custom_description": "Incognia specializes in mobile device identity verification, leveraging behavioral biometrics to enhance fraud detection and prevention. Their innovative solutions integrate seamlessly with existing SIEM and EDR systems, providing real-time insights to bolster security postures against evolving threats.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "index-engines",
+    "custom_description": "Index Engines delivers advanced cybersecurity solutions, specializing in data discovery and e-discovery for enterprise environments. Their innovative tools enhance SIEM and EDR capabilities, enabling organizations to efficiently manage and protect sensitive information across diverse data landscapes.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "ironscales",
+    "custom_description": "IRONSCALES offers advanced email security solutions, including their AI-driven phishing detection and response platform. With capabilities such as automated threat remediation and integration with SIEM systems, IRONSCALES enhances enterprise security posture against evolving cyber threats.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "isaca",
+    "custom_description": "ISACA is a leading cybersecurity organization offering certifications, training, and resources for IT governance and security professionals. Their renowned Cybersecurity Nexus (CSX) framework enhances skills in risk management, EDR, and SIEM, driving organizational resilience in the face of evolving threats.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "kela",
+    "custom_description": "KELA specializes in threat intelligence solutions, offering advanced capabilities in cyber risk assessment and incident response. Their platform, KELA Threat Intelligence, enhances EDR and SIEM systems, empowering security teams with actionable insights and real-time data for proactive defense.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "knowbe4",
+    "custom_description": "KnowBe4 is a leading security awareness training provider, specializing in phishing simulations and compliance training. Their platform enhances human security through engaging content, helping organizations strengthen defenses against social engineering attacks and improve overall cybersecurity posture.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "malwarebytes",
+    "custom_description": "Malwarebytes is a leading cybersecurity vendor specializing in endpoint protection, threat detection, and remediation. Their notable products, including Malwarebytes Endpoint Detection and Response (EDR) and Malwarebytes for Business, provide advanced threat intelligence and real-time protection, ensuring robust security for enterprises.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "microsoft",
+    "custom_description": "Enterprise security leader providing comprehensive solutions including Microsoft Defender, Sentinel SIEM, Entra ID, and cloud security across Azure, Microsoft 365, and hybrid environments.",
+    "website": "https://www.microsoft.com/security",
+    "founded": "1975",
+    "headquarters": "Redmond, Washington"
+  },
+  {
+    "slug": "mondoo",
+    "custom_description": "Mondoo delivers advanced cloud-native security solutions, including its innovative security posture management platform. Specializing in EDR, XDR, and compliance automation, Mondoo empowers organizations to enhance threat detection, streamline incident response, and maintain robust security across dynamic environments.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "nagomi-security",
+    "custom_description": "Nagomi Security offers advanced cybersecurity solutions, including EDR and SIEM systems, designed to enhance threat detection and incident response. Their notable analytics platform empowers organizations with actionable insights, ensuring robust protection against evolving cyber threats.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "national-cyber-security-centre",
+    "custom_description": "The National Cyber Security Centre (NCSC) provides critical cybersecurity guidance and support, specializing in threat intelligence, incident response, and vulnerability management. Their expertise in SIEM and threat detection enhances national cybersecurity resilience, making them a pivotal player in the security landscape.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "new-jefferson-wells",
+    "custom_description": "New Jefferson Wells specializes in advanced cybersecurity solutions, offering robust EDR and SIEM services. Their expertise in risk assessment and compliance ensures comprehensive protection, making them a notable player in the cybersecurity landscape for enterprise-level security management.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "nordpass",
+    "custom_description": "NordPass offers robust password management solutions, featuring advanced encryption and zero-knowledge architecture. Their platform enhances organizational security by integrating seamlessly with SIEM systems, promoting efficient credential storage and access management for security professionals.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "norton",
+    "custom_description": "Norton is a leading cybersecurity vendor offering comprehensive solutions such as Norton 360, which includes advanced threat detection, EDR capabilities, and identity theft protection, empowering organizations to mitigate risks and enhance their security posture effectively.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "okta",
+    "custom_description": "Identity and access management leader providing cloud-based authentication, single sign-on, and workforce/customer identity solutions for zero trust security implementations.",
+    "website": "https://www.okta.com",
+    "founded": "2009",
+    "headquarters": "San Francisco, California"
+  },
+  {
+    "slug": "omega-systems",
+    "custom_description": "Omega Systems specializes in advanced cybersecurity solutions, offering robust EDR, XDR, and SIEM capabilities. Their notable products, including OmegaGuard and ThreatInsight, empower organizations to enhance threat detection and response, ensuring comprehensive protection in a dynamic threat landscape.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "ox-security",
+    "custom_description": "OX Security specializes in advanced cybersecurity solutions, offering robust EDR and XDR capabilities. Their innovative platform enhances threat detection and response, making them a notable player in the SIEM landscape for enterprises seeking comprehensive security intelligence.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "palo-alto-networks",
+    "custom_description": "Network security innovator delivering next-generation firewalls, cloud security (Prisma), and extended detection and response (Cortex XDR) to protect enterprise networks and applications.",
+    "website": "https://www.paloaltonetworks.com",
+    "founded": "2005",
+    "headquarters": "Santa Clara, California"
+  },
+  {
+    "slug": "paubox",
+    "custom_description": "Paubox offers secure email encryption and HIPAA-compliant communication solutions, enhancing data protection in healthcare. Their focus on user-friendly interfaces and robust security measures positions them as a notable player in the cybersecurity landscape.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "portnox",
+    "custom_description": "Portnox delivers cutting-edge network access control solutions, including Portnox CLEAR, enhancing visibility and security for endpoints. Their innovative approach integrates seamlessly with existing SIEM and EDR systems, empowering organizations to mitigate risks and strengthen their cybersecurity posture.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "postman",
+    "custom_description": "Postman enhances API security with its robust suite, including automated testing, vulnerability scanning, and SIEM integrations. Notably recognized for its Postman API Platform, it empowers security professionals to streamline API development while ensuring compliance and protection against emerging threats.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "proofpoint",
+    "custom_description": "Email security and threat protection specialist defending against phishing, malware, and data loss. Provides comprehensive solutions for email, cloud apps, and information protection.",
+    "website": "https://www.proofpoint.com",
+    "founded": "2002",
+    "headquarters": "Sunnyvale, California"
+  },
+  {
+    "slug": "rapid7",
+    "custom_description": "Security analytics and automation provider delivering vulnerability management, incident detection and response, and application security through InsightVM and InsightIDR platforms.",
+    "website": "https://www.rapid7.com",
+    "founded": "2000",
+    "headquarters": "Boston, Massachusetts"
+  },
+  {
+    "slug": "red-canary",
+    "custom_description": "Red Canary specializes in managed detection and response (MDR), offering advanced EDR and XDR solutions. Their renowned Red Canary Threat Detection platform leverages continuous monitoring and threat intelligence to enhance security postures for organizations, making them a leader in proactive threat management.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "regula",
+    "custom_description": "Regula offers advanced identity verification and document authentication solutions, utilizing AI-driven technology. Their flagship product, Regula Document Reader, enhances security frameworks, making them essential for organizations requiring robust KYC compliance and fraud prevention in cybersecurity environments.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "reliaquest",
+    "custom_description": "ReliaQuest delivers advanced security solutions through its GreyMatter platform, integrating EDR, XDR, and SIEM capabilities to enhance visibility and threat detection. Known for its proactive approach, ReliaQuest empowers organizations to effectively manage and respond to cyber threats.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "riskonnect",
+    "custom_description": "Riskonnect offers a comprehensive risk management platform that integrates cybersecurity solutions, including advanced EDR and XDR capabilities. Their innovative approach to risk assessment and incident response makes them a notable player in the cybersecurity landscape, enhancing enterprise resilience.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "rsa",
+    "custom_description": "RSA offers comprehensive cybersecurity solutions, including RSA NetWitness for SIEM and EDR, and RSA SecurID for identity and access management, empowering organizations to enhance threat detection, response, and risk management across their digital environments.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "salt-security",
+    "custom_description": "Salt Security specializes in API security, offering advanced solutions to protect against threats and vulnerabilities. Their innovative platform leverages machine learning and behavioral analytics to enhance security posture, making them a leader in the API protection landscape.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "sentinelone",
+    "custom_description": "Autonomous cybersecurity platform providing AI-powered endpoint protection, detection and response (EDR), and threat hunting across workloads, devices, and cloud environments.",
+    "website": "https://www.sentinelone.com",
+    "founded": "2013",
+    "headquarters": "Mountain View, California"
+  },
+  {
+    "slug": "snaplogic",
+    "custom_description": "SnapLogic offers a robust integration platform with advanced security features, enabling seamless data flow across cloud and on-premises environments. Their solutions enhance data visibility and compliance, making them a notable player in the cybersecurity landscape for organizations prioritizing secure data integration.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "sophos",
+    "custom_description": "Sophos delivers advanced cybersecurity solutions, including Intercept X for endpoint protection, XG Firewall, and Sophos Central for unified management. Renowned for its EDR and XDR capabilities, Sophos empowers organizations to combat evolving threats effectively.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "splunk",
+    "custom_description": "Security analytics and SIEM platform processing machine data for threat detection, investigation, and response. Provides observability and security operations intelligence at scale.",
+    "website": "https://www.splunk.com",
+    "founded": "2003",
+    "headquarters": "San Francisco, California"
+  },
+  {
+    "slug": "syncro",
+    "custom_description": "Syncro offers advanced EDR and SIEM solutions designed for comprehensive threat detection and response. Their notable platform integrates real-time analytics and automation, empowering security professionals to streamline incident management and enhance overall cybersecurity posture.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "tenable",
+    "custom_description": "Vulnerability management and exposure analytics leader. Tenable provides continuous assessment, prioritization, and remediation guidance through Nessus and Tenable.io platforms.",
+    "website": "https://www.tenable.com",
+    "founded": "2002",
+    "headquarters": "Columbia, Maryland"
+  },
+  {
+    "slug": "trackforce",
+    "custom_description": "Trackforce delivers advanced cybersecurity solutions, including EDR and SIEM technologies, designed to enhance threat detection and response. Known for their robust threat intelligence capabilities, Trackforce empowers organizations to proactively defend against evolving cyber threats.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "transact--cbord",
+    "custom_description": "Transact + CBORD delivers cutting-edge cybersecurity solutions, integrating advanced EDR and SIEM capabilities to enhance campus safety. Notable for their seamless transaction security and data protection, they empower institutions with robust threat detection and response strategies.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "transunion",
+    "custom_description": "TransUnion delivers comprehensive cybersecurity solutions, including advanced threat detection and identity verification services. Their offerings, such as TruValidate and TruRisk, enhance EDR and SIEM capabilities, making them a key player in safeguarding organizations against evolving cyber threats.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "vansonbourne",
+    "custom_description": "VansonBourne specializes in cybersecurity research and analytics, providing in-depth reports on EDR, XDR, and SIEM trends. Their data-driven insights empower security professionals to make informed decisions and enhance threat response strategies in a rapidly evolving landscape.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "vanta",
+    "custom_description": "Vanta specializes in automated security monitoring and compliance solutions, offering tools like Vanta's Continuous Compliance and Security Automation. Their platform empowers organizations to achieve certifications swiftly while enhancing security posture through real-time insights and risk management.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "veeam",
+    "custom_description": "Data protection and ransomware recovery leader. Veeam provides backup, disaster recovery, and business continuity solutions for virtual, physical, and cloud workloads.",
+    "website": "https://www.veeam.com",
+    "founded": "2006",
+    "headquarters": "Baar, Switzerland"
+  },
+  {
+    "slug": "veracode",
+    "custom_description": "Veracode specializes in application security, offering solutions like Static Analysis, Dynamic Analysis, and Software Composition Analysis. Their robust platform integrates seamlessly with DevSecOps workflows, helping organizations identify vulnerabilities early and improve overall security posture.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "verizon",
+    "custom_description": "Verizon offers comprehensive cybersecurity solutions, including Managed Security Services, Threat Intelligence, and their renowned Verizon Data Breach Investigations Report. Their expertise in EDR, XDR, and SIEM technologies positions them as a leader in threat detection and response.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "wallarm",
+    "custom_description": "Wallarm offers advanced application security solutions, including its renowned Web Application Firewall (WAF) and API security, leveraging AI-driven threat detection. Notable for its seamless integration with SIEM and XDR systems, Wallarm enhances proactive security measures for enterprises.",
+    "website": "",
+    "founded": "",
+    "headquarters": ""
+  },
+  {
+    "slug": "wiz",
+    "custom_description": "Cloud security platform securing multi-cloud environments with vulnerability management, compliance monitoring, and real-time threat detection across AWS, Azure, and Google Cloud.",
+    "website": "https://www.wiz.io",
+    "founded": "2020",
+    "headquarters": "New York, New York"
+  },
+  {
+    "slug": "zscaler",
+    "custom_description": "Cloud security pioneer delivering Zero Trust Exchange platform for secure access, internet gateway, and cloud protection. Leader in SASE and cloud-native security architecture.",
+    "website": "https://www.zscaler.com",
+    "founded": "2007",
+    "headquarters": "San Jose, California"
+  }
+]
