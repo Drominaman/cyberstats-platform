@@ -1,9 +1,26 @@
 import Link from 'next/link'
+import { Metadata } from 'next'
 import Navigation from '@/components/Navigation'
 import VendorsClient from './VendorsClient'
 import { Building2 } from 'lucide-react'
 
 // Static generation - pages built once and cached permanently
+
+export const metadata: Metadata = {
+  title: 'Cybersecurity Vendors',
+  description: 'Track market leaders and emerging vendors in cybersecurity. Explore statistics, reports, and search trends from top security companies.',
+  keywords: ['cybersecurity vendors', 'security companies', 'vendor intelligence', 'market leaders', 'security providers'],
+  openGraph: {
+    title: 'Cybersecurity Vendors | Cyberstats',
+    description: 'Track market leaders and emerging vendors in cybersecurity. Explore statistics, reports, and search trends.',
+    type: 'website'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Cybersecurity Vendors | Cyberstats',
+    description: 'Track market leaders and emerging vendors in cybersecurity.'
+  }
+}
 
 interface Vendor {
   name: string

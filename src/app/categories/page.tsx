@@ -1,9 +1,26 @@
 import Link from 'next/link'
+import { Metadata } from 'next'
 import Navigation from '@/components/Navigation'
 import CategoriesClient from './CategoriesClient'
 import { Target, Shield, Cloud, Network, Lock, Eye, AlertTriangle, Database, Workflow, Globe } from 'lucide-react'
 
 // Static generation - pages built once and cached permanently
+
+export const metadata: Metadata = {
+  title: 'Cybersecurity Topics',
+  description: 'Discover trends, market intelligence, and benchmarking data across cybersecurity topics. Track vendor landscape and industry evolution.',
+  keywords: ['cybersecurity topics', 'security categories', 'ransomware', 'zero trust', 'XDR', 'EDR', 'SIEM', 'threat intelligence'],
+  openGraph: {
+    title: 'Cybersecurity Topics | Cyberstats',
+    description: 'Discover trends, market intelligence, and benchmarking data across cybersecurity topics.',
+    type: 'website'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Cybersecurity Topics | Cyberstats',
+    description: 'Discover trends, market intelligence, and benchmarking data across cybersecurity topics.'
+  }
+}
 
 interface Category {
   name: string
