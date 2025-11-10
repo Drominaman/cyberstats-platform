@@ -99,9 +99,49 @@ async function fetchHomeData() {
 export default async function Home() {
   const data = await fetchHomeData()
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'
+
+  // BreadcrumbList structured data for SEO
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl
+      }
+    ]
+  }
+
+  // ItemList for top categories
+  const categoryListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Popular Cybersecurity Topics',
+    itemListElement: data.topCategories.map((category, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: `${baseUrl}/categories/${category.slug}`,
+      name: category.name
+    }))
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <Navigation />
+    <>
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(categoryListSchema) }}
+      />
+
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+        <Navigation />
 
       {/* Hero Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -153,12 +193,12 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* Top Categories */}
+          {/* Popular Topics */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-gray-900 flex items-center">
                 <Target className="w-5 h-5 mr-2 text-purple-500" />
-                Top Categories
+                Popular Topics
               </h3>
               <Link href="/categories" className="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center">
                 View all →
@@ -269,5 +309,6 @@ export default async function Home() {
 
       <Footer />
     </div>
+    </>
   )
 }

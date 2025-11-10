@@ -169,13 +169,82 @@ export default function CategoryDetailPage() {
     )
   }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
-      <Navigation />
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Header */}
-        <div className="mb-8">
+  // ItemList structured data for the stats in this category
+  const itemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `${categoryData.name} Statistics`,
+    numberOfItems: categoryData.stats.length,
+    itemListElement: categoryData.stats.slice(0, 10).map((stat, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'Article',
+        name: stat.title,
+        datePublished: stat.created_at,
+        author: {
+          '@type': 'Organization',
+          name: stat.publisher
+        }
+      }
+    }))
+  }
+
+  // BreadcrumbList for navigation
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Topics',
+        item: `${baseUrl}/categories`
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: categoryData.name,
+        item: `${baseUrl}/categories/${slug}`
+      }
+    ]
+  }
+
+  return (
+    <>
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
+        <Navigation />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          {/* Breadcrumbs */}
+          <div className="flex items-center space-x-2 text-sm text-gray-500 mb-6">
+            <Link href="/" className="hover:text-purple-600">Home</Link>
+            <span>›</span>
+            <Link href="/categories" className="hover:text-purple-600">Topics</Link>
+            <span>›</span>
+            <span className="text-gray-900">{categoryData.name}</span>
+          </div>
+
+          {/* Header */}
+          <div className="mb-8">
           <div className="inline-block p-3 bg-purple-100 rounded-2xl mb-4">
             <Target className="w-12 h-12 text-purple-600" />
           </div>
@@ -221,5 +290,6 @@ export default function CategoryDetailPage() {
 
       <Footer />
     </div>
+    </>
   )
 }

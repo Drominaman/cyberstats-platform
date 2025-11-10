@@ -208,9 +208,64 @@ export default function VendorDetailPage() {
     )
   }
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'
+
+  // Organization structured data for the vendor
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: vendorName,
+    url: vendorOverride?.website || `${baseUrl}/vendors/${slug}`,
+    description: vendorOverride?.custom_description || `Cybersecurity reports and statistics published by ${vendorName}`,
+    ...(vendorOverride?.founded && { foundingDate: vendorOverride.founded }),
+    ...(vendorOverride?.headquarters && {
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: vendorOverride.headquarters
+      }
+    })
+  }
+
+  // BreadcrumbList for navigation
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Vendors',
+        item: `${baseUrl}/vendors`
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: vendorName,
+        item: `${baseUrl}/vendors/${slug}`
+      }
+    ]
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50">
-      <Navigation />
+    <>
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+
+      <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50">
+        <Navigation />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Breadcrumb */}
@@ -449,5 +504,6 @@ export default function VendorDetailPage() {
         </div>
       </div>
     </div>
+    </>
   )
 }
