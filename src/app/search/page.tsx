@@ -215,6 +215,9 @@ export default function SearchPage() {
                     </Link>
 
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500 mb-3">
+                      <span className="px-2 py-0.5 bg-orange-100 text-orange-700 rounded font-semibold text-xs">
+                        {new Date(stat.published_on || stat.created_at).getFullYear()}
+                      </span>
                       <span className="flex items-center">
                         <Building2 className="w-4 h-4 mr-1" />
                         {stat.publisher}

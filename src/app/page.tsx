@@ -195,6 +195,9 @@ export default async function Home() {
               >
                 <p className="text-gray-900 mb-2 group-hover:text-blue-600 font-medium">{stat.title}</p>
                 <div className="flex items-center space-x-4 text-sm text-gray-500">
+                  <span className="px-2 py-0.5 bg-orange-100 text-orange-700 rounded font-semibold text-xs">
+                    {new Date(stat.created_at).getFullYear()}
+                  </span>
                   <span className="flex items-center">
                     <Building2 className="w-3 h-3 mr-1" />
                     {stat.publisher}
