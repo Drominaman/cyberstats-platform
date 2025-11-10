@@ -29,7 +29,7 @@ export default function Navigation() {
               className="px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors flex items-center space-x-2"
             >
               <Target className="w-4 h-4 text-purple-500" />
-              <span>Categories</span>
+              <span>Topics</span>
             </Link>
 
             <Link
@@ -62,7 +62,7 @@ export default function Navigation() {
               className="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center space-x-2"
             >
               <Mail className="w-4 h-4" />
-              <span>Sign Up Free</span>
+              <span>Get Digest</span>
             </Link>
           </nav>
 
@@ -84,7 +84,7 @@ export default function Navigation() {
               onClick={() => setMobileMenuOpen(false)}
             >
               <Target className="w-4 h-4 mr-3 text-purple-500" />
-              <span>Categories</span>
+              <span>Topics</span>
             </Link>
 
             <Link
@@ -122,7 +122,7 @@ export default function Navigation() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <Mail className="w-4 h-4 mr-2" />
-                Sign Up Free
+                Get Digest
               </Link>
             </div>
           </div>
