@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   authors: [{ name: 'Cyberstats' }],
   creator: 'Cyberstats',
   publisher: 'Cyberstats',
+  alternates: {
+    canonical: '/'
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -23,11 +26,20 @@ export const metadata: Metadata = {
     title: 'Cyberstats - Cybersecurity Market Intelligence',
     description: 'Discover 8,000+ cybersecurity statistics, market trends, and vendor intelligence.',
     siteName: 'Cyberstats',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Cyberstats - Cybersecurity Market Intelligence'
+      }
+    ]
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Cyberstats - Cybersecurity Market Intelligence',
     description: 'Discover 8,000+ cybersecurity statistics, market trends, and vendor intelligence.',
+    images: ['/og-image.png']
   },
   robots: {
     index: true,

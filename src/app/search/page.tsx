@@ -40,6 +40,33 @@ export default function SearchPage() {
 
   const [showFilters, setShowFilters] = useState(false)
 
+  // Generate SearchResultsPage schema
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'
+  const searchResultsSchema = query && stats.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'SearchResultsPage',
+    name: `Search Results for "${query}"`,
+    url: `${baseUrl}/search?q=${encodeURIComponent(query)}`,
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: count,
+      itemListElement: stats.slice(0, 10).map((stat, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: {
+          '@type': 'Article',
+          name: stat.title,
+          url: `${baseUrl}/stats/${createSlug(stat.title)}`,
+          datePublished: stat.published_on || stat.created_at,
+          publisher: {
+            '@type': 'Organization',
+            name: stat.publisher
+          }
+        }
+      }))
+    }
+  } : null
+
   useEffect(() => {
     if (query) {
       searchStats()
@@ -74,8 +101,17 @@ export default function SearchPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navigation />
+    <>
+      {/* SearchResultsPage Structured Data */}
+      {searchResultsSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(searchResultsSchema) }}
+        />
+      )}
+
+      <div className="min-h-screen bg-gray-50">
+        <Navigation />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Search Bar */}
@@ -269,5 +305,6 @@ export default function SearchPage() {
         )}
       </div>
     </div>
+    </>
   )
 }

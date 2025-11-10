@@ -22,9 +22,10 @@ async function fetchHomeData() {
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
 
-    // Fetch stats from past 90 days
+    // Fetch stats from past 90 days for random display
     const recentResponse = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=1000&days=90`
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=500&days=90`,
+      { next: { revalidate: 3600 } } // Cache for 1 hour
     )
     const recentData = await recentResponse.json()
 
@@ -35,9 +36,10 @@ async function fetchHomeData() {
       randomStats = shuffled.slice(0, 10)
     }
 
-    // Fetch all data to calculate totals
+    // Fetch data for top vendors/categories (reduced limit for performance)
     const allResponse = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=5000&days=365`
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000&days=365`,
+      { next: { revalidate: 3600 } } // Cache for 1 hour
     )
     const allData = await allResponse.json()
 
@@ -101,6 +103,23 @@ export default async function Home() {
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'
 
+  // WebSite schema with SearchAction for SEO
+  const websiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Cyberstats',
+    url: baseUrl,
+    description: 'The largest directory of curated cybersecurity statistics on the web',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${baseUrl}/search?q={search_term_string}`
+      },
+      'query-input': 'required name=search_term_string'
+    }
+  }
+
   // BreadcrumbList structured data for SEO
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -131,6 +150,10 @@ export default async function Home() {
   return (
     <>
       {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}

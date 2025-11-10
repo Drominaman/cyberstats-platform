@@ -10,15 +10,20 @@ export const metadata: Metadata = {
   title: 'Cybersecurity Vendors',
   description: 'Track market leaders and emerging vendors in cybersecurity. Explore statistics, reports, and search trends from top security companies.',
   keywords: ['cybersecurity vendors', 'security companies', 'vendor intelligence', 'market leaders', 'security providers'],
+  alternates: {
+    canonical: '/vendors'
+  },
   openGraph: {
     title: 'Cybersecurity Vendors | Cyberstats',
     description: 'Track market leaders and emerging vendors in cybersecurity. Explore statistics, reports, and search trends.',
-    type: 'website'
+    type: 'website',
+    images: ['/og-image.png']
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Cybersecurity Vendors | Cyberstats',
-    description: 'Track market leaders and emerging vendors in cybersecurity.'
+    description: 'Track market leaders and emerging vendors in cybersecurity.',
+    images: ['/og-image.png']
   }
 }
 
@@ -33,7 +38,8 @@ async function fetchVendors(): Promise<Vendor[]> {
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=5000&days=365`
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000&days=365`,
+      { next: { revalidate: 3600 } } // Cache for 1 hour
     )
     const data = await response.json()
 

@@ -65,15 +65,20 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       title: `${categoryName} Statistics & Trends`,
       description: description.substring(0, 160),
       keywords: [categoryName, 'cybersecurity statistics', 'market trends', 'security intelligence', ...topVendors],
+      alternates: {
+        canonical: `/categories/${params.slug}`
+      },
       openGraph: {
         title: `${categoryName} | Cyberstats`,
         description: description.substring(0, 160),
-        type: 'website'
+        type: 'website',
+        images: ['/og-image.png']
       },
       twitter: {
         card: 'summary_large_image',
         title: `${categoryName} | Cyberstats`,
-        description: description.substring(0, 160)
+        description: description.substring(0, 160),
+        images: ['/og-image.png']
       },
       robots: {
         index: true,

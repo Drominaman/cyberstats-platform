@@ -10,15 +10,20 @@ export const metadata: Metadata = {
   title: 'Cybersecurity Topics',
   description: 'Discover trends, market intelligence, and benchmarking data across cybersecurity topics. Track vendor landscape and industry evolution.',
   keywords: ['cybersecurity topics', 'security categories', 'ransomware', 'zero trust', 'XDR', 'EDR', 'SIEM', 'threat intelligence'],
+  alternates: {
+    canonical: '/categories'
+  },
   openGraph: {
     title: 'Cybersecurity Topics | Cyberstats',
     description: 'Discover trends, market intelligence, and benchmarking data across cybersecurity topics.',
-    type: 'website'
+    type: 'website',
+    images: ['/og-image.png']
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Cybersecurity Topics | Cyberstats',
-    description: 'Discover trends, market intelligence, and benchmarking data across cybersecurity topics.'
+    description: 'Discover trends, market intelligence, and benchmarking data across cybersecurity topics.',
+    images: ['/og-image.png']
   }
 }
 
@@ -51,9 +56,10 @@ function getCategoryIconName(name: string): string {
 async function fetchCategories(): Promise<Category[]> {
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
-    // Fetch all stats to extract categories from tags
+    // Fetch stats to extract categories from tags (reduced limit for performance)
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=5000&days=365`
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000&days=365`,
+      { next: { revalidate: 3600 } } // Cache for 1 hour
     )
     const data = await response.json()
 
