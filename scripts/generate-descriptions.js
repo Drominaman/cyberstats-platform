@@ -98,17 +98,24 @@ function extractCategories(stats) {
  * Generate vendor description using OpenAI
  */
 async function generateVendorDescription(vendorName, statsCount) {
-  const prompt = `Write a professional, SEO-optimized description (30-40 words) for the cybersecurity vendor "${vendorName}".
+  const currentYear = new Date().getFullYear();
+  const prompt = `Write a conversational, engaging description (30-40 words) for "${vendorName}" - a cybersecurity vendor.
 
-The description should:
-- Be factual and professional
-- Highlight their key security products/services (if known)
-- Use industry-standard terminology (EDR, XDR, SIEM, etc.)
-- Be engaging for security professionals
-- Include specific product names if well-known
-- Focus on what makes them notable in the cybersecurity market
+Use this EXACT format and style:
+"We've curated [X] cybersecurity statistics about ${vendorName} to help you understand how [their main focus/specialty] is evolving in ${currentYear}."
 
-Context: This vendor has ${statsCount} statistics/reports in our database.
+Example styles:
+- "We've curated 47 cybersecurity statistics about CrowdStrike to help you understand how endpoint protection and EDR solutions are evolving in ${currentYear}."
+- "We've curated 23 cybersecurity statistics about Microsoft to help you understand how enterprise security and cloud protection are evolving in ${currentYear}."
+
+Rules:
+- Start with "We've curated [number] cybersecurity statistics about ${vendorName}"
+- Mention their PRIMARY focus area (e.g., "endpoint protection", "email security", "cloud security", "identity management")
+- Use ${currentYear} for the year
+- Be specific and relevant to what ${vendorName} actually does
+- NO generic phrases like "market intelligence" or "security posture"
+
+Context: This vendor has ${statsCount} statistics in our database.
 
 Return ONLY the description text, no quotes, no preamble.`;
 
@@ -117,15 +124,15 @@ Return ONLY the description text, no quotes, no preamble.`;
     messages: [
       {
         role: 'system',
-        content: 'You are a cybersecurity industry analyst writing vendor descriptions for a professional security intelligence platform. Be accurate, concise, and SEO-optimized.'
+        content: 'You are a friendly cybersecurity content writer. Write conversational, specific descriptions. Always use "We\'ve curated" and reference the current year.'
       },
       {
         role: 'user',
         content: prompt
       }
     ],
-    temperature: 0.7,
-    max_tokens: 100
+    temperature: 0.8,
+    max_tokens: 120
   });
 
   return completion.choices[0].message.content.trim();
@@ -135,15 +142,24 @@ Return ONLY the description text, no quotes, no preamble.`;
  * Generate category description using OpenAI
  */
 async function generateCategoryDescription(categoryName, statsCount) {
-  const prompt = `Write a professional, SEO-optimized description (30-40 words) for the cybersecurity topic/category "${categoryName}".
+  const currentYear = new Date().getFullYear();
+  const prompt = `Write a conversational, engaging description (30-40 words) for "${categoryName}" - a cybersecurity topic.
 
-The description should:
-- Be factual and professional
-- Explain what this category covers in cybersecurity
-- Use industry-standard terminology
-- Be valuable for security professionals researching this topic
-- Focus on market intelligence, statistics, and trends
-- Mention what type of data/insights users can expect
+Use this EXACT format and style:
+"We've curated [X] cybersecurity statistics about ${categoryName} to help you understand how [the threat/technology/trend] is evolving in ${currentYear}."
+
+Example styles:
+- "We've curated 156 cybersecurity statistics about ransomware to help you understand how this persistent threat is evolving in ${currentYear}."
+- "We've curated 89 cybersecurity statistics about zero trust to help you understand how this security framework is being adopted in ${currentYear}."
+- "We've curated 67 cybersecurity statistics about AI security to help you understand how artificial intelligence is transforming cybersecurity in ${currentYear}."
+
+Rules:
+- Start with "We've curated [number] cybersecurity statistics about ${categoryName}"
+- Explain WHAT this topic covers in a natural, conversational way
+- Use ${currentYear} for the year
+- Be specific to what ${categoryName} actually involves (threats, technologies, practices, etc.)
+- NO generic phrases like "market intelligence" or "users can access"
+- Make it sound helpful and informative
 
 Context: This category has ${statsCount} statistics in our database.
 
@@ -154,15 +170,15 @@ Return ONLY the description text, no quotes, no preamble.`;
     messages: [
       {
         role: 'system',
-        content: 'You are a cybersecurity industry analyst writing category descriptions for a professional security intelligence platform. Be accurate, concise, and SEO-optimized.'
+        content: 'You are a friendly cybersecurity content writer. Write conversational, specific descriptions. Always use "We\'ve curated" and reference the current year.'
       },
       {
         role: 'user',
         content: prompt
       }
     ],
-    temperature: 0.7,
-    max_tokens: 100
+    temperature: 0.8,
+    max_tokens: 120
   });
 
   return completion.choices[0].message.content.trim();
