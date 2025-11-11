@@ -113,6 +113,41 @@ async function fetchCategoryData(slug: string): Promise<CategoryData | null> {
   }
 }
 
+// Pre-generate all category pages at build time
+export async function generateStaticParams() {
+  try {
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY
+    const response = await fetch(
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000&days=365`
+    )
+    const data = await response.json()
+
+    if (!data || !data.items || !Array.isArray(data.items)) {
+      console.error('Invalid API response for generateStaticParams:', data)
+      return []
+    }
+
+    // Extract all unique category slugs from tags
+    const categorySet = new Set<string>()
+    data.items.forEach((item: any) => {
+      if (item.tags && Array.isArray(item.tags)) {
+        item.tags.forEach((tag: string) => {
+          const slug = tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+          if (slug) {
+            categorySet.add(slug)
+          }
+        })
+      }
+    })
+
+    console.log(`Pre-generating ${categorySet.size} category pages...`)
+    return Array.from(categorySet).map(slug => ({ slug }))
+  } catch (error) {
+    console.error('Error in generateStaticParams for categories:', error)
+    return []
+  }
+}
+
 // Generate metadata for SEO
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const categoryData = await fetchCategoryData(params.slug)

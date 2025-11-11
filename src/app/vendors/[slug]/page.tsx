@@ -157,6 +157,39 @@ async function fetchVendorData(slug: string): Promise<VendorData | null> {
   }
 }
 
+// Pre-generate all vendor pages at build time
+export async function generateStaticParams() {
+  try {
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY
+    const response = await fetch(
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000&days=365`
+    )
+    const data = await response.json()
+
+    if (!data || !data.items || !Array.isArray(data.items)) {
+      console.error('Invalid API response for generateStaticParams:', data)
+      return []
+    }
+
+    // Extract all unique vendor slugs from publishers
+    const vendorSet = new Set<string>()
+    data.items.forEach((item: any) => {
+      if (item.publisher) {
+        const slug = item.publisher.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+        if (slug) {
+          vendorSet.add(slug)
+        }
+      }
+    })
+
+    console.log(`Pre-generating ${vendorSet.size} vendor pages...`)
+    return Array.from(vendorSet).map(slug => ({ slug }))
+  } catch (error) {
+    console.error('Error in generateStaticParams for vendors:', error)
+    return []
+  }
+}
+
 // Generate metadata for SEO
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const vendorData = await fetchVendorData(params.slug)
