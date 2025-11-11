@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Search, Filter, Calendar, Tag, Building2, Download, Bookmark } from 'lucide-react'
 import Navigation from '@/components/Navigation'
@@ -27,9 +28,10 @@ function createSlug(title: string): string {
 }
 
 export default function SearchPage() {
+  const searchParams = useSearchParams()
   const [stats, setStats] = useState<Stat[]>([])
   const [loading, setLoading] = useState(false)
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState(searchParams.get('q') || '')
   const [count, setCount] = useState(0)
 
   // Filters
