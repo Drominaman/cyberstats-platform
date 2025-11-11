@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import ClientProviders from '@/components/ClientProviders'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -93,6 +94,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <GoogleAnalytics />
         <meta name="google-site-verification" content="j0RHgKmaaZIEI5a_GIRQuieEM0QgFqBwaHawtTuYrac" />
         <script
           type="application/ld+json"
