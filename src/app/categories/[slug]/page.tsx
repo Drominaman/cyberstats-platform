@@ -128,21 +128,28 @@ export async function generateStaticParams() {
       return []
     }
 
-    // Extract all unique category slugs from tags
-    const categorySet = new Set<string>()
+    // Extract all unique category slugs from tags and count stats per category
+    const categoryStats = new Map<string, number>()
     data.items.forEach((item: any) => {
       if (item.tags && Array.isArray(item.tags)) {
         item.tags.forEach((tag: string) => {
           const slug = tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
           if (slug) {
-            categorySet.add(slug)
+            categoryStats.set(slug, (categoryStats.get(slug) || 0) + 1)
           }
         })
       }
     })
 
-    console.log(`Pre-generating ${categorySet.size} category pages...`)
-    return Array.from(categorySet).map(slug => ({ slug }))
+    // Only pre-generate top 100 categories to stay under 45min build limit
+    // Less popular categories will be generated on-demand
+    const topCategories = Array.from(categoryStats.entries())
+      .sort((a, b) => b[1] - a[1]) // Sort by stat count
+      .slice(0, 100) // Top 100 only
+      .map(([slug]) => slug)
+
+    console.log(`Pre-generating top 100 of ${categoryStats.size} category pages...`)
+    return topCategories.map(slug => ({ slug }))
   } catch (error) {
     console.error('Error in generateStaticParams for categories:', error)
     return []

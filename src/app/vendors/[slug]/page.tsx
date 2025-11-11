@@ -172,19 +172,26 @@ export async function generateStaticParams() {
       return []
     }
 
-    // Extract all unique vendor slugs from publishers
-    const vendorSet = new Set<string>()
+    // Extract all unique vendor slugs from publishers and count stats per vendor
+    const vendorStats = new Map<string, number>()
     data.items.forEach((item: any) => {
       if (item.publisher) {
         const slug = item.publisher.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
         if (slug) {
-          vendorSet.add(slug)
+          vendorStats.set(slug, (vendorStats.get(slug) || 0) + 1)
         }
       }
     })
 
-    console.log(`Pre-generating ${vendorSet.size} vendor pages...`)
-    return Array.from(vendorSet).map(slug => ({ slug }))
+    // Only pre-generate top 50 vendors to stay under 45min build limit
+    // Less active vendors will be generated on-demand
+    const topVendors = Array.from(vendorStats.entries())
+      .sort((a, b) => b[1] - a[1]) // Sort by stat count
+      .slice(0, 50) // Top 50 only
+      .map(([slug]) => slug)
+
+    console.log(`Pre-generating top 50 of ${vendorStats.size} vendor pages...`)
+    return topVendors.map(slug => ({ slug }))
   } catch (error) {
     console.error('Error in generateStaticParams for vendors:', error)
     return []
