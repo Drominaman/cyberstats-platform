@@ -13,6 +13,15 @@ interface VendorData {
   reports: any[]
 }
 
+// Helper to create URL-safe slug from title
+function createSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .substring(0, 100)
+}
+
 export default function VendorDetailClient({ vendorData }: { vendorData: VendorData }) {
   const [timePeriod, setTimePeriod] = useState<'7d' | '30d' | '90d' | 'all'>('all')
 
@@ -159,8 +168,12 @@ export default function VendorDetailClient({ vendorData }: { vendorData: VendorD
               <>
                 <div className="divide-y divide-gray-100">
                   {stats.slice(0, 20).map((stat, i) => (
-                    <div key={i} className="py-4 hover:bg-gray-50 transition-colors -mx-6 px-6">
-                      <h3 className="font-medium text-gray-900 mb-2">{stat.title}</h3>
+                    <Link
+                      key={i}
+                      href={`/stats/${createSlug(stat.title)}`}
+                      className="block py-4 hover:bg-gray-50 transition-colors -mx-6 px-6 cursor-pointer"
+                    >
+                      <h3 className="font-medium text-gray-900 hover:text-green-600 mb-2 transition-colors">{stat.title}</h3>
                       <div className="flex items-center space-x-4 text-sm text-gray-500">
                         <span className="flex items-center">
                           <Calendar className="w-4 h-4 mr-1" />
@@ -184,7 +197,7 @@ export default function VendorDetailClient({ vendorData }: { vendorData: VendorD
                           </>
                         )}
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
 
