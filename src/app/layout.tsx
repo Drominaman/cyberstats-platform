@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import ClientProviders from '@/components/ClientProviders'
-import GoogleAnalytics from '@/components/GoogleAnalytics'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -94,7 +93,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <GoogleAnalytics />
+        {/* Google tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-DHC3WDR2CS"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-DHC3WDR2CS');
+            `,
+          }}
+        />
         <meta name="google-site-verification" content="j0RHgKmaaZIEI5a_GIRQuieEM0QgFqBwaHawtTuYrac" />
         <script
           type="application/ld+json"
