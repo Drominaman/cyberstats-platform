@@ -27,9 +27,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   try {
-    // Fetch all stats
+    // Fetch all stats with 24-hour caching
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=5000&days=365`
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000&days=365`,
+      { next: { revalidate: 86400 } } // Cache for 24 hours
     )
 
     if (!response.ok) {
@@ -45,12 +46,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       throw new Error('Failed to fetch stats for sitemap')
     }
 
-    // Generate sitemap entries for all stats
-    const statEntries: MetadataRoute.Sitemap = data.items.map((stat: any) => ({
+    // Generate sitemap entries for top 1000 most recent stats
+    const recentStats = data.items
+      .sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      .slice(0, 1000)
+
+    const statEntries: MetadataRoute.Sitemap = recentStats.map((stat: any) => ({
       url: `${baseUrl}/stats/${createSlug(stat.title)}`,
       lastModified: new Date(stat.created_at),
-      changeFrequency: 'weekly' as const,
-      priority: 0.7
+      changeFrequency: 'monthly' as const,
+      priority: 0.6
     }))
 
     // Extract unique vendors
@@ -69,8 +74,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const vendorEntries: MetadataRoute.Sitemap = Array.from(vendorsMap.entries()).map(([slug, date]) => ({
       url: `${baseUrl}/vendors/${slug}`,
       lastModified: date,
-      changeFrequency: 'weekly' as const,
-      priority: 0.8
+      changeFrequency: 'daily' as const,
+      priority: 0.9
     }))
 
     // Extract unique categories
@@ -91,8 +96,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const categoryEntries: MetadataRoute.Sitemap = Array.from(categoriesMap.entries()).map(([slug, date]) => ({
       url: `${baseUrl}/categories/${slug}`,
       lastModified: date,
-      changeFrequency: 'weekly' as const,
-      priority: 0.8
+      changeFrequency: 'daily' as const,
+      priority: 0.9
     }))
 
     // Static pages
@@ -106,26 +111,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       {
         url: `${baseUrl}/categories`,
         lastModified: new Date(),
-        changeFrequency: 'weekly' as const,
-        priority: 0.9
+        changeFrequency: 'daily' as const,
+        priority: 0.95
       },
       {
         url: `${baseUrl}/vendors`,
         lastModified: new Date(),
-        changeFrequency: 'weekly' as const,
-        priority: 0.9
+        changeFrequency: 'daily' as const,
+        priority: 0.95
       },
       {
         url: `${baseUrl}/search`,
         lastModified: new Date(),
         changeFrequency: 'daily' as const,
-        priority: 0.8
+        priority: 0.85
       },
       {
         url: `${baseUrl}/newsletter`,
         lastModified: new Date(),
         changeFrequency: 'monthly' as const,
-        priority: 0.7
+        priority: 0.6
       },
       {
         url: `${baseUrl}/privacy`,
