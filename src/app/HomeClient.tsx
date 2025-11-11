@@ -10,6 +10,7 @@ export default function HomeClient() {
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault()
+    // Navigate directly to search page with query - runs search immediately
     if (searchQuery.trim()) {
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
     }
