@@ -6,6 +6,9 @@ import Link from 'next/link'
 import { Search, Filter, Calendar, Tag, Building2, Download, Bookmark } from 'lucide-react'
 import Navigation from '@/components/Navigation'
 
+// Force dynamic rendering - don't pre-render at build time
+export const dynamic = 'force-dynamic'
+
 interface Stat {
   id: number
   title: string
