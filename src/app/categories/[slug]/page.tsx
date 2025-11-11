@@ -141,14 +141,14 @@ export async function generateStaticParams() {
       }
     })
 
-    // Only pre-generate top 100 categories to stay under 45min build limit
+    // Pre-generate top 300 categories to stay under 45min build limit
     // Less popular categories will be generated on-demand
     const topCategories = Array.from(categoryStats.entries())
       .sort((a, b) => b[1] - a[1]) // Sort by stat count
-      .slice(0, 100) // Top 100 only
+      .slice(0, 300) // Top 300
       .map(([slug]) => slug)
 
-    console.log(`Pre-generating top 100 of ${categoryStats.size} category pages...`)
+    console.log(`Pre-generating top 300 of ${categoryStats.size} category pages...`)
     return topCategories.map(slug => ({ slug }))
   } catch (error) {
     console.error('Error in generateStaticParams for categories:', error)
