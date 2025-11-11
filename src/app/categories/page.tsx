@@ -56,10 +56,10 @@ function getCategoryIconName(name: string): string {
 async function fetchCategories(): Promise<Category[]> {
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
-    // Fetch stats to extract categories from tags (reduced limit for performance)
+    // Fetch stats to extract categories from tags
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000&days=365`,
-      { next: { revalidate: 3600 } } // Cache for 1 hour
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000&days=365`,
+      { next: { revalidate: 86400 } } // Cache for 24 hours
     )
     const data = await response.json()
 
