@@ -162,7 +162,8 @@ export async function generateStaticParams() {
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000&days=365`
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000&days=365`,
+      { cache: 'no-store' } // Don't cache - response is too large (>2MB)
     )
     const data = await response.json()
 
