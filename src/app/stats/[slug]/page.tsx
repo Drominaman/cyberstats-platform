@@ -8,8 +8,8 @@ import MinimalGhostEmbed from '@/components/MinimalGhostEmbed'
 import Footer from '@/components/Footer'
 import { Calendar, Building2, Tag, ExternalLink, ArrowLeft } from 'lucide-react'
 
-// ISR Configuration - rebuilds every hour if accessed
-export const revalidate = 3600
+// ISR Configuration - rebuilds every 24 hours if accessed
+export const revalidate = 86400
 
 // Helper to create URL-safe slug from title (first 100 chars)
 function createSlug(title: string): string {
@@ -89,8 +89,8 @@ async function fetchStat(slug: string) {
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=5000&days=365`,
-      { next: { revalidate: 3600 } } // Cache for 1 hour
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000&days=365`,
+      { next: { revalidate: 86400 } } // Cache for 24 hours
     )
     const data = await response.json()
 
@@ -115,7 +115,7 @@ async function fetchRelatedStats(publisher: string, tags: string[] = [], current
     // Fetch more stats to increase chances of finding related ones
     const response = await fetch(
       `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=100`,
-      { next: { revalidate: 3600 } }
+      { next: { revalidate: 86400 } }
     )
     const data = await response.json()
 
