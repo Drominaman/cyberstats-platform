@@ -27,9 +27,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   try {
-    // Fetch all stats - cache in memory briefly to avoid hitting 2MB cache limit
+    // Fetch all stats (no date limit - include all historical data)
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000&days=365`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000`,
       { next: { revalidate: 3600 } } // Cache for 1 hour (sitemap is accessed frequently by bots)
     )
 

@@ -46,9 +46,9 @@ async function fetchVendorData(slug: string): Promise<VendorData | null> {
       console.error('Failed to fetch vendor override:', error)
     }
 
-    // Fetch all stats with server-side caching
+    // Fetch all stats with server-side caching (all historical data)
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000&days=365`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000`,
       { next: { revalidate: 86400 } } // Cache for 24 hours
     )
     const data = await response.json()
@@ -162,7 +162,7 @@ export async function generateStaticParams() {
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000&days=365`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000`,
       { cache: 'no-store' } // Don't cache - response is too large (>2MB)
     )
     const data = await response.json()
