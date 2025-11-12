@@ -210,7 +210,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
   }
 
-  const pageDescription = vendorData.vendorOverride?.custom_description || `Cybersecurity reports and statistics published by ${vendorData.vendorName}`
+  // Create a meaningful description (minimum 50 chars for Google)
+  const baseDescription = vendorData.vendorOverride?.custom_description ||
+    `Explore ${vendorData.allStats.length} cybersecurity reports and statistics published by ${vendorData.vendorName}. Coverage includes ${vendorData.categories.slice(0, 3).map(c => c.name).join(', ')} and more.`
+  const pageDescription = baseDescription.length >= 50
+    ? baseDescription.substring(0, 160)
+    : `${baseDescription} Updated regularly.`.substring(0, 160)
   const pageTitle = `${vendorData.vendorName} Statistics | Cyberstats`
 
   return {

@@ -53,15 +53,19 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     }
   }
 
-  const description = stat.title
+  // Create a meaningful description (minimum 50 chars for Google)
+  const baseDescription = `${stat.title} - Published by ${stat.publisher} on ${new Date(stat.created_at).toLocaleDateString()}. Cybersecurity statistic and research data.`
+  const description = baseDescription.length >= 50
+    ? baseDescription.substring(0, 160)
+    : `${baseDescription} Find more statistics from ${stat.publisher}.`.substring(0, 160)
 
   return {
     title: `${stat.title.substring(0, 60)} | Cyberstats`,
-    description: description.substring(0, 160),
+    description: description,
     keywords: stat.tags?.join(', '),
     openGraph: {
       title: stat.title,
-      description: description.substring(0, 160),
+      description: description,
       type: 'article',
       publishedTime: stat.created_at,
       authors: [stat.publisher],
@@ -70,7 +74,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     twitter: {
       card: 'summary_large_image',
       title: stat.title,
-      description: description.substring(0, 160)
+      description: description
     },
     robots: {
       index: true,

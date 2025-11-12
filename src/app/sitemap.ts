@@ -46,12 +46,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       throw new Error('Failed to fetch stats for sitemap')
     }
 
-    // Generate sitemap entries for top 1000 most recent stats
-    const recentStats = data.items
+    // Generate sitemap entries for ALL stats (Google supports up to 50,000 URLs per sitemap)
+    // Sort by date to prioritize recent content
+    const allStats = data.items
       .sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-      .slice(0, 1000)
 
-    const statEntries: MetadataRoute.Sitemap = recentStats.map((stat: any) => ({
+    const statEntries: MetadataRoute.Sitemap = allStats.map((stat: any) => ({
       url: `${baseUrl}/stats/${createSlug(stat.title)}`,
       lastModified: new Date(stat.created_at),
       changeFrequency: 'monthly' as const,
