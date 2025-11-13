@@ -93,7 +93,7 @@ async function fetchStat(slug: string) {
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=20000`,
       { next: { revalidate: 86400 } } // Cache for 24 hours
     )
     const data = await response.json()
