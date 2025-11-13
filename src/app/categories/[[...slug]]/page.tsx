@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { redirect } from 'next/navigation'
 import Navigation from '@/components/Navigation'
 import CategoryDetailClient from './CategoryDetailClient'
 import CategoriesClient from '../CategoriesClient'
@@ -98,6 +99,23 @@ async function fetchCategories(): Promise<Category[]> {
     console.error('Failed to fetch category counts:', error)
     return []
   }
+}
+
+// Helper to check if a single-level slug should redirect to hierarchical path
+function shouldRedirectToHierarchical(slug: string): string | null {
+  const taxonomy = categoryTaxonomy.categories
+
+  // Check if this slug is a subcategory (or synonym) in the taxonomy
+  for (const parent of taxonomy) {
+    for (const subcat of parent.subcategories) {
+      // Check if slug matches the subcategory or any of its synonyms
+      if (subcat.slug === slug || (subcat.synonyms && subcat.synonyms.includes(slug))) {
+        return `/categories/${parent.slug}/${subcat.slug}`
+      }
+    }
+  }
+
+  return null
 }
 
 // Helper to find category in taxonomy
@@ -396,6 +414,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function CategoryDetailPage({ params }: PageProps) {
   const slugPath = params.slug || []
+
+  // Check if single-level slug should redirect to hierarchical path
+  if (slugPath.length === 1) {
+    const redirectPath = shouldRedirectToHierarchical(slugPath[0])
+    if (redirectPath) {
+      redirect(redirectPath)
+    }
+  }
 
   // If no slug, show categories list page
   if (slugPath.length === 0) {
