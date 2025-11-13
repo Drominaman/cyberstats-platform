@@ -1,0 +1,225 @@
+{
+  "categories": [
+    {
+      "name": "Vulnerabilities",
+      "slug": "vulnerabilities",
+      "description": "Security vulnerabilities, weaknesses, and related statistics",
+      "subcategories": [
+        {
+          "name": "Patching",
+          "slug": "patching",
+          "synonyms": ["patch-management", "patches", "software-updates", "updates"]
+        },
+        {
+          "name": "Zero-Day Vulnerabilities",
+          "slug": "zero-day-vulnerabilities",
+          "synonyms": ["zero-day", "0-day"]
+        },
+        {
+          "name": "Critical Vulnerabilities",
+          "slug": "critical-vulnerabilities",
+          "synonyms": ["critical-cves", "high-severity-vulnerabilities"]
+        },
+        {
+          "name": "Vulnerability Management",
+          "slug": "vulnerability-management",
+          "synonyms": ["vuln-management", "vulnerability-scanning", "remediation"]
+        },
+        {
+          "name": "Software Vulnerabilities",
+          "slug": "software-vulnerabilities",
+          "synonyms": ["application-vulnerabilities", "code-vulnerabilities"]
+        },
+        {
+          "name": "CVE",
+          "slug": "cve",
+          "synonyms": ["common-vulnerabilities-exposures"]
+        }
+      ]
+    },
+    {
+      "name": "Threats",
+      "slug": "threats",
+      "description": "Cyber threats, attacks, and threat actors",
+      "subcategories": [
+        {
+          "name": "Ransomware",
+          "slug": "ransomware",
+          "synonyms": ["ransomware-attacks"]
+        },
+        {
+          "name": "Malware",
+          "slug": "malware",
+          "synonyms": ["viruses", "trojans", "malicious-software"]
+        },
+        {
+          "name": "Phishing",
+          "slug": "phishing",
+          "synonyms": ["spear-phishing", "phishing-attacks"]
+        },
+        {
+          "name": "DDoS",
+          "slug": "ddos",
+          "synonyms": ["ddos-attacks", "denial-of-service"]
+        },
+        {
+          "name": "Supply Chain Attacks",
+          "slug": "supply-chain-attacks",
+          "synonyms": ["supply-chain", "third-party-attacks"]
+        },
+        {
+          "name": "Advanced Persistent Threats",
+          "slug": "advanced-persistent-threats",
+          "synonyms": ["apt", "apt-groups"]
+        }
+      ]
+    },
+    {
+      "name": "Data Security",
+      "slug": "data-security",
+      "description": "Data protection, breaches, and privacy statistics",
+      "subcategories": [
+        {
+          "name": "Data Breaches",
+          "slug": "data-breaches",
+          "synonyms": ["breaches", "data-leaks"]
+        },
+        {
+          "name": "Data Loss Prevention",
+          "slug": "data-loss-prevention",
+          "synonyms": ["dlp", "data-protection"]
+        },
+        {
+          "name": "Encryption",
+          "slug": "encryption",
+          "synonyms": ["data-encryption", "cryptography"]
+        },
+        {
+          "name": "Data Privacy",
+          "slug": "data-privacy",
+          "synonyms": ["privacy", "gdpr", "ccpa"]
+        }
+      ]
+    },
+    {
+      "name": "Identity & Access",
+      "slug": "identity-access",
+      "description": "Authentication, identity management, and access control",
+      "subcategories": [
+        {
+          "name": "Authentication",
+          "slug": "authentication",
+          "synonyms": ["user-authentication"]
+        },
+        {
+          "name": "Multi-Factor Authentication",
+          "slug": "multi-factor-authentication",
+          "synonyms": ["mfa", "2fa", "two-factor-authentication"]
+        },
+        {
+          "name": "Identity Management",
+          "slug": "identity-management",
+          "synonyms": ["iam", "identity-access-management"]
+        },
+        {
+          "name": "Access Control",
+          "slug": "access-control",
+          "synonyms": ["authorization", "rbac"]
+        },
+        {
+          "name": "Password Security",
+          "slug": "password-security",
+          "synonyms": ["passwords", "password-management"]
+        }
+      ]
+    },
+    {
+      "name": "Cloud Security",
+      "slug": "cloud-security",
+      "description": "Cloud computing security and related statistics",
+      "subcategories": [
+        {
+          "name": "Cloud Vulnerabilities",
+          "slug": "cloud-vulnerabilities",
+          "synonyms": ["cloud-misconfigurations"]
+        },
+        {
+          "name": "Cloud Breaches",
+          "slug": "cloud-breaches",
+          "synonyms": ["cloud-data-breaches"]
+        },
+        {
+          "name": "Cloud Compliance",
+          "slug": "cloud-compliance",
+          "synonyms": ["cloud-governance"]
+        }
+      ]
+    },
+    {
+      "name": "Network Security",
+      "slug": "network-security",
+      "description": "Network protection and monitoring statistics",
+      "subcategories": [
+        {
+          "name": "Firewalls",
+          "slug": "firewalls",
+          "synonyms": ["firewall"]
+        },
+        {
+          "name": "Network Monitoring",
+          "slug": "network-monitoring",
+          "synonyms": ["network-detection"]
+        },
+        {
+          "name": "VPN",
+          "slug": "vpn",
+          "synonyms": ["virtual-private-network"]
+        }
+      ]
+    },
+    {
+      "name": "Endpoint Security",
+      "slug": "endpoint-security",
+      "description": "Device and endpoint protection statistics",
+      "subcategories": [
+        {
+          "name": "Endpoint Detection and Response",
+          "slug": "endpoint-detection-and-response",
+          "synonyms": ["edr", "endpoint-detection"]
+        },
+        {
+          "name": "Antivirus",
+          "slug": "antivirus",
+          "synonyms": ["av", "anti-malware"]
+        },
+        {
+          "name": "Mobile Security",
+          "slug": "mobile-security",
+          "synonyms": ["mobile-threats"]
+        }
+      ]
+    },
+    {
+      "name": "Compliance & Governance",
+      "slug": "compliance-governance",
+      "description": "Regulatory compliance and governance statistics",
+      "subcategories": [
+        {
+          "name": "GDPR",
+          "slug": "gdpr",
+          "synonyms": ["general-data-protection-regulation"]
+        },
+        {
+          "name": "SOC 2",
+          "slug": "soc-2",
+          "synonyms": ["soc2"]
+        },
+        {
+          "name": "ISO 27001",
+          "slug": "iso-27001",
+          "synonyms": ["iso27001"]
+        }
+      ]
+    }
+  ]
+}
