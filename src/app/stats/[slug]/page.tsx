@@ -92,21 +92,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 async function fetchStat(slug: string) {
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
-
-    // DISK IO OPTIMIZATION: Extract keywords from slug and use search to narrow results
-    // This reduces Disk IO from scanning 8,765 rows to ~100-500 rows
-    const keywords = slug
-      .split('-')
-      .filter(word => word.length > 3) // Filter out short words like "the", "in", etc.
-      .slice(0, 3) // Take first 3 meaningful words
-      .join(' ')
-
-    // Use search query to find candidate stats (much more efficient than full table scan)
-    const searchUrl = keywords
-      ? `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&q=${encodeURIComponent(keywords)}&limit=100`
-      : `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=1000` // Fallback to recent stats
-
-    const response = await fetch(searchUrl, { next: { revalidate: 86400 } })
+    const response = await fetch(
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=20000`,
+      { next: { revalidate: 86400 } } // Cache for 24 hours
+    )
     const data = await response.json()
 
     if (!data || !data.items || !Array.isArray(data.items)) {
@@ -114,21 +103,8 @@ async function fetchStat(slug: string) {
       return null
     }
 
-    // Find exact match by slug
+    // Find the stat by matching slug
     const stat = data.items.find((item: any) => createSlug(item.title) === slug)
-
-    // If not found with search, fall back to fetching more recent stats
-    if (!stat && keywords) {
-      const fallbackResponse = await fetch(
-        `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000`,
-        { next: { revalidate: 86400 } }
-      )
-      const fallbackData = await fallbackResponse.json()
-      if (fallbackData && fallbackData.items) {
-        return fallbackData.items.find((item: any) => createSlug(item.title) === slug) || null
-      }
-    }
-
     return stat || null
   } catch (error) {
     console.error('Error fetching stat:', error)
