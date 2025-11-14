@@ -47,7 +47,7 @@ async function fetchVendorData(slug: string): Promise<VendorData | null> {
     }
 
     // Fetch all stats - increased to 10000 for complete data (Edge Function max)
-    const limit = 10000
+    const limit=2000
     const response = await fetch(
       `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${limit}`,
       { next: { revalidate: 86400 } } // Cache for 24 hours
@@ -167,7 +167,7 @@ export async function generateStaticParams() {
   // try {
   //   const apiKey = process.env.NEXT_PUBLIC_API_KEY
   //   // Use smaller limit during build to prevent timeouts
-  //   const limit = process.env.NODE_ENV === 'production' ? 3000 : 10000
+  //   const limit=2000
   //   const response = await fetch(
   //     `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${limit}`,
   //     { cache: 'no-store' } // Don't cache - response is too large (>2MB)

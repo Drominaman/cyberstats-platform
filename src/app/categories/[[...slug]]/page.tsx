@@ -60,7 +60,7 @@ async function fetchCategories(): Promise<Category[]> {
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
     // Increased to 10000 to fetch all available stats (Edge Function max)
-    const limit = 10000
+    const limit=2000
     const response = await fetch(
       `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${limit}`,
       { next: { revalidate: 86400 } }
@@ -176,7 +176,7 @@ async function fetchCategoryData(slugPath: string[]): Promise<CategoryData | nul
     const taxonomyResult = findCategoryInTaxonomy(slugPath)
 
     // Fetch all stats - increased to 10000 to show complete data (Edge Function max)
-    const limit = 10000
+    const limit=2000
     const response = await fetch(
       `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${limit}`,
       { next: { revalidate: 86400 } }

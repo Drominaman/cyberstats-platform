@@ -34,7 +34,7 @@ export default function ManageCategoriesPage() {
       try {
         const apiKey = process.env.NEXT_PUBLIC_API_KEY
         const response = await fetch(
-          `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000`
+          `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000`
         )
         const data = await response.json()
 
