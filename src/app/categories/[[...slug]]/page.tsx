@@ -166,6 +166,14 @@ function getMatchingSlugs(categorySlug: string, parentSlug?: string): string[] {
   return slugs
 }
 
+// Helper to convert slug to title case tag name (e.g., "dating-platforms" → "Dating Platforms")
+function slugToTagName(slug: string): string {
+  return slug
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ')
+}
+
 async function fetchCategoryData(slugPath: string[]): Promise<CategoryData | null> {
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
@@ -176,13 +184,16 @@ async function fetchCategoryData(slugPath: string[]): Promise<CategoryData | nul
     const taxonomyResult = findCategoryInTaxonomy(slugPath)
     let categoryName = taxonomyResult ? taxonomyResult.category.name : ''
 
+    // If not in taxonomy, convert slug to proper tag name (e.g., "dating-platforms" → "Dating Platforms")
+    const tagQueryName = categoryName || slugToTagName(categorySlug)
+
     // Get matching slugs (including synonyms)
     const matchingSlugs = getMatchingSlugs(categorySlug, parentSlug)
 
     // Fetch stats for this category using server-side filtering (tag indexes)
-    // Use the primary category slug for the API query
+    // Use the proper tag name (not slug) for the API query
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&tag=${encodeURIComponent(categoryName || categorySlug)}&limit=1000`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&tag=${encodeURIComponent(tagQueryName)}&limit=1000`,
       { next: { revalidate: 86400 } }
     )
     const data = await response.json()
@@ -193,21 +204,28 @@ async function fetchCategoryData(slugPath: string[]): Promise<CategoryData | nul
 
     const categoryStats = data.items
 
-    // Extract category name from first stat's tags if we don't have it from taxonomy
+    // Extract exact category name from first stat's tags if we don't have it from taxonomy
+    // This ensures we get the exact capitalization from the database
     if (!categoryName && categoryStats.length > 0) {
       const firstStat = categoryStats[0]
       if (firstStat.tags && Array.isArray(firstStat.tags)) {
         for (const tag of firstStat.tags) {
           const tagSlug = tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
           if (tagSlug === categorySlug) {
-            categoryName = tag
+            categoryName = tag // Use the exact tag name from database
             break
           }
         }
       }
     }
 
+    // If still no categoryName (no stats found), use the converted tag name
     if (!categoryName) {
+      categoryName = tagQueryName
+    }
+
+    // If no stats found and category doesn't exist in any form, return null
+    if (categoryStats.length === 0) {
       return null
     }
 
