@@ -37,8 +37,10 @@ interface Vendor {
 async function fetchVendors(): Promise<Vendor[]> {
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
+    // Use smaller limit during build to prevent timeouts
+    const limit = process.env.NODE_ENV === 'production' ? 500 : 2000
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000&days=365`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${limit}&days=365`,
       { next: { revalidate: 3600 } } // Cache for 1 hour
     )
     const data = await response.json()

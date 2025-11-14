@@ -27,9 +27,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   try {
-    // Fetch all stats (no date limit - include all historical data)
+    // Use smaller limit during build to prevent timeouts (sitemap will grow as pages are visited)
+    const limit = process.env.NODE_ENV === 'production' ? 1000 : 10000
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${limit}`,
       { next: { revalidate: 3600 } } // Cache for 1 hour (sitemap is accessed frequently by bots)
     )
 

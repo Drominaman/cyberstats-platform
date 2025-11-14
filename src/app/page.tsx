@@ -36,9 +36,10 @@ async function fetchHomeData() {
       randomStats = shuffled.slice(0, 10)
     }
 
-    // Fetch data for top vendors/categories (reduced limit for performance)
+    // Fetch data for top vendors/categories (reduced limit for build performance)
+    const limit = process.env.NODE_ENV === 'production' ? 500 : 2000
     const allResponse = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000&days=365`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${limit}&days=365`,
       { next: { revalidate: 3600 } } // Cache for 1 hour
     )
     const allData = await allResponse.json()
