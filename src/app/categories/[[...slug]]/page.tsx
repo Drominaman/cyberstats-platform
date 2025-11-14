@@ -59,8 +59,8 @@ function getCategoryIconName(name: string): string {
 async function fetchCategories(): Promise<Category[]> {
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
-    // Increased to 10000 to fetch all available stats (Edge Function max)
-    const limit=2000
+    // Fetch all stats (8765 total) for accurate category counting
+    const limit=10000
     const response = await fetch(
       `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${limit}`,
       { next: { revalidate: 86400 } }
