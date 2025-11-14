@@ -59,8 +59,8 @@ function getCategoryIconName(name: string): string {
 async function fetchCategories(): Promise<Category[]> {
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
-    // Use smaller limit during build to prevent timeouts
-    const limit = process.env.NODE_ENV === 'production' ? 5000 : 20000
+    // Increased to 10000 to fetch all available stats (Edge Function max)
+    const limit = 10000
     const response = await fetch(
       `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${limit}`,
       { next: { revalidate: 86400 } }
@@ -175,8 +175,8 @@ async function fetchCategoryData(slugPath: string[]): Promise<CategoryData | nul
     // Find in taxonomy
     const taxonomyResult = findCategoryInTaxonomy(slugPath)
 
-    // Fetch all stats (use smaller limit during build to prevent timeouts)
-    const limit = process.env.NODE_ENV === 'production' ? 5000 : 20000
+    // Fetch all stats - increased to 10000 to show complete data (Edge Function max)
+    const limit = 10000
     const response = await fetch(
       `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${limit}`,
       { next: { revalidate: 86400 } }

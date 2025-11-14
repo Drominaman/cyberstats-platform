@@ -46,8 +46,8 @@ async function fetchVendorData(slug: string): Promise<VendorData | null> {
       console.error('Failed to fetch vendor override:', error)
     }
 
-    // Fetch all stats with server-side caching (use smaller limit during build to prevent timeouts)
-    const limit = process.env.NODE_ENV === 'production' ? 5000 : 10000
+    // Fetch all stats - increased to 10000 for complete data (Edge Function max)
+    const limit = 10000
     const response = await fetch(
       `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${limit}`,
       { next: { revalidate: 86400 } } // Cache for 24 hours

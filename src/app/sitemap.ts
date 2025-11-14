@@ -1,8 +1,7 @@
 import { MetadataRoute } from 'next'
 
-// Dynamic rendering - sitemap generates on-demand to prevent build timeouts
-export const dynamic = 'force-dynamic'
-export const revalidate = 3600 // Cache for 1 hour
+// ISR: Sitemap cached for 1 hour after generation
+export const revalidate = 3600
 
 // Helper to create URL-safe slug from title
 function createSlug(title: string): string {

@@ -4,9 +4,8 @@ import Navigation from '@/components/Navigation'
 import VendorsClient from './VendorsClient'
 import { Building2 } from 'lucide-react'
 
-// ISR on-demand: Page generates on first visit, caches for 1 hour
-export const dynamic = 'force-dynamic'
-export const revalidate = 3600 // Cache for 1 hour
+// ISR: Page cached for 1 hour after generation
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Cybersecurity Vendors',
@@ -39,9 +38,9 @@ interface Vendor {
 async function fetchVendors(): Promise<Vendor[]> {
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
-    // Full data - no build timeout concerns with dynamic rendering
+    // Increased to 10000 for complete vendor data
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000&days=365`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000`,
       { next: { revalidate: 3600 } } // Cache for 1 hour
     )
     const data = await response.json()
