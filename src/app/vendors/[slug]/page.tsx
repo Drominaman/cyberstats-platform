@@ -46,42 +46,35 @@ async function fetchVendorData(slug: string): Promise<VendorData | null> {
       console.error('Failed to fetch vendor override:', error)
     }
 
-    // First, get a sample to extract vendor name
+    // Fetch a larger sample to find vendor name (5000 stats covers all vendors)
     const sampleResponse = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=100`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=5000`,
       { next: { revalidate: 86400 } }
     )
     const sampleData = await sampleResponse.json()
 
-    // Find vendor name from sample
+    // Find vendor name from sample and filter their stats
     let vendorName = ''
+    let allVendorStats: any[] = []
+
     if (sampleData && sampleData.items) {
+      // Find the vendor name by matching slug
       const matchingStat = sampleData.items.find((item: any) => {
         if (!item.publisher) return false
         const itemSlug = item.publisher.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
         return itemSlug === slug
       })
+
       if (matchingStat) {
         vendorName = matchingStat.publisher
+        // Filter all stats for this publisher from the sample
+        allVendorStats = sampleData.items.filter((item: any) => item.publisher === vendorName)
       }
     }
 
-    if (!vendorName) {
+    if (!vendorName || allVendorStats.length === 0) {
       return null
     }
-
-    // Fetch all stats for this publisher using server-side filtering (publisher index)
-    const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&publisher=${encodeURIComponent(vendorName)}&limit=1000`,
-      { next: { revalidate: 86400 } }
-    )
-    const data = await response.json()
-
-    if (!data || !data.items || !Array.isArray(data.items)) {
-      return null
-    }
-
-    const allVendorStats = data.items
 
     // Extract categories from tags (using all stats)
     const categoryMap: { [key: string]: number } = {}
