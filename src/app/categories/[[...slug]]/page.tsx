@@ -223,7 +223,7 @@ async function fetchCategoryData(slugPath: string[]): Promise<CategoryData | nul
 
     // Calculate top vendors
     const vendorCounts: { [key: string]: number } = {}
-    categoryStats.forEach((stat) => {
+    categoryStats.forEach((stat: any) => {
       if (stat.publisher) {
         vendorCounts[stat.publisher] = (vendorCounts[stat.publisher] || 0) + 1
       }
