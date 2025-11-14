@@ -30,76 +30,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   try {
-    // Fetch stats for sitemap (limit to avoid database timeout)
-    // Using 100 limit to prevent Edge Function timeouts during build
-    // This still covers main categories/vendors, stat pages generate on-demand via ISR
-    const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=100`,
-      { next: { revalidate: 3600 } } // Cache for 1 hour (sitemap accessed frequently by bots)
-    )
+    // TEMPORARILY DISABLED: Database queries timing out due to missing indexes
+    // Sitemap will only contain static pages until indexes are added
+    // Stats, categories, and vendors pages will still be crawled and indexed via ISR
 
-    if (!response.ok) {
-      console.error('API request failed:', response.status, response.statusText)
-      throw new Error(`API returned ${response.status}`)
-    }
-
-    const data = await response.json()
-
-    // Check for API errors (rate limits, etc.)
-    if (!data || !data.items || !Array.isArray(data.items)) {
-      console.error('Invalid API response for sitemap:', data)
-      throw new Error('Failed to fetch stats for sitemap')
-    }
-
-    // Generate sitemap entries for recent stats only (to avoid sitemap bloat)
-    const statEntries: MetadataRoute.Sitemap = data.items.map((stat: any) => ({
-      url: `${baseUrl}/stats/${createSlug(stat.title)}`,
-      lastModified: new Date(stat.created_at),
-      changeFrequency: 'monthly' as const,
-      priority: 0.6
-    }))
-
-    // Extract unique vendors (from 100 most recent stats, covers most active vendors)
-    const vendorsMap = new Map<string, Date>()
-    data.items.forEach((item: any) => {
-      if (item.publisher) {
-        const slug = item.publisher.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
-        const existingDate = vendorsMap.get(slug)
-        const itemDate = new Date(item.created_at)
-        if (!existingDate || itemDate > existingDate) {
-          vendorsMap.set(slug, itemDate)
-        }
-      }
-    })
-
-    const vendorEntries: MetadataRoute.Sitemap = Array.from(vendorsMap.entries()).map(([slug, date]) => ({
-      url: `${baseUrl}/vendors/${slug}`,
-      lastModified: date,
-      changeFrequency: 'daily' as const,
-      priority: 0.9
-    }))
-
-    // Extract unique categories (from 100 most recent stats, covers most active categories)
-    const categoriesMap = new Map<string, Date>()
-    data.items.forEach((item: any) => {
-      if (item.tags && Array.isArray(item.tags)) {
-        item.tags.forEach((tag: string) => {
-          const slug = tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
-          const existingDate = categoriesMap.get(slug)
-          const itemDate = new Date(item.created_at)
-          if (!existingDate || itemDate > existingDate) {
-            categoriesMap.set(slug, itemDate)
-          }
-        })
-      }
-    })
-
-    const categoryEntries: MetadataRoute.Sitemap = Array.from(categoriesMap.entries()).map(([slug, date]) => ({
-      url: `${baseUrl}/categories/${slug}`,
-      lastModified: date,
-      changeFrequency: 'daily' as const,
-      priority: 0.9
-    }))
+    console.warn('Sitemap generation skipping dynamic pages due to database performance')
 
     // Static pages
     const staticPages: MetadataRoute.Sitemap = [
@@ -147,8 +82,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }
     ]
 
-    // Combine all entries
-    return [...staticPages, ...vendorEntries, ...categoryEntries, ...statEntries]
+    // Return only static pages (dynamic pages discovered via ISR)
+    return staticPages
   } catch (error) {
     console.error('Error generating sitemap:', error)
     // Return just static pages if stats fetch fails
