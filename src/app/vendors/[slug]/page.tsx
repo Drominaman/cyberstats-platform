@@ -158,47 +158,51 @@ async function fetchVendorData(slug: string): Promise<VendorData | null> {
   }
 }
 
-// Pre-generate all vendor pages at build time
+// DISABLED: Build timeouts - pages now generate on-demand via ISR
+// Pages are cached for 24 hours after first visit (see revalidate in fetchVendorData)
 export async function generateStaticParams() {
-  try {
-    const apiKey = process.env.NEXT_PUBLIC_API_KEY
-    // Use smaller limit during build to prevent timeouts
-    const limit = process.env.NODE_ENV === 'production' ? 3000 : 10000
-    const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${limit}`,
-      { cache: 'no-store' } // Don't cache - response is too large (>2MB)
-    )
-    const data = await response.json()
+  return []
 
-    if (!data || !data.items || !Array.isArray(data.items)) {
-      console.error('Invalid API response for generateStaticParams:', data)
-      return []
-    }
-
-    // Extract all unique vendor slugs from publishers and count stats per vendor
-    const vendorStats = new Map<string, number>()
-    data.items.forEach((item: any) => {
-      if (item.publisher) {
-        const slug = item.publisher.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
-        if (slug) {
-          vendorStats.set(slug, (vendorStats.get(slug) || 0) + 1)
-        }
-      }
-    })
-
-    // Only pre-generate top 50 vendors to stay under 45min build limit
-    // Less active vendors will be generated on-demand
-    const topVendors = Array.from(vendorStats.entries())
-      .sort((a, b) => b[1] - a[1]) // Sort by stat count
-      .slice(0, 50) // Top 50 only
-      .map(([slug]) => slug)
-
-    console.log(`Pre-generating top 50 of ${vendorStats.size} vendor pages...`)
-    return topVendors.map(slug => ({ slug }))
-  } catch (error) {
-    console.error('Error in generateStaticParams for vendors:', error)
-    return []
-  }
+  // ORIGINAL CODE (causes 60s timeouts during build):
+  // try {
+  //   const apiKey = process.env.NEXT_PUBLIC_API_KEY
+  //   // Use smaller limit during build to prevent timeouts
+  //   const limit = process.env.NODE_ENV === 'production' ? 3000 : 10000
+  //   const response = await fetch(
+  //     `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${limit}`,
+  //     { cache: 'no-store' } // Don't cache - response is too large (>2MB)
+  //   )
+  //   const data = await response.json()
+  //
+  //   if (!data || !data.items || !Array.isArray(data.items)) {
+  //     console.error('Invalid API response for generateStaticParams:', data)
+  //     return []
+  //   }
+  //
+  //   // Extract all unique vendor slugs from publishers and count stats per vendor
+  //   const vendorStats = new Map<string, number>()
+  //   data.items.forEach((item: any) => {
+  //     if (item.publisher) {
+  //       const slug = item.publisher.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+  //       if (slug) {
+  //         vendorStats.set(slug, (vendorStats.get(slug) || 0) + 1)
+  //       }
+  //     }
+  //   })
+  //
+  //   // Only pre-generate top 50 vendors to stay under 45min build limit
+  //   // Less active vendors will be generated on-demand
+  //   const topVendors = Array.from(vendorStats.entries())
+  //     .sort((a, b) => b[1] - a[1]) // Sort by stat count
+  //     .slice(0, 50) // Top 50 only
+  //     .map(([slug]) => slug)
+  //
+  //   console.log(`Pre-generating top 50 of ${vendorStats.size} vendor pages...`)
+  //   return topVendors.map(slug => ({ slug }))
+  // } catch (error) {
+  //   console.error('Error in generateStaticParams for vendors:', error)
+  //   return []
+  // }
 }
 
 // Generate metadata for SEO

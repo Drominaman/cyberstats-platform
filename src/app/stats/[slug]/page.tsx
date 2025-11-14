@@ -20,27 +20,31 @@ function createSlug(title: string): string {
     .substring(0, 100)
 }
 
-// Pre-build only the top 100 most recent stats at build time
+// DISABLED: Build timeouts - pages now generate on-demand via ISR
+// Pages are cached for 24 hours after first visit (see revalidate: 86400)
 export async function generateStaticParams() {
-  try {
-    const apiKey = process.env.NEXT_PUBLIC_API_KEY
-    const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=100`
-    )
-    const data = await response.json()
+  return []
 
-    if (!data || !data.items || !Array.isArray(data.items)) {
-      console.error('Invalid API response format:', data)
-      return []
-    }
-
-    return data.items.map((stat: any) => ({
-      slug: createSlug(stat.title)
-    }))
-  } catch (error) {
-    console.error('Error generating static params:', error)
-    return []
-  }
+  // ORIGINAL CODE (causes 60s timeouts during build):
+  // try {
+  //   const apiKey = process.env.NEXT_PUBLIC_API_KEY
+  //   const response = await fetch(
+  //     `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=100`
+  //   )
+  //   const data = await response.json()
+  //
+  //   if (!data || !data.items || !Array.isArray(data.items)) {
+  //     console.error('Invalid API response format:', data)
+  //     return []
+  //   }
+  //
+  //   return data.items.map((stat: any) => ({
+  //     slug: createSlug(stat.title)
+  //   }))
+  // } catch (error) {
+  //   console.error('Error generating static params:', error)
+  //   return []
+  // }
 }
 
 // Generate metadata for SEO

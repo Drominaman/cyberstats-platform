@@ -318,23 +318,27 @@ async function fetchCategoryData(slugPath: string[]): Promise<CategoryData | nul
   }
 }
 
-// Pre-generate parent and top subcategory pages
+// DISABLED: Build timeouts - pages now generate on-demand via ISR
+// Pages are cached for 24 hours after first visit (see revalidate: 86400)
 export async function generateStaticParams() {
-  const taxonomy = categoryTaxonomy.categories
-  const paths: { slug: string[] }[] = []
+  return []
 
-  // Add all parent categories
-  taxonomy.forEach(parent => {
-    paths.push({ slug: [parent.slug] })
-
-    // Add subcategories (all of them for comprehensive coverage)
-    parent.subcategories.forEach(sub => {
-      paths.push({ slug: [parent.slug, sub.slug] })
-    })
-  })
-
-  console.log(`Pre-generating ${paths.length} hierarchical category pages...`)
-  return paths
+  // ORIGINAL CODE (causes 60s timeouts during build):
+  // const taxonomy = categoryTaxonomy.categories
+  // const paths: { slug: string[] }[] = []
+  //
+  // // Add all parent categories
+  // taxonomy.forEach(parent => {
+  //   paths.push({ slug: [parent.slug] })
+  //
+  //   // Add subcategories (all of them for comprehensive coverage)
+  //   parent.subcategories.forEach(sub => {
+  //     paths.push({ slug: [parent.slug, sub.slug] })
+  //   })
+  // })
+  //
+  // console.log(`Pre-generating ${paths.length} hierarchical category pages...`)
+  // return paths
 }
 
 // Generate metadata for SEO
