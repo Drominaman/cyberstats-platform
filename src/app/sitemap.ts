@@ -30,11 +30,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   try {
-    // Fetch recent stats for sitemap (limit to avoid database timeout)
-    // Google crawls the site organically, so we prioritize recent content
+    // Fetch stats for sitemap (limit to avoid database timeout)
+    // Using 2000 limit balances between:
+    // - Covering most categories/vendors (priority per user)
+    // - Avoiding database statement timeout
+    // - Including reasonable number of stat pages
     const response = await fetch(
       `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000`,
-      { next: { revalidate: 3600 } } // Cache for 1 hour (sitemap is accessed frequently by bots)
+      { next: { revalidate: 3600 } } // Cache for 1 hour (sitemap accessed frequently by bots)
     )
 
     if (!response.ok) {
@@ -50,19 +53,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       throw new Error('Failed to fetch stats for sitemap')
     }
 
-    // Generate sitemap entries for ALL stats (Google supports up to 50,000 URLs per sitemap)
-    // Sort by date to prioritize recent content
-    const allStats = data.items
-      .sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-
-    const statEntries: MetadataRoute.Sitemap = allStats.map((stat: any) => ({
+    // Generate sitemap entries for recent stats only (to avoid sitemap bloat)
+    const statEntries: MetadataRoute.Sitemap = data.items.map((stat: any) => ({
       url: `${baseUrl}/stats/${createSlug(stat.title)}`,
       lastModified: new Date(stat.created_at),
       changeFrequency: 'monthly' as const,
       priority: 0.6
     }))
 
-    // Extract unique vendors
+    // Extract unique vendors (from 2000 most recent stats, covers most active vendors)
     const vendorsMap = new Map<string, Date>()
     data.items.forEach((item: any) => {
       if (item.publisher) {
@@ -82,7 +81,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9
     }))
 
-    // Extract unique categories
+    // Extract unique categories (from 2000 most recent stats, covers most active categories)
     const categoriesMap = new Map<string, Date>()
     data.items.forEach((item: any) => {
       if (item.tags && Array.isArray(item.tags)) {
