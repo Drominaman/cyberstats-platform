@@ -46,30 +46,53 @@ async function fetchVendorData(slug: string): Promise<VendorData | null> {
       console.error('Failed to fetch vendor override:', error)
     }
 
-    // Fetch all stats - increased to 10000 for complete data (Edge Function max)
-    const limit=2000
-    const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${limit}`,
-      { next: { revalidate: 86400 } } // Cache for 24 hours
+    // First, get a sample to extract vendor name
+    const sampleResponse = await fetch(
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=100`,
+      { next: { revalidate: 86400 } }
     )
-    const data = await response.json()
+    const sampleData = await sampleResponse.json()
+
+    // Find vendor name from sample
+    let vendorName = ''
+    if (sampleData && sampleData.items) {
+      const matchingStat = sampleData.items.find((item: any) => {
+        if (!item.publisher) return false
+        const itemSlug = item.publisher.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+        return itemSlug === slug
+      })
+      if (matchingStat) {
+        vendorName = matchingStat.publisher
+      }
+    }
+
+    if (!vendorName) {
+      return null
+    }
+
+    // Fetch ALL stats for this specific vendor using publisher filter
+    const vendorResponse = await fetch(
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&publisher=${encodeURIComponent(vendorName)}&format=json&limit=10000`,
+      { next: { revalidate: 86400 } }
+    )
+    const vendorData = await vendorResponse.json()
+
+    if (!vendorData || !vendorData.items) {
+      return null
+    }
+
+    const allVendorStats = vendorData.items
+
+    // Also fetch broader sample for related vendors calculation
+    const broadResponse = await fetch(
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000`,
+      { next: { revalidate: 86400 } }
+    )
+    const data = await broadResponse.json()
 
     if (!data || !data.items || !Array.isArray(data.items)) {
       return null
     }
-
-    // Find all stats for this vendor by matching slug
-    const allVendorStats = data.items.filter((item: any) => {
-      if (!item.publisher) return false
-      const itemSlug = item.publisher.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
-      return itemSlug === slug
-    })
-
-    if (allVendorStats.length === 0) {
-      return null
-    }
-
-    const vendorName = allVendorStats[0].publisher
 
     // Extract categories from tags (using all stats)
     const categoryMap: { [key: string]: number } = {}

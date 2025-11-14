@@ -174,46 +174,47 @@ async function fetchCategoryData(slugPath: string[]): Promise<CategoryData | nul
 
     // Find in taxonomy
     const taxonomyResult = findCategoryInTaxonomy(slugPath)
+    let categoryName = taxonomyResult ? taxonomyResult.category.name : ''
 
-    // Fetch all stats - increased to 10000 to show complete data (Edge Function max)
-    const limit=2000
-    const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${limit}`,
+    // Get matching slugs (including synonyms)
+    const matchingSlugs = getMatchingSlugs(categorySlug, parentSlug)
+
+    // Fetch stats for this specific category using tag filter (gets ALL stats for this category)
+    const tagResponse = await fetch(
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&tag=${categoryName}&format=json&limit=10000`,
       { next: { revalidate: 86400 } }
     )
-    const data = await response.json()
+    const tagData = await tagResponse.json()
+
+    if (!tagData || !tagData.items) {
+      return null
+    }
+
+    const categoryStats = tagData.items
+
+    // Also fetch broader sample for related categories/subcategories calculation
+    const broadResponse = await fetch(
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000`,
+      { next: { revalidate: 86400 } }
+    )
+    const data = await broadResponse.json()
 
     if (!data || !data.items || !Array.isArray(data.items)) {
       return null
     }
 
-    // Get matching slugs (including synonyms)
-    const matchingSlugs = getMatchingSlugs(categorySlug, parentSlug)
-
-    // Find stats that match any of the slugs
-    let categoryName = ''
-    const categoryStats: any[] = []
-    const seenStatIds = new Set<number>()
-
-    data.items.forEach((item: any) => {
-      if (item.tags && Array.isArray(item.tags)) {
-        item.tags.forEach((tag: string) => {
+    // Extract category name from first stat's tags if we don't have it from taxonomy
+    if (!categoryName && categoryStats.length > 0) {
+      const firstStat = categoryStats[0]
+      if (firstStat.tags && Array.isArray(firstStat.tags)) {
+        for (const tag of firstStat.tags) {
           const tagSlug = tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
-
-          if (matchingSlugs.includes(tagSlug) && !seenStatIds.has(item.id)) {
-            if (!categoryName && tagSlug === categorySlug) {
-              categoryName = tag
-            }
-            categoryStats.push(item)
-            seenStatIds.add(item.id)
+          if (tagSlug === categorySlug) {
+            categoryName = tag
+            break
           }
-        })
+        }
       }
-    })
-
-    // Use taxonomy name if we couldn't find from tags
-    if (!categoryName && taxonomyResult) {
-      categoryName = taxonomyResult.category.name
     }
 
     if (!categoryName) {
