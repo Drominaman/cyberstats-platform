@@ -179,10 +179,10 @@ async function fetchCategoryData(slugPath: string[]): Promise<CategoryData | nul
     // Get matching slugs (including synonyms)
     const matchingSlugs = getMatchingSlugs(categorySlug, parentSlug)
 
-    // TEMPORARY: Fetch broader sample and filter client-side due to database timeout issues
-    // Once indexes are added (tag1-tag5, published_on, created_at), switch back to tag= parameter
+    // Fetch stats for this category using server-side filtering (tag indexes)
+    // Use the primary category slug for the API query
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&tag=${encodeURIComponent(categoryName || categorySlug)}&limit=1000`,
       { next: { revalidate: 86400 } }
     )
     const data = await response.json()
@@ -191,14 +191,7 @@ async function fetchCategoryData(slugPath: string[]): Promise<CategoryData | nul
       return null
     }
 
-    // Filter stats for this specific category (client-side filtering)
-    const categoryStats = data.items.filter((item: any) => {
-      if (!item.tags || !Array.isArray(item.tags)) return false
-      return item.tags.some((tag: string) => {
-        const tagSlug = tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
-        return matchingSlugs.includes(tagSlug)
-      })
-    })
+    const categoryStats = data.items
 
     // Extract category name from first stat's tags if we don't have it from taxonomy
     if (!categoryName && categoryStats.length > 0) {
@@ -231,11 +224,19 @@ async function fetchCategoryData(slugPath: string[]): Promise<CategoryData | nul
       .slice(0, 10)
       .map(([name, count]) => ({ name, count }))
 
+    // Fetch broader sample for computing related categories and subcategories
+    const broaderResponse = await fetch(
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=1000`,
+      { next: { revalidate: 86400 } }
+    )
+    const broaderData = await broaderResponse.json()
+
     // Find related categories (from same parent or tags)
     const tagCounts: { [key: string]: number } = {}
     const currentCategoryLower = categoryName.toLowerCase()
 
-    data.items.forEach((item: any) => {
+    if (broaderData && broaderData.items) {
+      broaderData.items.forEach((item: any) => {
       if (item.tags && Array.isArray(item.tags)) {
         item.tags.forEach((tag: string) => {
           const tagSlug = tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
@@ -249,6 +250,7 @@ async function fetchCategoryData(slugPath: string[]): Promise<CategoryData | nul
         })
       }
     })
+    }
 
     const relatedCategories = Object.entries(tagCounts)
       .sort((a, b) => b[1] - a[1])
@@ -271,17 +273,19 @@ async function fetchCategoryData(slugPath: string[]): Promise<CategoryData | nul
         let count = 0
         const seen = new Set<number>()
 
-        data.items.forEach((item: any) => {
-          if (item.tags && Array.isArray(item.tags)) {
-            item.tags.forEach((tag: string) => {
-              const tagSlug = tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
-              if (subSlugs.includes(tagSlug) && !seen.has(item.id)) {
-                count++
-                seen.add(item.id)
-              }
-            })
-          }
-        })
+        if (broaderData && broaderData.items) {
+          broaderData.items.forEach((item: any) => {
+            if (item.tags && Array.isArray(item.tags)) {
+              item.tags.forEach((tag: string) => {
+                const tagSlug = tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+                if (subSlugs.includes(tagSlug) && !seen.has(item.id)) {
+                  count++
+                  seen.add(item.id)
+                }
+              })
+            }
+          })
+        }
 
         return {
           name: sub.name,

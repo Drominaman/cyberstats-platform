@@ -70,10 +70,9 @@ async function fetchVendorData(slug: string): Promise<VendorData | null> {
       return null
     }
 
-    // TEMPORARY: Fetch broader sample and filter client-side due to database timeout issues
-    // Once indexes are added (publisher, published_on, created_at), switch back to publisher= parameter
+    // Fetch all stats for this publisher using server-side filtering (publisher index)
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&publisher=${encodeURIComponent(vendorName)}&limit=1000`,
       { next: { revalidate: 86400 } }
     )
     const data = await response.json()
@@ -82,8 +81,7 @@ async function fetchVendorData(slug: string): Promise<VendorData | null> {
       return null
     }
 
-    // Filter stats for this specific vendor (client-side filtering)
-    const allVendorStats = data.items.filter((item: any) => item.publisher === vendorName)
+    const allVendorStats = data.items
 
     // Extract categories from tags (using all stats)
     const categoryMap: { [key: string]: number } = {}
@@ -100,19 +98,27 @@ async function fetchVendorData(slug: string): Promise<VendorData | null> {
       .slice(0, 8)
       .map(([name, count]) => ({ name, count }))
 
-    // Find related vendors (vendors with similar category tags)
+    // Find related vendors by fetching a broader sample
+    const relatedResponse = await fetch(
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=1000`,
+      { next: { revalidate: 86400 } }
+    )
+    const relatedData = await relatedResponse.json()
+
     const allVendorsMap: { [key: string]: { stats: any[], tags: Set<string> } } = {}
-    data.items.forEach((item: any) => {
-      if (item.publisher && item.publisher !== vendorName) {
-        if (!allVendorsMap[item.publisher]) {
-          allVendorsMap[item.publisher] = { stats: [], tags: new Set() }
+    if (relatedData && relatedData.items) {
+      relatedData.items.forEach((item: any) => {
+        if (item.publisher && item.publisher !== vendorName) {
+          if (!allVendorsMap[item.publisher]) {
+            allVendorsMap[item.publisher] = { stats: [], tags: new Set() }
+          }
+          allVendorsMap[item.publisher].stats.push(item)
+          if (item.tags) {
+            item.tags.forEach((tag: string) => allVendorsMap[item.publisher].tags.add(tag))
+          }
         }
-        allVendorsMap[item.publisher].stats.push(item)
-        if (item.tags) {
-          item.tags.forEach((tag: string) => allVendorsMap[item.publisher].tags.add(tag))
-        }
-      }
-    })
+      })
+    }
 
     // Score vendors by tag overlap
     const vendorTags = new Set<string>()
