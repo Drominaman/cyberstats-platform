@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
     // Fetch all stats to find category
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=5000&days=365`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000`,
       { next: { revalidate: 3600 } }
     )
     const data = await response.json()
