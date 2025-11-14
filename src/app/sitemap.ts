@@ -31,12 +31,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     // Fetch stats for sitemap (limit to avoid database timeout)
-    // Using 2000 limit balances between:
-    // - Covering most categories/vendors (priority per user)
-    // - Avoiding database statement timeout
-    // - Including reasonable number of stat pages
+    // Using 100 limit to prevent Edge Function timeouts during build
+    // This still covers main categories/vendors, stat pages generate on-demand via ISR
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=100`,
       { next: { revalidate: 3600 } } // Cache for 1 hour (sitemap accessed frequently by bots)
     )
 
@@ -61,7 +59,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6
     }))
 
-    // Extract unique vendors (from 2000 most recent stats, covers most active vendors)
+    // Extract unique vendors (from 100 most recent stats, covers most active vendors)
     const vendorsMap = new Map<string, Date>()
     data.items.forEach((item: any) => {
       if (item.publisher) {
@@ -81,7 +79,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9
     }))
 
-    // Extract unique categories (from 2000 most recent stats, covers most active categories)
+    // Extract unique categories (from 100 most recent stats, covers most active categories)
     const categoriesMap = new Map<string, Date>()
     data.items.forEach((item: any) => {
       if (item.tags && Array.isArray(item.tags)) {
