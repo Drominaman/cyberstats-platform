@@ -92,8 +92,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 async function fetchStat(slug: string) {
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
+
+    // OPTIMIZED: Use slug-based direct lookup (1 row instead of 8,765 rows)
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=20000`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&slug=${encodeURIComponent(slug)}&format=json&limit=1`,
       { next: { revalidate: 86400 } } // Cache for 24 hours
     )
     const data = await response.json()
@@ -103,9 +105,8 @@ async function fetchStat(slug: string) {
       return null
     }
 
-    // Find the stat by matching slug
-    const stat = data.items.find((item: any) => createSlug(item.title) === slug)
-    return stat || null
+    // Return the first (and only) item from slug lookup
+    return data.items[0] || null
   } catch (error) {
     console.error('Error fetching stat:', error)
     return null
