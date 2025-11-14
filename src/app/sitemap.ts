@@ -30,9 +30,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   try {
-    // Fetch all stats for complete sitemap (dynamic rendering prevents build timeouts)
+    // Fetch recent stats for sitemap (limit to avoid database timeout)
+    // Google crawls the site organically, so we prioritize recent content
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000`,
       { next: { revalidate: 3600 } } // Cache for 1 hour (sitemap is accessed frequently by bots)
     )
 
