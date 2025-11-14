@@ -5,9 +5,10 @@ import MinimalGhostEmbed from '@/components/MinimalGhostEmbed'
 import Footer from '@/components/Footer'
 import { BarChart3, TrendingUp, Building2, Target } from 'lucide-react'
 
-// Static generation - pages built once and cached permanently
-// New pages added automatically as new stats appear
-// To update existing pages, redeploy the site
+// ISR on-demand: Page generates on first visit, caches for 1 hour
+// This prevents build timeouts while still providing fast performance
+export const dynamic = 'force-dynamic'
+export const revalidate = 3600 // Cache for 1 hour
 
 // Helper to create URL-safe slug from title
 function createSlug(title: string): string {
@@ -36,10 +37,9 @@ async function fetchHomeData() {
       randomStats = shuffled.slice(0, 10)
     }
 
-    // Fetch data for top vendors/categories (reduced limit for build performance)
-    const limit = process.env.NODE_ENV === 'production' ? 500 : 2000
+    // Fetch data for top vendors/categories (full data - no build timeout concerns)
     const allResponse = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${limit}&days=365`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000&days=365`,
       { next: { revalidate: 3600 } } // Cache for 1 hour
     )
     const allData = await allResponse.json()

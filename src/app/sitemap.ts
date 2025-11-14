@@ -1,5 +1,9 @@
 import { MetadataRoute } from 'next'
 
+// Dynamic rendering - sitemap generates on-demand to prevent build timeouts
+export const dynamic = 'force-dynamic'
+export const revalidate = 3600 // Cache for 1 hour
+
 // Helper to create URL-safe slug from title
 function createSlug(title: string): string {
   return title
@@ -27,10 +31,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   try {
-    // Use smaller limit during build to prevent timeouts (sitemap will grow as pages are visited)
-    const limit = process.env.NODE_ENV === 'production' ? 1000 : 10000
+    // Fetch all stats for complete sitemap (dynamic rendering prevents build timeouts)
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${limit}`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000`,
       { next: { revalidate: 3600 } } // Cache for 1 hour (sitemap is accessed frequently by bots)
     )
 
