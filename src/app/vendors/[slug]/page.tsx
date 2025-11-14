@@ -70,29 +70,20 @@ async function fetchVendorData(slug: string): Promise<VendorData | null> {
       return null
     }
 
-    // Fetch ALL stats for this specific vendor using publisher filter
-    const vendorResponse = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&publisher=${encodeURIComponent(vendorName)}&format=json&limit=10000`,
-      { next: { revalidate: 86400 } }
-    )
-    const vendorData = await vendorResponse.json()
-
-    if (!vendorData || !vendorData.items) {
-      return null
-    }
-
-    const allVendorStats = vendorData.items
-
-    // Also fetch broader sample for related vendors calculation
-    const broadResponse = await fetch(
+    // TEMPORARY: Fetch broader sample and filter client-side due to database timeout issues
+    // Once indexes are added (publisher, published_on, created_at), switch back to publisher= parameter
+    const response = await fetch(
       `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000`,
       { next: { revalidate: 86400 } }
     )
-    const data = await broadResponse.json()
+    const data = await response.json()
 
     if (!data || !data.items || !Array.isArray(data.items)) {
       return null
     }
+
+    // Filter stats for this specific vendor (client-side filtering)
+    const allVendorStats = data.items.filter((item: any) => item.publisher === vendorName)
 
     // Extract categories from tags (using all stats)
     const categoryMap: { [key: string]: number } = {}
