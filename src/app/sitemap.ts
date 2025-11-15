@@ -30,11 +30,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   try {
-    // TEMPORARILY DISABLED: Database queries timing out due to missing indexes
-    // Sitemap will only contain static pages until indexes are added
-    // Stats, categories, and vendors pages will still be crawled and indexed via ISR
-
-    console.warn('Sitemap generation skipping dynamic pages due to database performance')
+    // Fetch all stats to extract vendors and categories (fast now with indexes!)
+    const response = await fetch(
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000`,
+      { next: { revalidate: 3600 } } // Cache for 1 hour
+    )
+    const data = await response.json()
 
     // Static pages
     const staticPages: MetadataRoute.Sitemap = [
@@ -82,8 +83,58 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }
     ]
 
-    // Return only static pages (dynamic pages discovered via ISR)
-    return staticPages
+    // If no data, return static pages only
+    if (!data || !data.items || !Array.isArray(data.items)) {
+      console.warn('No data from API, returning static pages only')
+      return staticPages
+    }
+
+    // Extract unique vendors
+    const vendorsMap = new Map<string, string>()
+    data.items.forEach((item: any) => {
+      if (item.publisher) {
+        const slug = item.publisher.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+        if (slug) {
+          vendorsMap.set(slug, item.publisher)
+        }
+      }
+    })
+
+    // Extract unique categories from all tag columns
+    const categoriesMap = new Map<string, string>()
+    data.items.forEach((item: any) => {
+      if (item.tags && Array.isArray(item.tags)) {
+        item.tags.forEach((tag: string) => {
+          if (tag) {
+            const slug = tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+            if (slug) {
+              categoriesMap.set(slug, tag)
+            }
+          }
+        })
+      }
+    })
+
+    // Generate vendor pages
+    const vendorPages: MetadataRoute.Sitemap = Array.from(vendorsMap.keys()).map(slug => ({
+      url: `${baseUrl}/vendors/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8
+    }))
+
+    // Generate category pages
+    const categoryPages: MetadataRoute.Sitemap = Array.from(categoriesMap.keys()).map(slug => ({
+      url: `${baseUrl}/categories/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8
+    }))
+
+    console.log(`Sitemap generated: ${staticPages.length} static, ${vendorPages.length} vendors, ${categoryPages.length} categories`)
+
+    // Combine all pages
+    return [...staticPages, ...vendorPages, ...categoryPages]
   } catch (error) {
     console.error('Error generating sitemap:', error)
     // Return just static pages if stats fetch fails
