@@ -131,10 +131,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8
     }))
 
-    console.log(`Sitemap generated: ${staticPages.length} static, ${vendorPages.length} vendors, ${categoryPages.length} categories`)
+    // Generate individual stat pages (8,765 pages)
+    const statPages: MetadataRoute.Sitemap = data.items.map((stat: any) => ({
+      url: `${baseUrl}/stats/${createSlug(stat.title)}`,
+      lastModified: new Date(stat.created_at || stat.published_on),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7
+    }))
+
+    console.log(`Sitemap generated: ${staticPages.length} static, ${vendorPages.length} vendors, ${categoryPages.length} categories, ${statPages.length} stats`)
 
     // Combine all pages
-    return [...staticPages, ...vendorPages, ...categoryPages]
+    return [...staticPages, ...vendorPages, ...categoryPages, ...statPages]
   } catch (error) {
     console.error('Error generating sitemap:', error)
     // Return just static pages if stats fetch fails
