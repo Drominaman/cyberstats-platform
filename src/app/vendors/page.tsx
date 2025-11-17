@@ -5,6 +5,7 @@ import VendorsClient from './VendorsClient'
 import { Building2 } from 'lucide-react'
 
 // ISR: Page cached for 1 hour after generation
+// Fetches all 407 vendors from complete dataset
 export const revalidate = 3600
 
 export const metadata: Metadata = {
