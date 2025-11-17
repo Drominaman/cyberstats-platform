@@ -59,7 +59,7 @@ function getCategoryIconName(name: string): string {
 async function fetchCategories(): Promise<Category[]> {
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
-    // Fetch all stats for accurate category counting (2127 categories total)
+    // Fetch all stats for accurate category counting (full dataset: 8947 stats, 2127 categories)
     const limit=10000
     const response = await fetch(
       `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${limit}`,
