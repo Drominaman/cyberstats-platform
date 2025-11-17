@@ -38,9 +38,9 @@ interface Vendor {
 async function fetchVendors(): Promise<Vendor[]> {
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
-    // Increased to 10000 for complete vendor data
+    // Fetch ALL stats to get complete vendor data
     const response = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000`,
       { next: { revalidate: 3600 } } // Cache for 1 hour
     )
     const data = await response.json()
