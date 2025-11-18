@@ -37,7 +37,7 @@ async function fetchHomeData() {
 
     // Fetch data for top vendors/categories - increased to 10000 for complete data
     const allResponse = await fetch(
-      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=2000`,
+      `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=10000`,
       { next: { revalidate: 3600 } } // Cache for 1 hour
     )
     const allData = await allResponse.json()

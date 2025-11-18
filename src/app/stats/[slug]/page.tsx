@@ -63,14 +63,21 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     ? baseDescription.substring(0, 160)
     : `${baseDescription} Find more statistics from ${stat.publisher}.`.substring(0, 160)
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cybersecstatistics.com'
+  const canonicalUrl = `${baseUrl}/stats/${params.slug}`
+
   return {
     title: `${stat.title.substring(0, 60)} | Cyberstats`,
     description: description,
     keywords: stat.tags?.join(', '),
+    alternates: {
+      canonical: canonicalUrl
+    },
     openGraph: {
       title: stat.title,
       description: description,
       type: 'article',
+      url: canonicalUrl,
       publishedTime: stat.created_at,
       authors: [stat.publisher],
       tags: stat.tags

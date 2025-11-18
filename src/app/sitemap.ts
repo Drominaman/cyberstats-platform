@@ -132,12 +132,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }))
 
     // Generate individual stat pages (8,765 pages)
-    const statPages: MetadataRoute.Sitemap = data.items.map((stat: any) => ({
-      url: `${baseUrl}/stats/${createSlug(stat.title)}`,
-      lastModified: new Date(stat.created_at || stat.published_on),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7
-    }))
+    // Use Map to ensure unique slugs - if duplicate, skip it
+    const slugsSeen = new Set<string>()
+    const statPages: MetadataRoute.Sitemap = []
+
+    data.items.forEach((stat: any) => {
+      const slug = createSlug(stat.title)
+      // Only add if we haven't seen this slug before
+      if (!slugsSeen.has(slug)) {
+        slugsSeen.add(slug)
+        statPages.push({
+          url: `${baseUrl}/stats/${slug}`,
+          lastModified: new Date(stat.created_at || stat.published_on),
+          changeFrequency: 'monthly' as const,
+          priority: 0.7
+        })
+      }
+    })
 
     console.log(`Sitemap generated: ${staticPages.length} static, ${vendorPages.length} vendors, ${categoryPages.length} categories, ${statPages.length} stats`)
 
