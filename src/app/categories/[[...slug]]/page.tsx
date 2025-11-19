@@ -55,11 +55,46 @@ function getCategoryIconName(name: string): string {
   return 'Target' // default
 }
 
+// Try to fetch categories from cache, fall back to real-time if needed
 async function fetchCategories(): Promise<Category[]> {
+  try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://uskpjocrgzwskvsttzxc.supabase.co'
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+    // Try to fetch from cache first
+    const cacheResponse = await fetch(
+      `${supabaseUrl}/rest/v1/category_list_cache?id=eq.1&select=categories,last_updated`,
+      {
+        headers: {
+          'apikey': serviceKey!,
+          'Authorization': `Bearer ${serviceKey}`
+        },
+        next: { revalidate: 3600 } // Cache for 1 hour
+      }
+    )
+
+    if (cacheResponse.ok) {
+      const cacheData = await cacheResponse.json()
+      if (cacheData && cacheData.length > 0 && cacheData[0].categories) {
+        console.log(`[Categories] Using cache (last updated: ${cacheData[0].last_updated})`)
+        return cacheData[0].categories
+      }
+    }
+
+    console.log('[Categories] Cache miss, falling back to real-time fetch')
+    return await fetchCategoriesRealtime()
+  } catch (error) {
+    console.error('[Categories] Cache error, falling back to real-time:', error)
+    return await fetchCategoriesRealtime()
+  }
+}
+
+// Fallback: Real-time category fetching (original implementation)
+async function fetchCategoriesRealtime(): Promise<Category[]> {
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY
     // Fetch all stats for accurate category counting (full dataset: 8947 stats, 2127 categories)
-    const limit=10000
+    const limit = 10000
     const response = await fetch(
       `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${limit}`,
       { next: { revalidate: 86400 } }
