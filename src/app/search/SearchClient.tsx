@@ -43,7 +43,7 @@ export default function SearchPage() {
   const [showFilters, setShowFilters] = useState(false)
 
   // Generate SearchResultsPage schema
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cybersecstatistics.com'
   const searchResultsSchema = query && stats.length > 0 ? {
     '@context': 'https://schema.org',
     '@type': 'SearchResultsPage',

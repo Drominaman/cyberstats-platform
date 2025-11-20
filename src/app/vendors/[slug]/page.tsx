@@ -35,7 +35,7 @@ async function fetchVendorData(slug: string): Promise<VendorData | null> {
     let vendorOverride: VendorOverride | null = null
     try {
       const vendorRes = await fetch(
-        `${process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'}/api/vendors?slug=${slug}`,
+        `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cybersecstatistics.com'}/api/vendors?slug=${slug}`,
         { next: { revalidate: 86400 } }
       )
       const vendorData = await vendorRes.json()
@@ -221,7 +221,7 @@ export async function generateStaticParams() {
 // Generate metadata for SEO
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const vendorData = await fetchVendorData(params.slug)
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cybersecstatistics.com'
 
   if (!vendorData) {
     return {
@@ -276,7 +276,7 @@ export default async function VendorDetailPage({ params }: PageProps) {
     )
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cybersecstatistics.com'
   const pageUrl = `${baseUrl}/vendors/${params.slug}`
   const pageDescription = vendorData.vendorOverride?.custom_description || `Cybersecurity reports and statistics published by ${vendorData.vendorName}`
 

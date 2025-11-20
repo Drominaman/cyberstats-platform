@@ -100,7 +100,7 @@ async function fetchHomeData() {
 export default async function Home() {
   const data = await fetchHomeData()
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cybersecstatistics.com'
 
   // WebSite schema with SearchAction for SEO
   const websiteSchema = {

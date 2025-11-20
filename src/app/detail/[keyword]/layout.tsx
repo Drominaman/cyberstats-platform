@@ -7,7 +7,7 @@ interface DetailLayoutProps {
 
 export async function generateMetadata({ params }: { params: { keyword: string } }): Promise<Metadata> {
   const keyword = decodeURIComponent(params.keyword)
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cybersecstatistics.com'
 
   // Fetch basic data for metadata (lightweight query)
   const apiKey = process.env.NEXT_PUBLIC_API_KEY

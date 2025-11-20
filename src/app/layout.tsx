@@ -7,7 +7,7 @@ import { Analytics } from '@vercel/analytics/next'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cybersecstatistics.com'),
   title: {
     default: 'Cyberstats - Cybersecurity Market Intelligence & Statistics',
     template: '%s | Cyberstats'
@@ -60,7 +60,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cybersecstatistics.com'
 
   const organizationSchema = {
     '@context': 'https://schema.org',

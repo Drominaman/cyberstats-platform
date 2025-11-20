@@ -13,7 +13,7 @@ function createSlug(title: string): string {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cybersecstatistics.com'
   const apiKey = process.env.NEXT_PUBLIC_API_KEY
 
   // If no API key, return just static pages

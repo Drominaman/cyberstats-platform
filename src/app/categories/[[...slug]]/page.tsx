@@ -381,7 +381,7 @@ export async function generateStaticParams() {
 // Generate metadata for SEO
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const slugPath = params.slug || []
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cybersecstatistics.com'
 
   // If no slug, return metadata for categories list page
   if (slugPath.length === 0) {
@@ -526,7 +526,7 @@ export default async function CategoryDetailPage({ params }: PageProps) {
     )
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cyberstats.io'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cybersecstatistics.com'
   const pageUrl = `${baseUrl}/categories/${slugPath.join('/')}`
   const pageDescription = categoryOverride?.customDescription ||
     (categoryData.parent
