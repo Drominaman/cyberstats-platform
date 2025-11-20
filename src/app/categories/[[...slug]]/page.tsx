@@ -440,6 +440,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: pageTitle,
     description: pageDescription,
+    alternates: {
+      canonical: pageUrl
+    },
     openGraph: {
       title: pageTitle,
       description: pageDescription,
