@@ -287,7 +287,7 @@ export default async function StatPage({ params }: { params: { slug: string } })
                   <ExternalLink className="w-4 h-4 ml-2" />
                 </a>
                 <p className="text-sm text-gray-500 mt-2">
-                  Published on {new Date(stat.published_on).toLocaleDateString()}
+                  Published on {new Date(stat.published_on).toLocaleDateString('en-US')}
                 </p>
               </div>
             )}
@@ -335,7 +335,7 @@ export default async function StatPage({ params }: { params: { slug: string } })
                       <span>•</span>
                       <span className="flex items-center">
                         <Calendar className="w-4 h-4 mr-1" />
-                        {new Date(relatedStat.created_at).toLocaleDateString()}
+                        {new Date(relatedStat.created_at).toLocaleDateString('en-US')}
                       </span>
                     </div>
                     {relatedStat.tags && relatedStat.tags.length > 0 && (

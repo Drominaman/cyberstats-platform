@@ -263,7 +263,7 @@ export default function SearchPage() {
                       <span>•</span>
                       <span className="flex items-center">
                         <Calendar className="w-4 h-4 mr-1" />
-                        {new Date(stat.published_on || stat.created_at).toLocaleDateString()}
+                        {new Date(stat.published_on || stat.created_at).toLocaleDateString('en-US')}
                       </span>
                       {stat.source_name && (
                         <>

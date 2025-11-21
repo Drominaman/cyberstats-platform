@@ -1,12 +1,23 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useId } from 'react'
 
 export default function MinimalGhostEmbed() {
   const containerRef = useRef<HTMLDivElement>(null)
+  const uniqueId = useId().replace(/:/g, '')
 
   useEffect(() => {
-    // Load Ghost signup form script
+    if (!containerRef.current) return
+
+    // Check if form already exists in this container
+    if (containerRef.current.querySelector('iframe, form')) return
+
+    // Create a wrapper div for the script
+    const wrapper = document.createElement('div')
+    wrapper.id = `ghost-signup-${uniqueId}`
+    containerRef.current.appendChild(wrapper)
+
+    // Create and inject the script inside the wrapper
     const script = document.createElement('script')
     script.src = 'https://cdn.jsdelivr.net/ghost/signup-form@~0.3/umd/signup-form.min.js'
     script.setAttribute('data-button-color', '#ffb219')
@@ -15,16 +26,14 @@ export default function MinimalGhostEmbed() {
     script.setAttribute('data-locale', 'en')
     script.async = true
 
-    if (containerRef.current) {
-      containerRef.current.appendChild(script)
-    }
+    wrapper.appendChild(script)
 
     return () => {
-      if (containerRef.current && containerRef.current.contains(script)) {
-        containerRef.current.removeChild(script)
+      if (containerRef.current) {
+        containerRef.current.innerHTML = ''
       }
     }
-  }, [])
+  }, [uniqueId])
 
   return (
     <div

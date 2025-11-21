@@ -144,7 +144,7 @@ export default function VendorDetailClient({ vendorData }: { vendorData: VendorD
                       <div className="flex items-center space-x-3 text-sm text-gray-500">
                         <span className="flex items-center">
                           <Calendar className="w-4 h-4 mr-1" />
-                          {new Date(report.published_on).toLocaleDateString()}
+                          {new Date(report.published_on).toLocaleDateString('en-US')}
                         </span>
                       </div>
                     </div>
@@ -177,21 +177,19 @@ export default function VendorDetailClient({ vendorData }: { vendorData: VendorD
                       <div className="flex items-center space-x-4 text-sm text-gray-500">
                         <span className="flex items-center">
                           <Calendar className="w-4 h-4 mr-1" />
-                          {new Date(stat.created_at).toLocaleDateString()}
+                          {new Date(stat.created_at).toLocaleDateString('en-US')}
                         </span>
                         {stat.tags && stat.tags.length > 0 && (
                           <>
                             <span>•</span>
                             <div className="flex gap-2">
                               {stat.tags.slice(0, 3).map((tag: string, j: number) => (
-                                <Link
+                                <span
                                   key={j}
-                                  href={`/categories/${tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}
-                                  className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs hover:bg-green-200 transition-colors"
-                                  onClick={(e) => e.stopPropagation()}
+                                  className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs"
                                 >
                                   {tag}
-                                </Link>
+                                </span>
                               ))}
                             </div>
                           </>

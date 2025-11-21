@@ -71,12 +71,12 @@ export default function CategoriesClient({ categories }: CategoriesClientProps) 
           <div className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Featured Categories</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {topCategories.map((category) => {
+              {topCategories.map((category, index) => {
                 const IconComponent = iconMap[category.icon] || Target
 
                 return (
                   <Link
-                    key={category.slug}
+                    key={`top-${index}-${category.slug}`}
                     href={`/categories/${category.slug}`}
                     className="group bg-gradient-to-br from-purple-50 to-blue-50 rounded-xl shadow-md border-2 border-purple-200 p-8 hover:shadow-xl hover:border-purple-400 transition-all duration-200"
                   >
@@ -114,12 +114,12 @@ export default function CategoriesClient({ categories }: CategoriesClientProps) 
             <div>
               <h2 className="text-2xl font-bold text-gray-900 mb-6">All Categories</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                {remainingCategories.map((category) => {
+                {remainingCategories.map((category, index) => {
                   const IconComponent = iconMap[category.icon] || Target
 
                   return (
                     <Link
-                      key={category.slug}
+                      key={`remaining-${index}-${category.slug}`}
                       href={`/categories/${category.slug}`}
                       className="group bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg hover:border-purple-300 transition-all duration-200"
                     >
@@ -157,12 +157,12 @@ export default function CategoriesClient({ categories }: CategoriesClientProps) 
         <>
           {filteredCategories.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-              {filteredCategories.map((category) => {
+              {filteredCategories.map((category, index) => {
                 const IconComponent = iconMap[category.icon] || Target
 
                 return (
                   <Link
-                    key={category.slug}
+                    key={`filtered-${index}-${category.slug}`}
                     href={`/categories/${category.slug}`}
                     className="group bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg hover:border-purple-300 transition-all duration-200"
                   >

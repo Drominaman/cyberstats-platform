@@ -73,7 +73,7 @@ async function fetchVendors(): Promise<Vendor[]> {
       name,
       slug: name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
       statsCount: data.count,
-      recentActivity: new Date(data.latestDate).toLocaleDateString()
+      recentActivity: new Date(data.latestDate).toLocaleDateString('en-US')
     }))
 
     // Deduplicate by slug (in case multiple publisher names create the same slug)

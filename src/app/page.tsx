@@ -265,19 +265,18 @@ export default async function Home() {
                     {stat.publisher}
                   </span>
                   <span>•</span>
-                  <span>{new Date(stat.created_at).toLocaleDateString()}</span>
+                  <span>{new Date(stat.created_at).toLocaleDateString('en-US')}</span>
                   {stat.tags && stat.tags.length > 0 && (
                     <>
                       <span>•</span>
                       <div className="flex gap-2">
                         {stat.tags.slice(0, 3).map((tag: string, i: number) => (
-                          <Link
+                          <span
                             key={i}
-                            href={`/categories/${tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}
-                            className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs hover:bg-blue-200 transition-colors"
+                            className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs"
                           >
                             {tag}
-                          </Link>
+                          </span>
                         ))}
                       </div>
                     </>

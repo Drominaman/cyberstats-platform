@@ -198,7 +198,7 @@ export default function DetailPage({ params }: { params: { keyword: string } }) 
                           <span>•</span>
                           <span className="flex items-center">
                             <Calendar className="w-3 h-3 mr-1" />
-                            {new Date(report.created_at).toLocaleDateString()}
+                            {new Date(report.created_at).toLocaleDateString('en-US')}
                           </span>
                         </div>
                         {report.tags && report.tags.length > 0 && (

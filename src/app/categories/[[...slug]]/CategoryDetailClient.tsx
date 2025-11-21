@@ -57,20 +57,18 @@ export default function CategoryDetailClient({ categoryData }: { categoryData: C
                     {stat.publisher}
                   </span>
                   <span>•</span>
-                  <span>{new Date(stat.created_at).toLocaleDateString()}</span>
+                  <span>{new Date(stat.created_at).toLocaleDateString('en-US')}</span>
                   {stat.tags && stat.tags.length > 1 && (
                     <>
                       <span>•</span>
                       <div className="flex gap-2">
                         {stat.tags.filter((tag: string) => tag !== categoryData.name).slice(0, 2).map((tag: string, i: number) => (
-                          <Link
+                          <span
                             key={i}
-                            href={`/categories/${tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}
-                            className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs hover:bg-gray-200 transition-colors"
-                            onClick={(e) => e.stopPropagation()}
+                            className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs"
                           >
                             {tag}
-                          </Link>
+                          </span>
                         ))}
                       </div>
                     </>
