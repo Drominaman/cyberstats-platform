@@ -413,7 +413,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!categoryData) {
     return {
       title: 'Topic Not Found | Cyberstats',
-      description: 'The requested topic could not be found.'
+      description: 'The requested topic could not be found.',
+      robots: {
+        index: false,
+        follow: false
+      }
     }
   }
 
@@ -513,20 +517,9 @@ export default async function CategoryDetailPage({ params }: PageProps) {
   const categoryOverride = categoryOverrides.find((c: CategoryOverride) => c.slug === slugPath.join('/'))
 
   if (!categoryData) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
-        <Navigation />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Topic Not Found</h1>
-            <p className="text-gray-600 mb-4">The requested topic could not be found.</p>
-            <Link href="/categories" className="text-purple-600 hover:text-purple-700">
-              ← Back to Topics
-            </Link>
-          </div>
-        </div>
-      </div>
-    )
+    // Return proper 404 to avoid soft 404 issues with search engines
+    const { notFound } = await import('next/navigation')
+    return notFound()
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cybersecstatistics.com'

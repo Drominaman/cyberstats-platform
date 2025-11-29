@@ -1,39 +1,76 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import categoryTaxonomy from '@/data/category-taxonomy.json'
 
 /**
  * Middleware to handle category URL redirects
  *
- * Redirects single-level category URLs to their hierarchical equivalents:
- * - /categories/zero-trust → /categories/access-control/zero-trust
- * - /categories/ztna → /categories/access-control/zero-trust (synonym)
+ * Handles two types of redirects:
+ * 1. Orphan URLs that don't match any tag → redirect to closest match
+ * 2. Old hierarchical URLs → redirect to flat structure (tags are flat, not hierarchical)
  *
- * This prevents duplicate URLs from being indexed by search engines.
+ * NOTE: The taxonomy-based redirects were removed because they redirected
+ * working synonym URLs (like /categories/mfa) to broken hierarchical URLs
+ * (like /categories/identity-access/multi-factor-authentication).
+ * Tags in the database are flat (e.g., "MFA", "EDR"), not hierarchical.
  */
+
+// Explicit redirects for orphan URLs that Google may have cached
+const REDIRECT_MAP: Record<string, string> = {
+  // Orphan URLs → closest matching tag
+  'healthcare-cybersecurity': 'healthcare',
+  'xdr': 'edr',  // XDR doesn't exist as tag, EDR does
+
+  // Broken hierarchical URLs → working flat URLs
+  'vulnerabilities/zero-day-vulnerabilities': 'zero-day',
+  'vulnerabilities/patching': 'patching',
+  'vulnerabilities/critical-vulnerabilities': 'critical-vulnerabilities',
+  'vulnerabilities/vulnerability-management': 'vulnerability-management',
+  'vulnerabilities/software-vulnerabilities': 'software-vulnerabilities',
+  'vulnerabilities/cve': 'cve',
+  'threats/ransomware': 'ransomware',
+  'threats/malware': 'malware',
+  'threats/phishing': 'phishing',
+  'threats/ddos': 'ddos',
+  'threats/supply-chain-attacks': 'supply-chain',
+  'threats/advanced-persistent-threats': 'apt',
+  'data-security/data-breaches': 'data-breaches',
+  'data-security/data-loss-prevention': 'dlp',
+  'data-security/encryption': 'encryption',
+  'data-security/data-privacy': 'privacy',
+  'identity-access/authentication': 'authentication',
+  'identity-access/multi-factor-authentication': 'mfa',
+  'identity-access/identity-management': 'identity-management',
+  'identity-access/access-control': 'access-control',
+  'identity-access/password-security': 'password-security',
+  'cloud-security/cloud-vulnerabilities': 'cloud',
+  'cloud-security/cloud-breaches': 'cloud',
+  'cloud-security/cloud-compliance': 'compliance',
+  'network-security/firewalls': 'firewall',
+  'network-security/network-monitoring': 'network-security',
+  'network-security/vpn': 'vpn',
+  'endpoint-security/endpoint-detection-and-response': 'edr',
+  'endpoint-security/antivirus': 'antivirus',
+  'endpoint-security/mobile-security': 'mobile-security',
+  'compliance-governance/gdpr': 'gdpr',
+  'compliance-governance/soc-2': 'soc',
+  'compliance-governance/iso-27001': 'compliance',
+}
+
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname
 
-  // Match single-level category URLs: /categories/{slug}
-  const categoryMatch = path.match(/^\/categories\/([^\/]+)$/)
+  // Match category URLs: /categories/{slug} or /categories/{parent}/{child}
+  const categoryMatch = path.match(/^\/categories\/(.+)$/)
 
   if (categoryMatch) {
-    const slug = categoryMatch[1]
-    const taxonomy = categoryTaxonomy.categories
+    const slugPath = categoryMatch[1]
 
-    // Check if this slug is a subcategory or synonym that should redirect
-    for (const parent of taxonomy) {
-      for (const subcat of parent.subcategories) {
-        // Check if slug matches the subcategory slug or any of its synonyms
-        if (subcat.slug === slug || (subcat.synonyms && subcat.synonyms.includes(slug))) {
-          // 301 permanent redirect to hierarchical URL
-          const redirectUrl = new URL(`/categories/${parent.slug}/${subcat.slug}`, request.url)
-
-          console.log(`[Middleware] 301 redirect: ${path} → ${redirectUrl.pathname}`)
-
-          return NextResponse.redirect(redirectUrl, { status: 301 })
-        }
-      }
+    // Check if this path needs a redirect
+    const redirectTo = REDIRECT_MAP[slugPath]
+    if (redirectTo) {
+      const redirectUrl = new URL(`/categories/${redirectTo}`, request.url)
+      console.log(`[Middleware] 301 redirect: ${path} → ${redirectUrl.pathname}`)
+      return NextResponse.redirect(redirectUrl, { status: 301 })
     }
   }
 
