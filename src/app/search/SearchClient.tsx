@@ -31,8 +31,11 @@ export default function SearchPage() {
   const searchParams = useSearchParams()
   const [stats, setStats] = useState<Stat[]>([])
   const [loading, setLoading] = useState(false)
+  const [loadingMore, setLoadingMore] = useState(false)
   const [query, setQuery] = useState(searchParams.get('q') || '')
   const [count, setCount] = useState(0)
+  const [offset, setOffset] = useState(0)
+  const LIMIT = 50
 
   // Filters
   const [dateRange, setDateRange] = useState('all')
@@ -71,15 +74,22 @@ export default function SearchPage() {
 
   useEffect(() => {
     if (query) {
-      searchStats()
+      searchStats(true) // Reset results on new search
     }
   }, [query, dateRange, sortBy])
 
-  async function searchStats() {
-    setLoading(true)
+  async function searchStats(reset = false) {
+    if (reset) {
+      setLoading(true)
+      setOffset(0)
+    } else {
+      setLoadingMore(true)
+    }
+
     try {
       const apiKey = process.env.NEXT_PUBLIC_API_KEY
-      let url = `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=50&count=1`
+      const currentOffset = reset ? 0 : offset
+      let url = `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${LIMIT}&offset=${currentOffset}&count=1`
 
       if (query) url += `&q=${encodeURIComponent(query)}`
       if (sortBy) url += `&sort=${sortBy}`
@@ -87,19 +97,33 @@ export default function SearchPage() {
       const response = await fetch(url)
       const data = await response.json()
 
-      setStats(data.items || [])
+      const newItems = data.items || []
+
+      if (reset) {
+        setStats(newItems)
+        setOffset(LIMIT)
+      } else {
+        setStats(prev => [...prev, ...newItems])
+        setOffset(prev => prev + LIMIT)
+      }
+
       // Use total_count if available, otherwise fall back to items length
       setCount(data.total_count || data.count || data.items?.length || 0)
-      setLoading(false)
     } catch (error) {
       console.error('Search failed:', error)
+    } finally {
       setLoading(false)
+      setLoadingMore(false)
     }
+  }
+
+  function loadMore() {
+    searchStats(false)
   }
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault()
-    searchStats()
+    searchStats(true)
   }
 
   return (
@@ -300,8 +324,19 @@ export default function SearchPage() {
         {/* Load More */}
         {stats.length > 0 && stats.length < count && (
           <div className="mt-8 text-center">
-            <button className="px-6 py-3 bg-white text-gray-700 font-medium rounded-lg border-2 border-gray-200 hover:border-blue-500 hover:text-blue-600">
-              Load More Results
+            <button
+              onClick={loadMore}
+              disabled={loadingMore}
+              className="px-6 py-3 bg-white text-gray-700 font-medium rounded-lg border-2 border-gray-200 hover:border-blue-500 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loadingMore ? (
+                <span className="flex items-center justify-center">
+                  <span className="animate-spin w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full mr-2"></span>
+                  Loading...
+                </span>
+              ) : (
+                `Load More Results (${stats.length} of ${count.toLocaleString()})`
+              )}
             </button>
           </div>
         )}
