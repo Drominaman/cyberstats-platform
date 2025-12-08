@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Search, Filter, Calendar, Tag, Building2, Download, Bookmark } from 'lucide-react'
@@ -25,6 +25,7 @@ export default function SearchPage() {
   const [query, setQuery] = useState(searchParams.get('q') || '')
   const [count, setCount] = useState(0)
   const [offset, setOffset] = useState(0)
+  const offsetRef = useRef(0) // Ref to track offset for pagination
   const LIMIT = 50
 
   // Filters
@@ -71,13 +72,15 @@ export default function SearchPage() {
   async function searchStats(reset = false) {
     if (reset) {
       setLoading(true)
-      setOffset(0)
+      offsetRef.current = 0
     } else {
       setLoadingMore(true)
     }
 
     try {
-      const currentOffset = reset ? 0 : offset
+      // Use ref for offset to avoid stale closure issues
+      const currentOffset = reset ? 0 : offsetRef.current
+
       const params = new URLSearchParams({
         limit: LIMIT.toString(),
         offset: currentOffset.toString(),
@@ -94,10 +97,18 @@ export default function SearchPage() {
 
       if (reset) {
         setStats(newItems)
+        offsetRef.current = LIMIT
         setOffset(LIMIT)
       } else {
-        setStats(prev => [...prev, ...newItems])
-        setOffset(prev => prev + LIMIT)
+        // Append new items to existing stats
+        setStats(prevStats => {
+          // Deduplicate by slug to prevent duplicates
+          const existingSlugs = new Set(prevStats.map(s => s.slug))
+          const uniqueNewItems = newItems.filter((item: Stat) => !existingSlugs.has(item.slug))
+          return [...prevStats, ...uniqueNewItems]
+        })
+        offsetRef.current = currentOffset + LIMIT
+        setOffset(currentOffset + LIMIT)
       }
 
       // Use total_count if available, otherwise fall back to items length
