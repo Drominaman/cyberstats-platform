@@ -87,14 +87,17 @@ export default function SearchPage() {
     }
 
     try {
-      const apiKey = process.env.NEXT_PUBLIC_API_KEY
       const currentOffset = reset ? 0 : offset
-      let url = `https://uskpjocrgzwskvsttzxc.supabase.co/functions/v1/rss-cyberstats?key=${apiKey}&format=json&limit=${LIMIT}&offset=${currentOffset}&count=1`
+      const params = new URLSearchParams({
+        limit: LIMIT.toString(),
+        offset: currentOffset.toString(),
+        count: '1'
+      })
 
-      if (query) url += `&q=${encodeURIComponent(query)}`
-      if (sortBy) url += `&sort=${sortBy}`
+      if (query) params.set('q', query)
+      if (sortBy) params.set('sort', sortBy)
 
-      const response = await fetch(url)
+      const response = await fetch(`/api/search?${params.toString()}`)
       const data = await response.json()
 
       const newItems = data.items || []
