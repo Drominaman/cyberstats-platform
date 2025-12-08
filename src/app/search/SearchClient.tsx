@@ -7,7 +7,7 @@ import { Search, Filter, Calendar, Tag, Building2, Download, Bookmark } from 'lu
 import Navigation from '@/components/Navigation'
 
 interface Stat {
-  id: number
+  slug: string
   title: string
   link: string
   publisher: string
@@ -15,16 +15,6 @@ interface Stat {
   published_on: string
   created_at: string
   tags?: string[]
-  stat_type?: string
-}
-
-// Helper to create URL-safe slug from title
-function createSlug(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .substring(0, 100)
 }
 
 export default function SearchPage() {
@@ -61,7 +51,7 @@ export default function SearchPage() {
         item: {
           '@type': 'Article',
           name: stat.title,
-          url: `${baseUrl}/stats/${createSlug(stat.title)}`,
+          url: `${baseUrl}/stats/${stat.slug}`,
           datePublished: stat.published_on || stat.created_at,
           publisher: {
             '@type': 'Organization',
@@ -265,15 +255,15 @@ export default function SearchPage() {
               <p className="text-gray-500">Enter keywords to search 8000+ cybersecurity statistics</p>
             </div>
           ) : (
-            stats.map((stat) => (
+            stats.map((stat, index) => (
               <div
-                key={stat.id}
+                key={stat.slug || index}
                 className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow"
               >
                 <div className="flex flex-col sm:flex-row items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <Link
-                      href={`/stats/${createSlug(stat.title)}`}
+                      href={`/stats/${stat.slug}`}
                       className="text-lg font-semibold text-gray-900 hover:text-blue-600 mb-2 block break-words"
                     >
                       {stat.title}
