@@ -78,7 +78,6 @@ export default function SearchPage() {
     }
 
     try {
-      // Use ref for offset to avoid stale closure issues
       const currentOffset = reset ? 0 : offsetRef.current
 
       const params = new URLSearchParams({
@@ -91,28 +90,27 @@ export default function SearchPage() {
       if (sortBy) params.set('sort', sortBy)
 
       const response = await fetch(`/api/search?${params.toString()}`)
-      const data = await response.json()
 
-      const newItems = data.items || []
+      if (!response.ok) {
+        console.error('Search API error:', response.status)
+        return
+      }
+
+      const data = await response.json()
+      const newItems: Stat[] = data.items || []
 
       if (reset) {
         setStats(newItems)
-        offsetRef.current = LIMIT
-        setOffset(LIMIT)
+        offsetRef.current = newItems.length
+        setOffset(newItems.length)
       } else {
-        // Append new items to existing stats
-        setStats(prevStats => {
-          // Deduplicate by slug to prevent duplicates
-          const existingSlugs = new Set(prevStats.map(s => s.slug))
-          const uniqueNewItems = newItems.filter((item: Stat) => !existingSlugs.has(item.slug))
-          return [...prevStats, ...uniqueNewItems]
-        })
-        offsetRef.current = currentOffset + LIMIT
-        setOffset(currentOffset + LIMIT)
+        // Append new items - use index-based key so no deduplication needed
+        setStats(prev => [...prev, ...newItems])
+        offsetRef.current = currentOffset + newItems.length
+        setOffset(currentOffset + newItems.length)
       }
 
-      // Use total_count if available, otherwise fall back to items length
-      setCount(data.total_count || data.count || data.items?.length || 0)
+      setCount(data.total_count || 0)
     } catch (error) {
       console.error('Search failed:', error)
     } finally {
@@ -268,7 +266,7 @@ export default function SearchPage() {
           ) : (
             stats.map((stat, index) => (
               <div
-                key={stat.slug || index}
+                key={`${stat.slug}-${index}`}
                 className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow"
               >
                 <div className="flex flex-col sm:flex-row items-start justify-between gap-3">
