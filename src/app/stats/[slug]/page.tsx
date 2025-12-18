@@ -57,11 +57,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     }
   }
 
+  const publisher = stat.publisher || 'Unknown'
+
   // Create a meaningful description (minimum 50 chars for Google)
-  const baseDescription = `${stat.title} - Published by ${stat.publisher} on ${new Date(stat.created_at).toLocaleDateString()}. Cybersecurity statistic and research data.`
+  const baseDescription = `${stat.title} - Published by ${publisher} on ${new Date(stat.created_at).toLocaleDateString()}. Cybersecurity statistic and research data.`
   const description = baseDescription.length >= 50
     ? baseDescription.substring(0, 160)
-    : `${baseDescription} Find more statistics from ${stat.publisher}.`.substring(0, 160)
+    : `${baseDescription} Find more statistics from ${publisher}.`.substring(0, 160)
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cybersecstatistics.com'
   const canonicalUrl = `${baseUrl}/stats/${params.slug}`
@@ -79,7 +81,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       type: 'article',
       url: canonicalUrl,
       publishedTime: stat.created_at,
-      authors: [stat.publisher],
+      authors: [publisher],
       tags: stat.tags
     },
     twitter: {
@@ -185,8 +187,12 @@ export default async function StatPage({ params }: { params: { slug: string } })
     notFound()
   }
 
+  // Handle null values safely
+  const publisher = stat.publisher || 'Unknown'
+  const publisherSlug = publisher.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+
   // Fetch related stats
-  const relatedStats = await fetchRelatedStats(stat.publisher, stat.tags, params.slug)
+  const relatedStats = await fetchRelatedStats(publisher, stat.tags || [], params.slug)
 
   // Generate JSON-LD structured data for Google rich results
   const structuredData = {
@@ -196,7 +202,7 @@ export default async function StatPage({ params }: { params: { slug: string } })
     datePublished: stat.created_at,
     author: {
       '@type': 'Organization',
-      name: stat.publisher
+      name: publisher
     },
     publisher: {
       '@type': 'Organization',
@@ -240,10 +246,10 @@ export default async function StatPage({ params }: { params: { slug: string } })
                 <div className="flex items-center">
                   <Building2 className="w-4 h-4 mr-2 text-green-500" />
                   <Link
-                    href={`/vendors/${stat.publisher.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}
+                    href={`/vendors/${publisherSlug}`}
                     className="hover:text-blue-600"
                   >
-                    {stat.publisher}
+                    {publisher}
                   </Link>
                 </div>
                 <div className="flex items-center">
@@ -299,7 +305,7 @@ export default async function StatPage({ params }: { params: { slug: string } })
                 <CopyStatButton
                   text={stat.title}
                   source={stat.link}
-                  publisher={stat.publisher}
+                  publisher={publisher}
                 />
                 <ShareButton title={stat.title} />
               </div>
@@ -358,10 +364,10 @@ export default async function StatPage({ params }: { params: { slug: string } })
                 <p className="text-gray-600">
                   Browse more stats from{' '}
                   <Link
-                    href={`/vendors/${stat.publisher.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}
+                    href={`/vendors/${publisherSlug}`}
                     className="text-blue-600 hover:text-blue-700 font-medium"
                   >
-                    {stat.publisher}
+                    {publisher}
                   </Link>
                   {stat.tags && stat.tags.length > 0 && (
                     <>

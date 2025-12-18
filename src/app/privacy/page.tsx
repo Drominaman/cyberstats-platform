@@ -26,12 +26,12 @@ export default function PrivacyPage() {
             This Privacy Notice for Cyberstats Ltd (doing business as Cyberstats) (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;), describes how and why we might access, collect, store, use, and/or share (&quot;process&quot;) your personal information when you use our services (&quot;Services&quot;), including when you:
           </p>
           <ul>
-            <li>Visit our website at https://cybersecstatistics.com, or any website of ours that links to this Privacy Notice</li>
+            <li>Visit our website at https://cybersecuritystatistic.com, or any website of ours that links to this Privacy Notice</li>
             <li>Use Cybersecstatistics. A database of cybersecurity statistics and a newsletter featuring cybersecurity statistics</li>
             <li>Engage with us in other related ways, including any sales, marketing, or events</li>
           </ul>
           <p>
-            <strong>Questions or concerns?</strong> Reading this Privacy Notice will help you understand your privacy rights and choices. We are responsible for making decisions about how your personal information is processed. If you do not agree with our policies and practices, please do not use our Services. If you still have any questions or concerns, please contact us at contact@cybersecstatistics.com.
+            <strong>Questions or concerns?</strong> Reading this Privacy Notice will help you understand your privacy rights and choices. We are responsible for making decisions about how your personal information is processed. If you do not agree with our policies and practices, please do not use our Services. If you still have any questions or concerns, please contact us at contact@cybersecuritystatistic.com.
           </p>
 
           <h2>SUMMARY OF KEY POINTS</h2>
@@ -143,12 +143,12 @@ export default function PrivacyPage() {
 
           <h2>9. DO WE COLLECT INFORMATION FROM MINORS?</h2>
           <p><em>In Short: We do not knowingly collect data from or market to children under 18 years of age.</em></p>
-          <p>We do not knowingly collect, solicit data from, or market to children under 18 years of age, nor do we knowingly sell such personal information. If you become aware of any data we may have collected from children under age 18, please contact us at contact@cybersecstatistics.com.</p>
+          <p>We do not knowingly collect, solicit data from, or market to children under 18 years of age, nor do we knowingly sell such personal information. If you become aware of any data we may have collected from children under age 18, please contact us at contact@cybersecuritystatistic.com.</p>
 
           <h2>10. WHAT ARE YOUR PRIVACY RIGHTS?</h2>
           <p><em>In Short: Depending on your state of residence in the US or in some regions, such as the European Economic Area (EEA), United Kingdom (UK), Switzerland, and Canada, you have rights that allow you greater access to and control over your personal information.</em></p>
           <p>In some regions, you have certain rights under applicable data protection laws. These may include the right (i) to request access and obtain a copy of your personal information, (ii) to request rectification or erasure; (iii) to restrict the processing of your personal information; (iv) if applicable, to data portability; and (v) not to be subject to automated decision-making.</p>
-          <p>If you have questions or comments about your privacy rights, you may email us at contact@cybersecstatistics.com.</p>
+          <p>If you have questions or comments about your privacy rights, you may email us at contact@cybersecuritystatistic.com.</p>
 
           <h2>11. CONTROLS FOR DO-NOT-TRACK FEATURES</h2>
           <p>Most web browsers and some mobile operating systems and mobile applications include a Do-Not-Track (&quot;DNT&quot;) feature or setting you can activate to signal your privacy preference not to have data about your online browsing activities monitored and collected. At this stage, no uniform technology standard for recognizing and implementing DNT signals has been finalized. As such, we do not currently respond to DNT browser signals or any other mechanism that automatically communicates your choice not to be tracked online.</p>
@@ -161,14 +161,14 @@ export default function PrivacyPage() {
           <p>We may update this Privacy Notice from time to time. The updated version will be indicated by an updated &quot;Revised&quot; date at the top of this Privacy Notice. If we make material changes to this Privacy Notice, we may notify you either by prominently posting a notice of such changes or by directly sending you a notification.</p>
 
           <h2>14. HOW CAN YOU CONTACT US ABOUT THIS NOTICE?</h2>
-          <p>If you have questions or comments about this notice, you may email us at contact@cybersecstatistics.com or contact us by post at:</p>
+          <p>If you have questions or comments about this notice, you may email us at contact@cybersecuritystatistic.com or contact us by post at:</p>
           <p>
             Cyberstats Ltd<br />
             Ireland
           </p>
 
           <h2>15. HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?</h2>
-          <p>Based on the applicable laws of your country or state of residence in the US, you may have the right to request access to the personal information we collect from you, details about how we have processed it, correct inaccuracies, or delete your personal information. You may also have the right to withdraw your consent to our processing of your personal information. To request to review, update, or delete your personal information, please contact us at contact@cybersecstatistics.com.</p>
+          <p>Based on the applicable laws of your country or state of residence in the US, you may have the right to request access to the personal information we collect from you, details about how we have processed it, correct inaccuracies, or delete your personal information. You may also have the right to withdraw your consent to our processing of your personal information. To request to review, update, or delete your personal information, please contact us at contact@cybersecuritystatistic.com.</p>
         </div>
       </div>
 
